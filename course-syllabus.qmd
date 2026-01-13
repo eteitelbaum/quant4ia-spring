@@ -8,19 +8,11 @@ format:
 
 ## Course Information
 
-| **Location**: Duques 151
+| **Location**: [Phillips Hall, Rm. 209](https://maps.app.goo.gl/Zwa2D6dWykgGnpcH6)
 | 
 | **Instructor**: Prof. Emmanuel Teitelbaum
 | Email: [ejt@gwu.edu](mailto:ejt@gwu.edu)
 | Office Hours: [Tuesdays, 3-5 p.m.](https://calendly.com/emmanuel-teitelbaum/15min)
-| 
-| **Teaching Assistant**: Yuchen Zhao
-| Email: [yuchen.zhao1@gwu.edu](mailto:yuchen.zhao1@gwu.edu)
-| Office Hours: Wednesdays, 1:00 - 3:00 p.m.
-| 
-| **Teaching Assistant**: Jeffrey Kuo
-| Email: [jeffkuo@gwu.edu](mailto:jeffkuo@gwu.edu)
-| Office Hours: Wednesdays, 4:00 - 6:00 p.m. 
 | 
 | **Credit Hours**: 3.0.
 
@@ -43,21 +35,11 @@ Course and module objectives are guides to gauge your skill and knowledge develo
 
 I care about your learning and also about this subject matter, and I am here to help you have a meaningful learning experience. I expect you to take ownership of your learning: you can get more out of the course by thoughtfully participating in discussions, actively taking notes on readings and lectures, and giving your best effort overall. I will hold you to the highest standards for academic honesty and integrity in your work. I will also encourage you to collaborate and learn from your peers through thoughtful and respectful discussion. I must highlight that communication is vital, so I hope you feel comfortable reaching out to me if you are struggling or have concerns or need [accommodations beyond accessibility](#_heading=h.41mghml). We can determine strategies to set you up for success. Finally, I look forward to collaborating with you in this course to create a meaningful experience for everyone.
 
-# Policy on AI Tools
+## Policy on AI Tools
 
-**Overview:**
+The use of LLMs can be a valuable tool for students in this course, but it is important to use it ethically and appropriately. By following the guidelines and expectations outlined in this syllabus policy, students can maximize the benefits of an AI-integrated workflow while also demonstrating their own critical thinking, research, and programming skills.
 
-The use of ChatGPT can be a valuable tool for students in this course, but it is important to use it ethically and appropriately. By following the guidelines and expectations outlined in this syllabus policy, students can maximize the benefits of using ChatGPT while also demonstrating their own critical thinking, research, and programming skills.
-
-As part of this course, students will have the option to use ChatGPT, a large language model trained by OpenAI, to assist in the writing of their R scripts for specific course assignments. ChatGPT can provide students with a starting point for their code but often the code is incomplete or error-prone. It is important to recognize that ChatGPT is a tool and not a substitute for critical thinking, research, or programming skills. Therefore, this syllabus policy outlines the guidelines and expectations for using ChatGPT in this course.
-
-**Guidelines:**
-
-Use ChatGPT ethically and honestly. Do not use ChatGPT to plagiarize or take credit for work that is not your own. Any use of ChatGPT must be properly cited and referenced in accordance with the university's code of academic integrity.
-
-Recognize the limitations of ChatGPT. ChatGPT is a machine learning model and may not always provide the most accurate or relevant information. Therefore, it is important to critically evaluate the information and verify it with other sources.
-
-Use ChatGPT appropriately. ChatGPT should only be used to assist in writing boilerplate syntax for this course. It's a starting point. It should not be used to attempt to complete other assignments or assessments in this course or in other courses.
+As part of this course, students will have the option to use LLMs to assist in the writing of their R scripts for specific course assignments. LLMs can provide students with a starting point for their code but sometimes the code is incomplete or error-prone. It is important to recognize that AI is a tool and not a substitute for critical thinking, research, or programming skills. 
 
 ## Office Hours
 
@@ -135,11 +117,11 @@ I've designed the following instructional components to support your learning an
 
 The following assessments help you gauge and demonstrate your progress in the course and support you in meeting course learning objectives.
 
--   **Weekly quizzes:** In this course, you will have opportunities to assess your own knowledge. You are expected to complete weekly quizzes that provide immediate feedback and support ongoing learning.
+-   **Labs:** In this course, you will have frequent opportunities to apply your knowledge via lab assignments
 
--   **3 Homework Assignments (15 percent each)**: You will develop various skills through three assignments that ask you to apply the data analysis tools we are learning in the course. Thoughtfully and thoroughly completing these assignments helps you meet course objectives.
+-   **3 Homework Assignments**: You will develop various skills through three assignments that ask you to apply the data analysis tools we are learning in the course. Thoughtfully and thoroughly completing these assignments helps you meet course objectives.
 
--   **Group Project:** In your final project, you will work in teams to apply your new data analysis skills in an international affairs project.
+-   **Group Project:** In your final project, you will work in teams to apply your new data analysis skills in an international affairs project. You are free to choose your own partners or to do the project solo. 
 
 You'll find support for Blackboard and other tools used for course activities and assignments under the **Technology Support** link in the left navigation menu in our course on Blackboard.
 
@@ -161,9 +143,9 @@ Academic dishonesty is defined as cheating of any kind, including misrepresentin
 2.  3 Homework assignments (15% each = 45%)
 3.  Final Group Project (35%)
 
-### Quizzes
+### Labs
 
-Students will complete 12 graded quizzes. These exercises will be oriented towards strengthening the student's ability to use the tools we will be learning in the course. The quizzes will help to ensure that you keep up with the material consistently throughout the semester.
+Students will approximately seven labs. These exercises will be oriented towards strengthening the student's ability to use the tools we will be learning in the course. The labs will help to ensure that you keep up with the material consistently throughout the semester.
 
 ### Coding Homework Assignments
 
