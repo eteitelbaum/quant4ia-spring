@@ -1995,8 +1995,8 @@
     "objectID": "slides/week-1.1.html#welcome",
     "href": "slides/week-1.1.html#welcome",
     "title": "Quantitative Analysis for IA Practitioners",
-    "section": "",
-    "text": "Professor Teitelbaum ejt@gwu.edu\nOffice Hours: Tuesdays, 3:00-5:00 p.m.\nMonroe Hall Rm 411 or online\nGo to my calendly page to sign up for a slot"
+    "section": "Welcome!",
+    "text": "Welcome!\n\nProfessor Teitelbaum ejt@gwu.edu\nOffice Hours: Tuesdays, 3:00-5:00 p.m.\nMonroe Hall Rm 411 or online\nGo to my calendly page to sign up for a slot"
   },
   {
     "objectID": "slides/week-1.1.html#teaching-assistants",
@@ -2017,7 +2017,7 @@
     "href": "slides/week-1.1.html#data-informed-dipomacy",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "Data Informed Dipomacy",
-    "text": "Data Informed Dipomacy\n\n\nData is a critical instrument of diplomacy. When our workforce has data at their fingertips they are better prepared to engage diplomatically, manage effectively, and lead globally.\n\nSecretary of State Anthony Blinken, 20221"
+    "text": "Data Informed Dipomacy\n\n\nData is a critical instrument of diplomacy. When our workforce has data at their fingertips they are better prepared to engage diplomatically, manage effectively, and lead globally.\n\nSecretary of State Anthony Blinken, 20221\nhttps://www.state.gov/data/"
   },
   {
     "objectID": "slides/week-1.1.html#state-department-goals",
@@ -2052,28 +2052,28 @@
     "href": "slides/week-1.1.html#monitoring-evaluation-and-learning",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "Monitoring, Evaluation and Learning",
-    "text": "Monitoring, Evaluation and Learning\n\n\nAnother important use of data in international affairs is monitoring, evaluation and learning (MEL)\nMEL is a process that helps organizations track and assess the performance of their programs\nMEL is a key component of USAID, the World Bank and other agencies\nA major component of MEL is the use of randomized control trials (RCTs) and other designs, which you will learn about in this class"
+    "text": "Monitoring, Evaluation and Learning\n\nAnother important use of data in international affairs is monitoring, evaluation and learning (MEL)\nMEL is a process that helps organizations track and assess the performance of their programs\nMEL is a key component of the evaluation strategy of the World Bank and other agencies\nA major component of MEL is the use of randomized control trials (RCTs) and other designs, which you will learn about in this class"
   },
   {
     "objectID": "slides/week-1.1.html#skillsknowledge-you-will-gain",
     "href": "slides/week-1.1.html#skillsknowledge-you-will-gain",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "Skills/Knowledge You Will Gain",
-    "text": "Skills/Knowledge You Will Gain\n\n\n\nR coding skills (and RStudio), with focus on “tidy” approach and reproducible research\nQuarto (html documents, PDFs, presentations, websites, books, blogs, …)\nHow to access and “clean” data so that you can analyze it\nWhen you hear terms like “machine learning”, you’ll have some sense of what people are talking about"
+    "text": "Skills/Knowledge You Will Gain\n\n\nR coding skills (and RStudio), with focus on “tidy” approach and reproducible research\nQuarto (html documents, PDFs, presentations, websites, books, blogs, …)\nHow to access and “clean” data so that you can analyze it\nWhen you hear terms like “machine learning”, you’ll have some sense of what people are talking about"
   },
   {
     "objectID": "slides/week-1.1.html#structure-of-the-course",
     "href": "slides/week-1.1.html#structure-of-the-course",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "Structure of the Course",
-    "text": "Structure of the Course\n\n\nData Visualization\n\nSummarizing and communicating effectively with data\n\nStatistical Inference\n\nMaking rigorous conclusions from data\n\nModeling\n\nFor prediction and forecasting\nFor drawing causal conclusions"
+    "text": "Structure of the Course\n\nData Visualization\n\nSummarizing and communicating effectively with data\n\nStatistical Inference\n\nMaking rigorous conclusions from data\n\nModeling\n\nFor prediction and forecasting\nFor drawing causal conclusions"
   },
   {
     "objectID": "slides/week-1.1.html#how-do-i-get-an-a-requirements",
     "href": "slides/week-1.1.html#how-do-i-get-an-a-requirements",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "How do I get an “A”? (requirements)",
-    "text": "How do I get an “A”? (requirements)\n\n\nWeekly quizzes (20 percent)\n3 Data Analysis Assignments (45 percent; 15 percent each)\nFinal Project (20 percent)"
+    "text": "How do I get an “A”? (requirements)\n\n\nLabs (20 percent)\n3 Data Analysis Assignments (45 percent; 15 percent each)\nFinal Project (20 percent)"
   },
   {
     "objectID": "slides/week-1.1.html#course-website",
@@ -3083,28 +3083,28 @@
     "href": "slides/week-1.2.html#quarto-1",
     "title": "Getting Started",
     "section": "Quarto",
-    "text": "Quarto\n\n\n\nQuarto is an open-source scientific publishing platform\nAllows you to integrate text with code\nKind of like a word processor for data science\nCan use it to create reports, books, websites, etc.\nCan make HTML, PDF, Word, and other formats\nCan use R, Python, Julia, and other languages"
+    "text": "Quarto\n\n\nQuarto is an open-source scientific publishing platform\nAllows you to integrate text with code\nKind of like a word processor for data science\nCan use it to create reports, books, websites, etc.\nCan make HTML, PDF, Word, and other formats\nCan use R, Python, Julia, and other languages"
   },
   {
     "objectID": "slides/week-1.2.html#project-oriented-workflow",
     "href": "slides/week-1.2.html#project-oriented-workflow",
     "title": "Getting Started",
     "section": "Project Oriented Workflow",
-    "text": "Project Oriented Workflow\n\n\n\nAlways start a document in a project folder\n\nThat way you don’t have to do setwd\nAlso can share easily with other people\n\nGo to File&gt;New Project\nCreate a Quarto project folder"
+    "text": "Project Oriented Workflow\n\n\nAlways start a document in a project folder\n\nThat way you don’t have to do setwd\nAlso can share easily with other people\n\nGo to File&gt;New Project\nCreate a Quarto project folder"
   },
   {
     "objectID": "slides/week-1.2.html#visual-editor",
     "href": "slides/week-1.2.html#visual-editor",
     "title": "Getting Started",
     "section": "Visual Editor",
-    "text": "Visual Editor\n\n\nThere are two ways to edit Quarto docs\n\nSource (markdown)\nVisual editor\n\nVisual editor\n\nWYSIWYM\nApproximates appearance\n\nTry both and see what you like"
+    "text": "Visual Editor\n\nThere are two ways to edit Quarto docs\n\nSource (markdown)\nVisual editor\n\nVisual editor\n\nWYSIWYM\nApproximates appearance\n\nTry both and see what you like"
   },
   {
     "objectID": "slides/week-1.2.html#rendering-documents",
     "href": "slides/week-1.2.html#rendering-documents",
     "title": "Getting Started",
     "section": "Rendering Documents",
-    "text": "Rendering Documents\n\n\nRendering = converting to another format\n\nDefault format is HTML\nCan also render to PDF, Word, etc.\n\nTo render a Quarto document\n\nClick on the Render button\n\nOr keyboard shortcut (Cmd/Ctrl + Shift + K)\n\n\nBy default, Quarto will preview the document in your browser\nBut you can also preview in Viewer pane\n\nClick on the gear icon next to the Render button\nSelect “Preview in Viewer Pane”"
+    "text": "Rendering Documents\n\nRendering = converting to another format\n\nDefault format is HTML\nCan also render to PDF, Word, etc.\n\nTo render a Quarto document\n\nClick on the Render button\n\nOr keyboard shortcut (Cmd/Ctrl + Shift + K)\n\n\nBy default, Quarto will preview the document in your browser\nBut you can also preview in Viewer pane\n\nClick on the gear icon next to the Render button\nSelect “Preview in Viewer Pane”"
   },
   {
     "objectID": "slides/week-1.2.html#illustration",
@@ -3118,7 +3118,7 @@
     "href": "slides/week-1.2.html#lets-try-quarto",
     "title": "Getting Started",
     "section": "Let’s Try Quarto!",
-    "text": "Let’s Try Quarto!\n\nCreate a new Quarto document\n\nFile&gt;New File&gt;Quarto Document\n\nSave the document in your project folder\nRender it\n\nClick on the Render button\nOr keyboard shortcut (Cmd/Ctr + Shift + K)\n\nTry out the visual editor\n\n\n\n\n−+\n02:00"
+    "text": "Let’s Try Quarto!\n\nCreate a new Quarto document\n\nFile&gt;New File&gt;Quarto Document\n\nSave the document in your project folder\nRender it\n\nClick on the Render button\nOr keyboard shortcut (Cmd/Ctr + Shift + K)\n\nTry out the visual editor"
   },
   {
     "objectID": "slides/week-1.2.html#document-elements",
@@ -3139,56 +3139,56 @@
     "href": "slides/week-1.2.html#yaml-header-1",
     "title": "Getting Started",
     "section": "YAML Header",
-    "text": "YAML Header\n---\ntitle: \"My Documnet\"\nauthor: \"Your Name\"\ndate: today\ndate-format: long\nformat: html\nexecute:\n  echo: false\n  message: false\n---\n\nTry changing some of these options in your document\nThen render it again\nLook in the Quarto guide for other options to try\n\n\n\n\n−+\n02:00"
+    "text": "YAML Header\n---\ntitle: \"My Documnet\"\nauthor: \"Your Name\"\ndate: today\ndate-format: long\nformat: html\nexecute:\n  echo: false\n  message: false\n---\n\nTry changing some of these options in your document\nThen render it again\nLook in the Quarto guide for other options to try"
   },
   {
     "objectID": "slides/week-1.2.html#markdown",
     "href": "slides/week-1.2.html#markdown",
     "title": "Getting Started",
     "section": "Markdown",
-    "text": "Markdown\n\n\n\nMarkdown is a simple markup language\nYou can use it to format text\nYou can also use it to embed images, tables, etc.\nAnd to embed code chunks…"
+    "text": "Markdown\n\n\nMarkdown is a simple markup language\nYou can use it to format text\nYou can also use it to embed images, tables, etc.\nAnd to embed code chunks…"
   },
   {
     "objectID": "slides/week-1.2.html#markdown-syntax---basic-authoring",
     "href": "slides/week-1.2.html#markdown-syntax---basic-authoring",
     "title": "Getting Started",
     "section": "Markdown Syntax - Basic Authoring",
-    "text": "Markdown Syntax - Basic Authoring\n\n\nFor basic text you can just start typing\nFor line breaks use two spaces and return (enter)\nHeadings (use #, ##, ###, etc.)\n\n# is the largest heading (level 1)\n## is the next largest (level 2)\n### is the next largest (level 3)\nEtc."
+    "text": "Markdown Syntax - Basic Authoring\n\nFor basic text you can just start typing\nFor line breaks use two spaces and return (enter)\nHeadings (use #, ##, ###, etc.)\n\n# is the largest heading (level 1)\n## is the next largest (level 2)\n### is the next largest (level 3)\nEtc."
   },
   {
     "objectID": "slides/week-1.2.html#markdown-syntax---styling",
     "href": "slides/week-1.2.html#markdown-syntax---styling",
     "title": "Getting Started",
     "section": "Markdown Syntax - Styling",
-    "text": "Markdown Syntax - Styling\n\n\nEmphasis = Italics (use *)\n\nBold (use **)\n\nLists\n\nBullet points (use -)\nNumbered lists (use 1.)"
+    "text": "Markdown Syntax - Styling\n\nEmphasis = Italics (use *)\n\nBold (use **)\n\nLists\n\nBullet points (use -)\nNumbered lists (use 1.)"
   },
   {
     "objectID": "slides/week-1.2.html#markdown-syntax---content",
     "href": "slides/week-1.2.html#markdown-syntax---content",
     "title": "Getting Started",
     "section": "Markdown Syntax - Content",
-    "text": "Markdown Syntax - Content\n\n\nLinks (use [text](url))\nImages (use ![](file path or url))\nCode chunks\n\nR code chunks (```{r}…```)\nPython code chunks (```{python}…```)\nEtc."
+    "text": "Markdown Syntax - Content\n\nLinks (use [text](url))\nImages (use ![](file path or url))\nCode chunks\n\nR code chunks (```{r}…```)\nPython code chunks (```{python}…```)\nEtc."
   },
   {
     "objectID": "slides/week-1.2.html#try-some-markdown",
     "href": "slides/week-1.2.html#try-some-markdown",
     "title": "Getting Started",
     "section": "Try Some Markdown",
-    "text": "Try Some Markdown\n\n\nCheck out the Markdown Cheatsheet\nTry editing the markdown in your document\nTry some of the other things you find in the guide\nThen render it again\n\n\n\n\n−+\n10:00"
+    "text": "Try Some Markdown\n\n\nCheck out the Markdown Cheatsheet\nTry editing the markdown in your document\nTry some of the other things you find in the guide\nThen render it again"
   },
   {
     "objectID": "slides/week-1.2.html#code-chunks",
     "href": "slides/week-1.2.html#code-chunks",
     "title": "Getting Started",
     "section": "Code Chunks",
-    "text": "Code Chunks\n\n\nIncorporate R code (could also be Python, Julia, etc.)\nAdd a code chunk with the ‘+’ button\nRun the code chunk by clicking the play button\n\nOr use keyboard shortcut (Cmd/Ctrl + Shift + Enter)\n\nRun all chunks up that point by clicking the down arrow\n\nOr use keyboard shortcut (Cmd/Ctrl + Shift + K)\n\nRun a single line with shortcut (Cmd/Ctrl + Enter)"
+    "text": "Code Chunks\n\nIncorporate R code (could also be Python, Julia, etc.)\nAdd a code chunk with the ‘+’ button\nRun the code chunk by clicking the play button\n\nOr use keyboard shortcut (Cmd/Ctrl + Shift + Enter)\n\nRun all chunks up that point by clicking the down arrow\n\nOr use keyboard shortcut (Cmd/Ctrl + Shift + K)\n\nRun a single line with shortcut (Cmd/Ctrl + Enter)"
   },
   {
     "objectID": "slides/week-1.2.html#code-chunk-options",
     "href": "slides/week-1.2.html#code-chunk-options",
     "title": "Getting Started",
     "section": "Code Chunk Options",
-    "text": "Code Chunk Options\n\n\nUse #| (hash-pipe) to add options\nlabel is a unique identifier for the chunk\nOptions to control what happens when you render\n\necho controls whether the code is shown\neval controls whether the code is run\nmessage controls whether messages are shown\nwarning controls whether warnings are shown"
+    "text": "Code Chunk Options\n\nUse #| (hash-pipe) to add options\nlabel is a unique identifier for the chunk\nOptions to control what happens when you render\n\necho controls whether the code is shown\neval controls whether the code is run\nmessage controls whether messages are shown\nwarning controls whether warnings are shown"
   },
   {
     "objectID": "slides/week-1.2.html#code-chunk-options-1",
@@ -3209,21 +3209,21 @@
     "href": "slides/week-1.2.html#try-it-yourself",
     "title": "Getting Started",
     "section": "Try it Yourself!",
-    "text": "Try it Yourself!\n\nCreate a code chunk\nCopy this code chunk into your document\n\n\nlibrary(ggplot2)\n\nggplot(mpg, aes(displ, hwy, colour = class)) + \n  geom_point()\n\n\nTry adding some chunk options in your document\nThen render it again\n\n\n\n\n−+\n02:00"
+    "text": "Try it Yourself!\n\nCreate a code chunk\nCopy this code chunk into your document\n\n\nlibrary(ggplot2)\n\nggplot(mpg, aes(displ, hwy, colour = class)) + \n  geom_point()\n\n\nTry adding some chunk options in your document\nThen render it again"
   },
   {
     "objectID": "slides/week-1.2.html#r-packages-and-functions",
     "href": "slides/week-1.2.html#r-packages-and-functions",
     "title": "Getting Started",
     "section": "R Packages and Functions",
-    "text": "R Packages and Functions\n\n\n\nA function is a set of instructions\n\nread_csv() is a function\nggplot() is a function\n\nA package is a collection of functions\n\nreadr is a package that contains the read_csv() function\nggplot2 is a package that contains the ggplot() function\n\nUse install.packages() to install packages\nUse library() to load packages\nYou can install packages from CRAN"
+    "text": "R Packages and Functions\n\n\nA function is a set of instructions\n\nread_csv() is a function\nggplot() is a function\n\nA package is a collection of functions\n\nreadr is a package that contains the read_csv() function\nggplot2 is a package that contains the ggplot() function\n\nUse install.packages() to install packages\nUse library() to load packages\nYou can install packages from CRAN"
   },
   {
     "objectID": "slides/week-1.2.html#the-tidyverse",
     "href": "slides/week-1.2.html#the-tidyverse",
     "title": "Getting Started",
     "section": "The Tidyverse",
-    "text": "The Tidyverse\n\n\nThe Tidyverse is a collection of data science packages\nIt is also considered a dialect of R\nIn this class, we will be using many Tidyverse packages\n\nggplot2 for data visualization\nreadr for reading data\ndplyr for data manipulation\ntidyr for data tidying\nEtc.\n\nAt first we will load the packages independently, e.g. library(ggplot2)\nLater we will load them all at once with library(tidyverse)"
+    "text": "The Tidyverse\n\nThe Tidyverse is a collection of data science packages\nIt is also considered a dialect of R\nIn this class, we will be using many Tidyverse packages\n\nggplot2 for data visualization\nreadr for reading data\ndplyr for data manipulation\ntidyr for data tidying\nEtc.\n\nAt first we will load the packages independently, e.g. library(ggplot2)\nLater we will load them all at once with library(tidyverse)"
   },
   {
     "objectID": "slides/week-7.1.html#jobs-training-programs",

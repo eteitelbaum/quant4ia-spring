@@ -1,7 +1,6 @@
 ---
 title: "Quantitative Analysis for IA Practitioners"
 subtitle: "IAFF 6501"
-#author:  "Eric Kramon"
 footer: "[IAFF 6501 Website](https://quant4ia.rocks)"
 logo: images/iaff6501-logo.png
 format:
@@ -67,26 +66,16 @@ execute:
 
 ## 
 
-<br>
-
-![](images/MLP.jpg)
-
-::: notes
-MLP's digital tools provide fine-grained data tracking and forecasting major political events across nearly 60 countries by continuously scraping and process tens of millions of articles published by more than 300 local, regional, and international news sources in more than 30 languages. This infrastructure provides up-to-date data on recent and historical trends in civic space and foreign influence and builds forecasting models that learn from historical patterns to predict how conditions are likely to change in the near future.
-:::
-
-## 
-
-<br>
-
-![](images/CSO.jpg)
+<iframe src="https://ucdp.uu.se/"
+  style="width:100%; height:92vh; border:0;"
+  loading="lazy"></iframe>
 
 ## Monitoring, Evaluation and Learning
 
 ::: {.incremental}
 - Another important use of data in international affairs is monitoring, evaluation and learning (MEL)
 - MEL is a process that helps organizations track and assess the performance of their programs
-- MEL is a key component of [USAID](https://www.usaid.gov/activity-monitoring-evaluation-and-learning-mel-plan), the [World Bank](https://www.worldbank.org/en/research/dime/research) and other agencies 
+- MEL is a key component of the evaluation strategy of the [World Bank](https://www.worldbank.org/en/research/dime/research) and other agencies 
 - A major component of MEL is the use of randomized control trials (RCTs) and other designs, which you will learn about in this class
 :::
 
@@ -117,7 +106,7 @@ MLP's digital tools provide fine-grained data tracking and forecasting major pol
 
 <br>
 
--   Weekly quizzes (20 percent)
+-   Labs (20 percent)
 -   3 Data Analysis Assignments (45 percent; 15 percent each)
 -   Final Project (20 percent)
 
