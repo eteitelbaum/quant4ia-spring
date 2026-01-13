@@ -7,12 +7,11 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.533">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5223d57514b7f3c9e8f675d86406bf62.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.18">
 
-  <meta name="dcterms.date" content="2024-04-23">
-  <title>IAFF 6501–Spring 2024 Schedule - Numerical Data</title>
+  <meta name="dcterms.date" content="2024-10-21">
+  <title>IAFF 6501--Spring 2024 Schedule – Numerical Data</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -43,7 +42,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -96,7 +95,7 @@
     code span.vs { color: #abe338; } /* VerbatimString */
     code span.wa { color: #dcc6e0; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a7e0e4e50f829cce1d4e2221fb76c726.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -390,9 +389,9 @@
   </style>
   <link href="../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
   <script src="../site_libs/countdown-0.4.0/countdown.js"></script>
-<meta property="og:title" content="IAFF 6501–Spring 2024 Schedule - Numerical Data">
+<meta property="og:title" content="Numerical Data – IAFF 6501–Spring 2024 Schedule">
 <meta property="og:site_name" content="IAFF 6501--Spring 2024 Schedule">
-<meta name="twitter:title" content="IAFF 6501–Spring 2024 Schedule - Numerical Data">
+<meta name="twitter:title" content="Numerical Data – IAFF 6501–Spring 2024 Schedule">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
@@ -405,7 +404,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">April 23, 2024</p>
+  <p class="date">October 21, 2024</p>
 </section>
 <section id="electoral-democracy-measure" class="slide level2 smaller">
 <h2>Electoral Democracy Measure</h2>
@@ -466,7 +465,7 @@
 Columns: 4
 $ country   &lt;chr&gt; "Mexico", "Suriname", "Sweden", "Switzerland", "Ghana", "Sou…
 $ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …
-$ polyarchy &lt;dbl&gt; 0.598, 0.770, 0.899, 0.898, 0.633, 0.692, 0.833, 0.093, 0.20…
+$ polyarchy &lt;dbl&gt; 0.571, 0.775, 0.896, 0.897, 0.664, 0.711, 0.817, 0.091, 0.20…
 $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West", "A…</code></pre>
 </div>
 </div>
@@ -482,7 +481,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <span id="cb4-2"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_democracy =</span> <span class="fu">mean</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mean_democracy
-1          0.497</code></pre>
+1      0.4977821</code></pre>
 </div>
 </div>
 <p>The mean is the average of the values. Common measure of central tendency but sensitive to outliers.</p>
@@ -498,7 +497,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <span id="cb6-2"><a></a>  <span class="fu">summarize</span>(<span class="at">median_democracy =</span> <span class="fu">median</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  median_democracy
-1            0.501</code></pre>
+1            0.507</code></pre>
 </div>
 </div>
 <p>The median is the value that separates the higher half from the lower half of the data.</p>
@@ -670,7 +669,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <span id="cb10-3"><a></a>            <span class="at">max =</span> <span class="fu">max</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    min   max
-1 0.016 0.916</code></pre>
+1 0.015 0.915</code></pre>
 </div>
 </div>
 </section>
@@ -693,7 +692,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <span id="cb12-5"><a></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  IQRlow IQRhigh IQRlength
-1  0.262   0.747     0.485</code></pre>
+1 0.2595  0.7495      0.49</code></pre>
 </div>
 </div>
 </section>
@@ -733,8 +732,8 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <span id="cb15-2"><a></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(polyarchy),</span>
 <span id="cb15-3"><a></a>            <span class="at">stdDev =</span> <span class="fu">sd</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   mean   stdDev
-1 0.497 0.259951</code></pre>
+<pre><code>       mean    stdDev
+1 0.4977821 0.2621028</code></pre>
 </div>
 </div>
 </section>
@@ -896,12 +895,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <pre><code># A tibble: 6 × 3
   region         mean_dem median_dem
   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;
-1 Africa            0.403      0.371
-2 Asia              0.424      0.428
-3 Eastern Europe    0.533      0.558
-4 Latin America     0.605      0.678
-5 Middle East       0.235      0.213
-6 The West          0.854      0.857</code></pre>
+1 Africa            0.403      0.377
+2 Asia              0.423      0.412
+3 Eastern Europe    0.537      0.564
+4 Latin America     0.607      0.685
+5 Middle East       0.232      0.208
+6 The West          0.856      0.855</code></pre>
 </div>
 </div>
 </section>
@@ -921,12 +920,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <pre><code># A tibble: 6 × 3
   region         mean_dem median_dem
   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;
-1 Africa            0.403      0.371
-2 Asia              0.424      0.428
-3 Eastern Europe    0.533      0.558
-4 Latin America     0.605      0.678
-5 Middle East       0.235      0.213
-6 The West          0.854      0.857</code></pre>
+1 Africa            0.403      0.377
+2 Asia              0.423      0.412
+3 Eastern Europe    0.537      0.564
+4 Latin America     0.607      0.685
+5 Middle East       0.232      0.208
+6 The West          0.856      0.855</code></pre>
 </div>
 </div>
 </section>
@@ -988,13 +987,13 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 
 
 </section>
-    <div class="quarto-auto-generated-content">
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="images/iaff6501-logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://quant4ia.rocks">IAFF 6501 Website</a></p>
 </div>
 </div></div>
-  </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="../site_libs/revealjs/dist/reveal.js"></script>
@@ -1179,7 +1178,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1275,18 +1274,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -1318,7 +1306,47 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp("https:\/\/dataviz-gwu\.rocks");
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
@@ -1355,7 +1383,11 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          return note.innerHTML;
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
         });
       }
       const findCites = (el) => {

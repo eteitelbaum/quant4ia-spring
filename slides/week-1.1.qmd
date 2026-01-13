@@ -27,22 +27,6 @@ execute:
 | Monroe Hall Rm 411 or online
 | Go to my [calendly page](https://calendly.com/emmanuel-teitelbaum) to sign up for a slot
 
-## Teaching Assistants
-
-<br>
-
-| Yuchen Zhao
-| email: [yuchen.zhao1\@gwu.edu](mailto:yuchen.zhao1@gmail.com)
-| Office Hours: Wednesdays, 1:00 - 3:00 p.m.
-| Location TBD
-
-<br>
-
-| Jeffrey Kuo
-| email: [jeffkuo\@gwu.edu](mailto:jeffkuo@gmail.com)
-| Office Hours: Wedensdays, 4:00-6:00 p.m.
-| Gelman Library
-
 ## Why Take this Course?
 
 <br>
@@ -61,23 +45,6 @@ execute:
 | Secretary of State Anthony Blinken, 2022[^1]
 
 [^1]: <https://www.state.gov/data/>
-
-## State Department Goals
-
-<br>
-
-::: columns
-::: {.column width="50%"}
-[![](images/enterprise-strategy.png)](https://www.state.gov/wp-content/uploads/2021/09/Reference-EDS-Accessible.pdf)
-:::
-
-::: {.column width="50%"}
-- Cultivate a Data Culture
-- Accelerate Decisions through Analytics
-- Establish Mission-Driven Data Management
-- Enhance Enterprise Data Governance
-:::
-:::
 
 ## Open Goverment Data Act (2018)
 
