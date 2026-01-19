@@ -15,7 +15,7 @@ This page displays an outline of the topics, content, and assignments for the te
 
 ::: column-screen-inset-right
 | Module | Date | Topic | Readings | Reference | Slides | Videos | Assignments |
-|:-------:|---------|---------|:-------:|:-------:|:-------:|:-------:|:-------:|
+|:--:|----|----|:--:|:--:|:--:|:--:|:--:|
 | [1.1](modules/module-1.1.qmd "Module 1.1") | `r advdate(tues,0)` | Course Intro |  |  | [🖥️](slides/week-1.1.qmd "Module 1.2 slides") | [🖥️](https://youtu.be/eimM6pNkYjE "R and RStudio") |  |
 | [1.2](modules/module-1.2.qmd "Module 1.2") |  | Getting Started with Quarto |  | [📖](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/ "project-oriented workflow") | [🖥️](slides/week-1.2.qmd "Module 1.2 slides") | [🖥️](https://youtu.be/6QN9ZYURDFg "Quarto") |  |
 | [2.1](modules/module-2.1.qmd "Module 2.1") | `r advdate(tues,1)` | Bar charts, histograms |  | [📖](https://r4ds.hadley.nz/data-import "r4ds, 7") [📖](https://r4ds.hadley.nz/data-visualize.html "r4ds, 2") | [🖥️](slides/week-2.1.qmd "Module 2.1 slides") | [🖥️](https://youtu.be/QG1oDJPoIio "Make a bar chart") [🖥️](https://youtu.be/-1YhCql-gMo "Make a histogram") |  |
