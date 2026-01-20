@@ -139,7 +139,7 @@ Academic dishonesty is defined as cheating of any kind, including misrepresentin
 
 ## Assignments
 
-1.  Quizzes (20%)
+1.  Labs (20%)
 2.  3 Homework assignments (15% each = 45%)
 3.  Final Group Project (35%)
 
@@ -173,7 +173,7 @@ The grading scale below maps your final point or percentage total to your final 
 
 ## Late Work
 
-We understand that sometimes emergencies arise that might prevent you from submitting work on time. If you think you might miss an assignment deadline, it is your responsibility to contact me via email. We know life happens sometimes and will be as accommodating as possible, but it **is important that you communicate with us in advance.** If we do not hear from you, we will deduct 2.5 percentage points from your grade for every 24 hours the assignment is late.
+We understand that sometimes emergencies arise that might prevent you from submitting work on time. If you think you might miss an assignment deadline, it is your responsibility to contact me via email. We know life happens sometimes and will be as accommodating as possible, but it **is important that you communicate with me in advance.** If we do not hear from you, I will deduct 1 percentage points from your grade for every 24 hours the assignment is late.
 
 ## Incomplete Grades
 
@@ -183,13 +183,7 @@ For further information, please consult with your advisor.
 
 ## Course Communication
 
-Communication in our course is essential; clearing up questions earlier than later is a good practice, so please don't hesitate to reach out to me.
-
-We will communicate to you primarily through [GW's Blackboard System](https://blackboard.gwu.edu). Announcements and emails sent through Blackboard automatically go to your GW email address (i.e., userid\@gwu.edu). Please check your GW email account on a daily basis or forward your GW email to another address that you check daily.
-
-I will respond to emails/discussion posts within 48 hours (i.e., "24 hours on weekdays and on the next business day over weekends and holidays.") I will provide feedback on assignments/exams within 3 days (i.e., "five days on weekdays and on the next business day over weekends and holidays.")
-
-You can post general course-related questions to our Discord server. Please post your question here first rather than emailing me directly if your question regards the course material. However, if you have a question that is more personal in nature (i.e., grades), please email me directly to set up an appointment.
+I try to respond to emails within 24 hours except on weekends. It is usually preferred to talk to me in person, however, either after class or during office hours.
 
 ## Netiquette
 
