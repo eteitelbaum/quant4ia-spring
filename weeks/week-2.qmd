@@ -12,7 +12,7 @@ source("../helper.R")
 ```
 
 ::: {.callout-important}
-Quiz due by 11:59pm on `r advdate2(mon, 2)`
+Lab due by 11:59pm on `r advdate2(sun, 2)`
 :::
 
 ## Readings
@@ -31,5 +31,5 @@ Quiz due by 11:59pm on `r advdate2(mon, 2)`
 
 ## Assignments
 
-| 📘 [Module 2 Quiz](https://blackboard.gwu.edu/ultra/courses/_395476_1/cl/outline)
+| 📘 Lab 1, available on [Posit Cloud](https://posit.cloud).
 
