@@ -11,7 +11,7 @@ source("../helper.R")
 ```
 
 ::: {.callout-important}
-Lab due by 11:59pm on `r advdate2(sun, 3)`. 
+Lab due by 11:59pm on `r advdate2(sun, 2)`. 
 :::
 
 ## Readings
