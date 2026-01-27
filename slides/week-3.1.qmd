@@ -1,5 +1,5 @@
 ---
-title: Working with V-Dem Data
+title: Working with Data
 date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks)"
@@ -32,7 +32,7 @@ Thoughts? :sunglasses: :thought_balloon:
 - Survey data collected by you or someone else 
 - You can download it from a website 
 - You can scrape it from a website
-- A curated collection (e.g. `unvotes`)
+- A package (e.g. `unvotes`)
 - You can access it through an API
 :::
 
@@ -68,8 +68,8 @@ Thoughts? :sunglasses: :thought_balloon:
 <br>
 
 - Your boss or a client sends you a file
-- Survey data collected by you or someone else 
-- You can download it from a website 
+- Survey data collected by you or someone else
+- You can download it from a website
 - You can scrape it from a website
 - A curated collection (e.g. `unvotes`)
 - You can access it through an API
@@ -101,18 +101,19 @@ flowchart LR
     Server-->id1[(API)]
 ```
 
-- In our case, we will use APIs to download social science data
+- In this class, we access APIs through packages
 
-## APIs in R
+## Packages in R
+
+<br>
 
 ::: {.incremental}
-- APIs are accessed through packages in R
-- Sometimes there can be more than one package for an API
 - Much easier than reading in data from messy flat file!
-- We will use two APIs in this course
+- Examples in this course
   - Varieties of Democracy (V-Dem) through `vdemdata`
-  - World Bank data through `wbstats`
-- But there are many APIs out there (please explore!)
+  - World Bank data through `wbstats` or `WDI`
+  - UN voting data through `unvotes`
+- But there are many similar packages out there (please explore!)
 :::
 
 ## This Lesson
@@ -135,6 +136,7 @@ flowchart LR
 
 ```{r}
 #| label: vdemdata1
+#| eval: false
 #| echo: true
 
 # Load packages
@@ -165,6 +167,7 @@ glimpse(democracy)
 
 ```{r}
 #| label: vdemdata2
+#| eval: false
 #| echo: true
 
 democracy <- vdem |> # download the V-Dem dataset
@@ -211,6 +214,7 @@ countdown(minutes = 5,
 
 ```{r}
 #| label: vdemdata3
+#| eval: false
 #| echo: true
 
 democracy <- vdem |> # download the V-Dem dataset
@@ -239,6 +243,7 @@ countdown(minutes = 5,
 
 ```{r}
 #| label: vdemdata4
+#| eval: false
 #| echo: true
 
 democracy <- vdem |> # download the V-Dem dataset
@@ -275,6 +280,8 @@ countdown(minutes = 5,
 - `^` exponentiation (also `**`)
 
 ## `vdemdata` Example {.smaller}
+
+<br>
 
 ```{r}
 #| label: vdemdata5
@@ -410,6 +417,8 @@ democracy <- vdem |>
 ```
 
 ## Visualize It! 
+
+<br>
 
 ```{r}
 #| label: scatterplot1

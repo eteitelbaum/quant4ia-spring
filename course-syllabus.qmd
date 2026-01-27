@@ -11,7 +11,7 @@ format:
 | **Location**: [Phillips Hall, Rm. 209](https://maps.app.goo.gl/Zwa2D6dWykgGnpcH6)
 | 
 | **Instructor**: Prof. Emmanuel Teitelbaum
-| Email: [ejt@gwu.edu](mailto:ejt@gwu.edu)
+| Email: [ejt\@gwu.edu](mailto:ejt@gwu.edu)
 | Office Hours: [Tuesdays, 3-5 p.m.](https://calendly.com/emmanuel-teitelbaum/15min)
 | 
 | **Credit Hours**: 3.0.
@@ -39,7 +39,7 @@ I care about your learning and also about this subject matter, and I am here to 
 
 The use of LLMs can be a valuable tool for students in this course, but it is important to use it ethically and appropriately. By following the guidelines and expectations outlined in this syllabus policy, students can maximize the benefits of an AI-integrated workflow while also demonstrating their own critical thinking, research, and programming skills.
 
-As part of this course, students will have the option to use LLMs to assist in the writing of their R scripts for specific course assignments. LLMs can provide students with a starting point for their code but sometimes the code is incomplete or error-prone. It is important to recognize that AI is a tool and not a substitute for critical thinking, research, or programming skills. 
+As part of this course, students will have the option to use LLMs to assist in the writing of their R scripts for specific course assignments. LLMs can provide students with a starting point for their code but sometimes the code is incomplete or error-prone. It is important to recognize that AI is a tool and not a substitute for critical thinking, research, or programming skills.
 
 ## Office Hours
 
@@ -121,7 +121,7 @@ The following assessments help you gauge and demonstrate your progress in the co
 
 -   **3 Homework Assignments**: You will develop various skills through three assignments that ask you to apply the data analysis tools we are learning in the course. Thoughtfully and thoroughly completing these assignments helps you meet course objectives.
 
--   **Group Project:** In your final project, you will work in teams to apply your new data analysis skills in an international affairs project. You are free to choose your own partners or to do the project solo. 
+-   **Group Project:** In your final project, you will work in teams to apply your new data analysis skills in an international affairs project. You are free to choose your own partners or to do the project solo.
 
 You'll find support for Blackboard and other tools used for course activities and assignments under the **Technology Support** link in the left navigation menu in our course on Blackboard.
 
@@ -169,7 +169,7 @@ The grading scale below maps your final point or percentage total to your final 
 | 77-79  |      C+      |
 | 74-76  |      C       |
 | 70-73  |      C-      |
-| \<\=69 |      F       |
+| \<=69  |      F       |
 
 ## Late Work
 
@@ -251,13 +251,13 @@ Call the University Police Department at 202-994-6111 (Foggy Bottom) or 202-242-
 
 Although it is unlikely that we will ever need to shelter in place, it is helpful to know what to do just in case. No matter where you are, the basic steps of shelter in place will generally remain the same.
 
-- If you are inside, stay where you are unless the building you are in is affected. If it is affected, you should evacuate. If you are outdoors, proceed into the closest building or follow instructions from emergency personnel on the scene.
-- Locate an interior room to shelter inside. If possible, it should be above ground level and have the fewest number of windows. If sheltering in a room with windows, move away from the windows. If there is a large group of people inside a particular building, several rooms may be necessary.
-- Shut and lock all windows (for a tighter seal) and close exterior doors.
-- Turn off air conditioners, heaters, and fans. Close vents to ventilation systems as you are able. (University staff will turn off ventilation systems as quickly as possible).
-- Make a list of the people with you and ask someone to call the list in to UPD so they know where you are sheltering and who is with you. If only students are present, one of the students should call in the list.
-- Await further instructions. If possible, visit [GW Campus Advisories](https://campusadvisories.gwu.edu/) for incident updates or call the GW Information Line 202-994-5050.
-- Make yourself comfortable and look after one other. You will get word as soon as it is safe to come out.
+-   If you are inside, stay where you are unless the building you are in is affected. If it is affected, you should evacuate. If you are outdoors, proceed into the closest building or follow instructions from emergency personnel on the scene.
+-   Locate an interior room to shelter inside. If possible, it should be above ground level and have the fewest number of windows. If sheltering in a room with windows, move away from the windows. If there is a large group of people inside a particular building, several rooms may be necessary.
+-   Shut and lock all windows (for a tighter seal) and close exterior doors.
+-   Turn off air conditioners, heaters, and fans. Close vents to ventilation systems as you are able. (University staff will turn off ventilation systems as quickly as possible).
+-   Make a list of the people with you and ask someone to call the list in to UPD so they know where you are sheltering and who is with you. If only students are present, one of the students should call in the list.
+-   Await further instructions. If possible, visit [GW Campus Advisories](https://campusadvisories.gwu.edu/) for incident updates or call the GW Information Line 202-994-5050.
+-   Make yourself comfortable and look after one other. You will get word as soon as it is safe to come out.
 
 ### Evacuation
 
@@ -265,8 +265,7 @@ An evacuation will be considered if the building we are in is affected or we mus
 
 ### Alert DC
 
-Alert DC provides free notification by e-mail or text message during an emergency. Visit [GW Campus Advisories](https://campusadvisories.gwu.edu/) for a link and instructions on how to sign up for alerts pertaining to GW. If you receive an
-Alert DC notification during class, you are encouraged to share the information immediately.
+Alert DC provides free notification by e-mail or text message during an emergency. Visit [GW Campus Advisories](https://campusadvisories.gwu.edu/) for a link and instructions on how to sign up for alerts pertaining to GW. If you receive an Alert DC notification during class, you are encouraged to share the information immediately.
 
 ### GW Alert
 
