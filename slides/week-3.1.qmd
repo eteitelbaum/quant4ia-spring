@@ -416,6 +416,18 @@ democracy <- vdem |>
   )
 ```
 
+## Save It! 
+
+<br>
+
+```{r}
+#| label: save-it
+#| eval: false
+#| echo: true
+
+write_csv(democracy, "democracy.csv")
+```
+
 ## Visualize It! 
 
 <br>

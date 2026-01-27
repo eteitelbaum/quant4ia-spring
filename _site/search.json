@@ -5044,5 +5044,12 @@
     "title": "Working with Data",
     "section": "Packages in R",
     "text": "Packages in R\n\n\nMuch easier than reading in data from messy flat file!\nExamples in this course\n\nVarieties of Democracy (V-Dem) through vdemdata\nWorld Bank data through wbstats or WDI\nUN voting data through unvotes\n\nBut there are many similar packages out there (please explore!)"
+  },
+  {
+    "objectID": "slides/week-3.1.html#save-it",
+    "href": "slides/week-3.1.html#save-it",
+    "title": "Working with Data",
+    "section": "Save It!",
+    "text": "Save It!\n\n\nwrite_csv(democracy, \"democracy.csv\")"
   }
 ]

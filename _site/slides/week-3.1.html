@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-01-26">
+  <meta name="dcterms.date" content="2026-01-27">
   <title>IAFF 6501--Spring 2024 Schedule – Working with Data</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">January 26, 2026</p>
+  <p class="date">January 27, 2026</p>
 </section>
 <section id="where-does-data-come-from" class="slide level2">
 <h2>Where Does Data Come From?</h2>
@@ -574,24 +574,31 @@ flowchart LR
 <span id="cb8-23"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="save-it" class="slide level2">
+<h2>Save It!</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">write_csv</span>(democracy, <span class="st">"democracy.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="visualize-it" class="slide level2">
 <h2>Visualize It!</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-2"><a></a></span>
-<span id="cb9-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
-<span id="cb9-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
-<span id="cb9-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb9-6"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"k"</span>)) <span class="sc">+</span></span>
-<span id="cb9-7"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-8"><a></a>    <span class="at">x=</span> <span class="st">"GDP per Capita"</span>, </span>
-<span id="cb9-9"><a></a>    <span class="at">y =</span> <span class="st">"Polyarchy Score"</span>,</span>
-<span id="cb9-10"><a></a>    <span class="at">title =</span> <span class="st">"Wealth and democracy in 2015"</span>, </span>
-<span id="cb9-11"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span>, </span>
-<span id="cb9-12"><a></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
-<span id="cb9-13"><a></a>    ) <span class="sc">+</span></span>
-<span id="cb9-14"><a></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">end =</span> .<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a></a></span>
+<span id="cb10-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
+<span id="cb10-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
+<span id="cb10-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb10-6"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"k"</span>)) <span class="sc">+</span></span>
+<span id="cb10-7"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-8"><a></a>    <span class="at">x=</span> <span class="st">"GDP per Capita"</span>, </span>
+<span id="cb10-9"><a></a>    <span class="at">y =</span> <span class="st">"Polyarchy Score"</span>,</span>
+<span id="cb10-10"><a></a>    <span class="at">title =</span> <span class="st">"Wealth and democracy in 2015"</span>, </span>
+<span id="cb10-11"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span>, </span>
+<span id="cb10-12"><a></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
+<span id="cb10-13"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb10-14"><a></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">end =</span> .<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualize-it-1" class="slide level2">
