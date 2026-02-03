@@ -532,7 +532,7 @@ ul.task-list li input[type="checkbox"] {
 <p>We are going to use data from V-Dem and modern data viz tools to explore Lipset’s hypothesis that economic modernization is highly correlated with democracy. We have already done this to some extent by looking at the relationship between wealth and the polyarchy score. But we are going to broaden things out by looking at other measures of modernization and democracy contained in the V-Dem dataset.</p>
 <p>Before starting on this assignment, you will want to have a look at the V-Dem <a href="https://www.v-dem.net/static/website/img/refs/codebookv111.pdf">codebook</a>. Look through the sections titled “V-Dem Democracy Indices” (section 2 of the codebook) and “Background Factors (E).” There are five democracy indicators, one of which is the polyarchy index. There are a number of background factors, many of which pertain to economic modernization. We are going to be looking at the relationship between these two sets of variables. In the code book, you will also find a list of country names and codes, which will be useful for downloading and filtering the data.</p>
 <p>Now have a look at “Some Social Requisites of Democracy” and in particular pay attention to the indicators in Table II and the discussion surrounding them. Think of each indicator (e.g.&nbsp;urbanization, education, etc.) as a sub-hypothesis of his theory. Which of these sub-hypotheses about modernization do you think is most compelling? Which would you like to test?</p>
-<p>Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 <a href="https://www.dropbox.com/scl/fo/g4tdpdwcij78nyydvr4bp/h?rlkey=hctskhle6222csnwre5ir9gz3&amp;dl=0">classwork folder</a>.</p>
+<p>You have the option of doing this assignment in Posit Cloud or downloading the project folder and working locally. Either way you must submit your zipped project folder with the rendered HTML file included (see submission instructions at the end of the document) to Blackboard.</p>
 </section>
 <section id="step-1-gather-your-data-20-pts" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-gather-your-data-20-pts">Step 1: Gather your data (20 pts)</h2>
@@ -540,7 +540,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="step-2-make-a-line-chart-showing-country-trends-20-pts" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-make-a-line-chart-showing-country-trends-20-pts">Step 2: Make a line chart showing country trends (20 pts)</h2>
-<p><em>a) Insert a code chunk below this paragraph and label it. Filter your <code>dem_data</code> to include three or four countries at various levels of economic development and create a line chart of your democracy indicator. See the <a href="https://blogs.worldbank.org/opendata/new-world-bank-country-classifications-income-level-2022-2023">World Bank country classifications</a> by income level to make your selections. Save the data as a new data frame called <code>dem_data_line</code>.</em></p>
+<p><em>a) Insert a code chunk below this paragraph and label it. Filter your <code>dem_data</code> to include three or four countries at various levels of economic development and create a line chart of your democracy indicator. See the <a href="https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica">World Bank country classifications</a> by income level to make your selections. Save the data as a new data frame called <code>dem_data_line</code>.</em></p>
 <p><strong>Note: From here on out I will expect you to know to add a code chunk and label it. So I won’t keep repeating that portion of the instructions.</strong></p>
 <p><em>b) Make a line chart using <code>ggplot2</code>. Be sure to specify <code>x =</code>, <code>y =</code> and <code>color =</code> in your aes() call and use <code>geom_line()</code> to create the chart. Add a colorblind-friendly color map using <code>viridis</code>. Now add appropriate axis labels, a title and a caption.</em></p>
 <p><em>c) In a few sentences, interpret your chart. Have the more developed countries achieved a higher level of democracy? Put your answer right below this line in markdown text.</em></p>
@@ -553,7 +553,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="step-4-make-a-scatter-plot-to-show-20-pts" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-make-a-scatter-plot-to-show-20-pts">Step 4: Make a scatter plot to show (20 pts)</h2>
-<p><em>a) Start with the <code>dem_data</code> data frame again, Now filter by year to select either a single year or take an average of multiple years using <code>group_by()</code> and <code>summarize()</code> to analyze. If you choose a recent period, make sure that the data are available. Some of the background variables in V-Dem are not entirely up to date. You can check the availability of the data by looking at the V-Dem codebook or using <code>glimpse()</code> or <code>View()</code> to look at your data. Save your your data in a new object called <code>dem_data_scatter</code>.</em></p>
+<p><em>a) Start with the <code>dem_data</code> data frame again, Now take an average of multiple years using <code>group_by()</code> and <code>summarize()</code> to analyze. If you choose a recent period, make sure that the data are available. Some of the background variables in V-Dem are not entirely up to date. You can check the availability of the data by looking at the V-Dem codebook or using <code>glimpse()</code> or <code>View()</code> to look at your data. Save your your data in a new object called <code>dem_data_scatter</code>.</em></p>
 <p><em>b) Now build a scatter plot with <code>ggplot2</code>. Put your modernization-related variable (background variable) on the x-axis and your measure of democracy on the y-axis and color the points by region. Add a trend line with <code>geom_smooth()</code>. Add appropriate labels and a <code>viridis</code> color map. Change the theme to <code>theme_minimal</code>.</em></p>
 </section>
 <section id="step-5-conclusion-20-pts" class="level2">
@@ -577,9 +577,9 @@ Submission Instructions
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Head over to Blackboard and go to the Homework 1 assignment. There you will find a that you can lose to upload your <strong>project folder</strong>. Take a screen shot of the confirmation message (“Finished Uploading”) and store it on your computer.</p>
-<p>Next, click “Create Sumbission” and write a statement saying that you have submitted the assignment and that all of the work is your own. If you have uploaded your document to Quarto Pub, then you can include the link to that as well.</p>
-<p>Then, upload the screenshot you saved in the first step. Now submit the assignment.</p>
+<p>Head over to Blackboard and go to the Homework 1 assignment. Click “Create Sumbission” and write a brief statement saying that you have submitted the assignment and that all of the work is your own.</p>
+<p>From there you have upload a compressed (zipped) version of your project folder including the <strong>rendered</strong> HTML file. To compress your project folder, right-click the project folder and choose Compress (Mac) or Send to → Compressed (zipped) folder (Windows). Then, upload the resulting .zip file.</p>
+<p>If you like, you can also upload your rendered HTML as a webpage to Quarto Pub and share the link below your submission statement.</p>
 </div>
 </div>
 

@@ -12,7 +12,7 @@ Before starting on this assignment, you will want to have a look at the V-Dem [c
 
 Now have a look at "Some Social Requisites of Democracy" and in particular pay attention to the indicators in Table II and the discussion surrounding them. Think of each indicator (e.g. urbanization, education, etc.) as a sub-hypothesis of his theory. Which of these sub-hypotheses about modernization do you think is most compelling? Which would you like to test?
 
-Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [classwork folder](https://www.dropbox.com/scl/fo/g4tdpdwcij78nyydvr4bp/h?rlkey=hctskhle6222csnwre5ir9gz3&dl=0). 
+You have the option of doing this assignment in Posit Cloud or downloading the project folder and working locally. Either way you must submit your zipped project folder with the rendered HTML file included (see submission instructions at the end of the document) to Blackboard. 
 
 ## Step 1: Gather your data (20 pts)
 
@@ -20,7 +20,7 @@ Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [cla
 
 ## Step 2: Make a line chart showing country trends (20 pts)
 
-*a) Insert a code chunk below this paragraph and label it. Filter your `dem_data` to include three or four countries at various levels of economic development and create a line chart of your democracy indicator. See the [World Bank country classifications](https://blogs.worldbank.org/opendata/new-world-bank-country-classifications-income-level-2022-2023) by income level to make your selections. Save the data as a new data frame called `dem_data_line`.* 
+*a) Insert a code chunk below this paragraph and label it. Filter your `dem_data` to include three or four countries at various levels of economic development and create a line chart of your democracy indicator. See the [World Bank country classifications](https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica) by income level to make your selections. Save the data as a new data frame called `dem_data_line`.* 
 
 **Note: From here on out I will expect you to know to add a code chunk and label it. So I won't keep repeating that portion of the instructions.**
 
@@ -38,7 +38,7 @@ Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [cla
 
 ## Step 4: Make a scatter plot to show  (20 pts)
 
-*a) Start with the `dem_data` data frame again, Now filter by year to select either a single year or take an average of multiple years using `group_by()` and `summarize()` to analyze. If you choose a recent period, make sure that the data are available. Some of the background variables in V-Dem are not entirely up to date. You can check the availability of the data by looking at the V-Dem codebook or using `glimpse()` or `View()` to look at your data. Save your your data in a new object called `dem_data_scatter`.*
+*a) Start with the `dem_data` data frame again, Now take an average of multiple years using `group_by()` and `summarize()` to analyze. If you choose a recent period, make sure that the data are available. Some of the background variables in V-Dem are not entirely up to date. You can check the availability of the data by looking at the V-Dem codebook or using `glimpse()` or `View()` to look at your data. Save your your data in a new object called `dem_data_scatter`.*
 
 *b) Now build a scatter plot with `ggplot2`. Put your modernization-related variable (background variable) on the x-axis and your measure of democracy on the y-axis and color the points by region. Add a trend line with `geom_smooth()`. Add appropriate labels and a `viridis` color map. Change the theme to `theme_minimal`.*
 
@@ -61,9 +61,9 @@ Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [cla
 ::: {.callout-important}
 ## Submission Instructions
 
-Head over to Blackboard and go to the Homework 1 assignment. There you will find a that you can lose to upload your **project folder**. Take a screen shot of the confirmation message ("Finished Uploading") and store it on your computer. 
+Head over to Blackboard and go to the Homework 1 assignment. Click "Create Sumbission" and write a brief statement saying that you have submitted the assignment and that all of the work is your own. 
 
-Next, click "Create Sumbission" and write a statement saying that you have submitted the assignment and that all of the work is your own. If you have uploaded your document to Quarto Pub, then you can include the link to that as well. 
+From there you have upload a compressed (zipped) version of your project folder including the **rendered** HTML file. To compress your project folder, right-click the project folder and choose Compress (Mac) or Send to → Compressed (zipped) folder (Windows). Then, upload the resulting .zip file.
 
-Then, upload the screenshot you saved in the first step. Now submit the assignment.  
+If you like, you can also upload your rendered HTML as a webpage to Quarto Pub and share the link below your submission statement. 
 :::
