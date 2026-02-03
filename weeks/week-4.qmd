@@ -20,4 +20,4 @@ Homework Assignment 1 due by 11:59pm on `r advdate2(sun, 3)`.
 
 ## Assignments
 
-| 📘 [Homework 1](assignments/homework-1.qmd)
+| 📘 [Homework 1](../assignments/homework-1.qmd)
