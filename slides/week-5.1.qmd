@@ -19,10 +19,6 @@ execute:
   freeze: auto
 ---
 
-## Today's Classwork
-
-- Download classwork folder for today's class from [here](https://www.dropbox.com/scl/fo/9heicdr2yp11ztow65aku/h?rlkey=p70w8eg5wftr8vll0wkd8cxkf&dl=0)
-
 # Thinking About Data
 
 ## 

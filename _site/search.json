@@ -1755,7 +1755,7 @@
     "href": "slides/week-5.1.html#section-3",
     "title": "Categorical Data",
     "section": "",
-    "text": "Let’s count the number of regimes by type…\n\n\nvdem2022 |&gt;\n  count(regime)\n\n               regime  n\n1    Closed Autocracy 33\n2 Electoral Autocracy 54\n3 Electoral Democracy 58\n4   Liberal Democracy 34"
+    "text": "Let’s count the number of regimes by type…\n\n\nvdem2022 |&gt;\n  count(regime)\n\n               regime  n\n1    Closed Autocracy 33\n2 Electoral Autocracy 56\n3 Electoral Democracy 56\n4   Liberal Democracy 34"
   },
   {
     "objectID": "slides/week-5.1.html#section-4",
@@ -1790,7 +1790,7 @@
     "href": "slides/week-5.1.html#your-turn",
     "title": "Categorical Data",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nExpore the distribution of regimes for a different year\nPreprocess your data to include only the year you are interested in\nVisualize the distribution of regimes using geom_bar()\nUse the labs() function to change title\nWhat is different about the year that you chose relative to 2022?\n\n\n\n\n−+\n05:00"
+    "text": "Your Turn!\n\nExpore the distribution of regimes for a different year\nPreprocess your data to include only the year you are interested in\nVisualize the distribution of regimes using geom_bar()\nUse the labs() function to change title\nWhat is different about the year that you chose relative to 2022?"
   },
   {
     "objectID": "slides/week-5.1.html#how-do-regimes-vary-by-region",
@@ -1846,7 +1846,7 @@
     "href": "slides/week-5.1.html#your-turn-1",
     "title": "Categorical Data",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nExplore the distribution of regimes by region for a different year\nPreprocess your data to include only the year you are interested in\nVisualize the distribution of regimes using geom_bar() and position = \"fill\"\nUse the labs() function to change title\nWhat is different about the year that you chose relative to 2022?\n\n\n\n\n−+\n05:00"
+    "text": "Your Turn!\n\nExplore the distribution of regimes by region for a different year\nPreprocess your data to include only the year you are interested in\nVisualize the distribution of regimes using geom_bar() and position = \"fill\"\nUse the labs() function to change title\nWhat is different about the year that you chose relative to 2022?"
   },
   {
     "objectID": "slides/week-5.2.html#electoral-democracy-measure",
@@ -1874,21 +1874,21 @@
     "href": "slides/week-5.2.html#examine-the-data",
     "title": "Numerical Data",
     "section": "Examine the Data",
-    "text": "Examine the Data\n\n\nglimpse(vdem2022)\n\nRows: 179\nColumns: 4\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …\n$ polyarchy &lt;dbl&gt; 0.571, 0.775, 0.896, 0.897, 0.664, 0.711, 0.817, 0.091, 0.20…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
+    "text": "Examine the Data\n\n\nglimpse(vdem2022)\n\nRows: 179\nColumns: 4\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …\n$ polyarchy &lt;dbl&gt; 0.586, 0.780, 0.896, 0.896, 0.662, 0.713, 0.823, 0.092, 0.20…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
   },
   {
     "objectID": "slides/week-5.2.html#section",
     "href": "slides/week-5.2.html#section",
     "title": "Numerical Data",
     "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2022 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.4977821\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2022 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1       0.496514\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
   },
   {
     "objectID": "slides/week-5.2.html#section-1",
     "href": "slides/week-5.2.html#section-1",
     "title": "Numerical Data",
     "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2022 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.507\n\n\nThe median is the value that separates the higher half from the lower half of the data."
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2022 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.503\n\n\nThe median is the value that separates the higher half from the lower half of the data."
   },
   {
     "objectID": "slides/week-5.2.html#section-2",
@@ -2000,7 +2000,7 @@
     "href": "slides/week-5.2.html#your-turn",
     "title": "Numerical Data",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nLook at the V-Dem codebook\nSelect a different high-level measure of democracy\nPreprocess your data to include tha measure in your data frame\nCalculate the mean and median and store as a variable\nVisualize the distribution of the measure\nInclude a vertical line for the mean\nNow try the median\n\n\n\n\n−+\n05:00"
+    "text": "Your Turn!\n\nLook at the V-Dem codebook\nSelect a different high-level measure of democracy\nPreprocess your data to include tha measure in your data frame\nCalculate the mean and median and store as a variable\nVisualize the distribution of the measure\nInclude a vertical line for the mean\nNow try the median"
   },
   {
     "objectID": "slides/week-5.2.html#recap",
@@ -2021,7 +2021,7 @@
     "href": "slides/week-5.2.html#measures-of-spread-range",
     "title": "Numerical Data",
     "section": "Measures of Spread: Range",
-    "text": "Measures of Spread: Range\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.915"
+    "text": "Measures of Spread: Range\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.918"
   },
   {
     "objectID": "slides/week-5.2.html#measure-of-spread-interquartile-range",
@@ -2035,7 +2035,7 @@
     "href": "slides/week-5.2.html#interquartile-range",
     "title": "Numerical Data",
     "section": "Interquartile Range",
-    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 %&gt;% \n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1 0.2595  0.7495      0.49"
+    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 %&gt;% \n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1  0.259  0.7485    0.4895"
   },
   {
     "objectID": "slides/week-5.2.html#box-plot",
@@ -2056,7 +2056,7 @@
     "href": "slides/week-5.2.html#measure-of-spead-standard-deviation",
     "title": "Numerical Data",
     "section": "Measure of Spead: Standard Deviation",
-    "text": "Measure of Spead: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n       mean    stdDev\n1 0.4977821 0.2621028"
+    "text": "Measure of Spead: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n      mean    stdDev\n1 0.496514 0.2629688"
   },
   {
     "objectID": "slides/week-5.2.html#standard-deviation",
@@ -2140,7 +2140,7 @@
     "href": "slides/week-5.2.html#your-turn-1",
     "title": "Numerical Data",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?\n\n\n\n\n−+\n05:00"
+    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
   },
   {
     "objectID": "slides/week-5.2.html#calculating-statistics-by-groups",
@@ -2154,14 +2154,14 @@
     "href": "slides/week-5.2.html#calculating-statistics-by-groups-1",
     "title": "Numerical Data",
     "section": "Calculating Statistics by Groups",
-    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.403      0.377\n2 Asia              0.423      0.412\n3 Eastern Europe    0.537      0.564\n4 Latin America     0.607      0.685\n5 Middle East       0.232      0.208\n6 The West          0.856      0.855"
+    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
   },
   {
     "objectID": "slides/week-5.2.html#calculating-statistics-by-groups-2",
     "href": "slides/week-5.2.html#calculating-statistics-by-groups-2",
     "title": "Numerical Data",
     "section": "Calculating Statistics by Groups",
-    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.403      0.377\n2 Asia              0.423      0.412\n3 Eastern Europe    0.537      0.564\n4 Latin America     0.607      0.685\n5 Middle East       0.232      0.208\n6 The West          0.856      0.855"
+    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
   },
   {
     "objectID": "slides/week-5.2.html#visualize-using-our-bar-chart-skills",
@@ -2182,7 +2182,7 @@
     "href": "slides/week-5.2.html#your-turn-2",
     "title": "Numerical Data",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot\n\n\n\n\n−+\n05:00"
+    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
   },
   {
     "objectID": "slides/week-3.1.html#where-does-data-come-from",
