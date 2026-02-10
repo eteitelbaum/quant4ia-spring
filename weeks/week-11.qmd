@@ -1,0 +1,35 @@
+---
+title: "Week 11"
+subtitle: "Logistic Regression"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Lab due by 11:59pm on `r advdate2(sun, 10)`.
+:::
+
+## Readings
+
+| 📖 [IMS, chap. 9.1 and 9.2](https://openintro-ims.netlify.app/model-logistic)
+
+## Videos
+
+| 📺 [Classification: Motivation](https://youtu.be/p-ltr1C7u2o?si=TLb3y75pSaJ067ue)
+| 📺 [Logistic Regression](https://youtu.be/xuTiAW0OR40?si=sUoIr5pzHwHEpazO)
+| 📺 [Odds Ratios in Logistic Regression](https://youtu.be/oIR8YOSXudM?si=aEALe2ifW71lsJJG)
+
+## Modules
+
+| 📒 [Module 11.1](/modules/module-11.1.html)
+| 📒 [Module 11.2](/modules/module-11.2.html)
+
+## Assignments
+
+| 📘 Lab, available on [Posit Cloud](https://posit.cloud).

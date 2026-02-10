@@ -1,0 +1,24 @@
+---
+title: "Week 8"
+subtitle: "Homework 2"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Homework 2 due by 11:59pm on `r advdate2(sun, 7)`.
+:::
+
+## Readings
+
+| 📖 [Casey et al.](https://academic.oup.com/qje/article-abstract/127/4/1755/1841616)
+
+## Assignments
+
+| 🧮 [Homework 2](../assignments/homework-2.qmd)

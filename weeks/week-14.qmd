@@ -1,0 +1,25 @@
+---
+title: "Week 14"
+subtitle: "Final Project Workshop"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Project assignment due by 11:59pm on `r advdate2(sun, 13)`.
+:::
+
+## Slides
+
+| 🖥️ [Workshop Slides 1](/slides/week-14.1.html)
+| 🖥️ [Workshop Slides 2](/slides/week-14.2.html)
+
+## Assignments
+
+| ✍️ [Project Assignment 3](../project/project-description.qmd)

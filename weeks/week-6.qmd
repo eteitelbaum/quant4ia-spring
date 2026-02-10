@@ -1,4 +1,35 @@
 ---
-title: Week 6
-subtitle: Final Project
+title: "Week 6"
+subtitle: "Distributions and Sampling"
+format: html
 ---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Lab due by 11:59pm on `r advdate2(sun, 5)`.
+:::
+
+## Readings
+
+| 📖 [IMS, chap. 5.4 - 5.5](https://openintro-ims.netlify.app/explore-numerical#sec-variance-sd)
+| 📖 [IMS, chap. 12](https://openintro-ims.netlify.app/foundations-bootstrapping)
+
+## Videos
+
+| 📺 [The Right and Wrong Way to Interpret a CI](https://www.youtube.com/watch?v=5q2ac412hv4)
+| 📺 [Bootstrapping Main Ideas](https://youtu.be/Xz0x-8-cgaQ?si=v_YCi-dU5YBdcb99)
+
+## Modules
+
+| 📒 [Module 6.1](/modules/module-6.1.html)
+| 📒 [Module 6.2](/modules/module-6.2.html)
+
+## Assignments
+
+| 📘 Lab, available on [Posit Cloud](https://posit.cloud).

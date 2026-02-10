@@ -86,7 +86,7 @@ vdem %>%
 
 ### Example 3: UN Voting Trends
 
-```{r echo}
+```{r}
 #| label: un_voting_trends
 
 # = c("tidyverse", "lubridate", "scales", "DT", "unvotes", "pacman")

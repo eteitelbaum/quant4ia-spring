@@ -1,0 +1,39 @@
+---
+title: "Week 10"
+subtitle: "Multiple Regression and Diagnostics"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Lab due by 11:59pm on `r advdate2(sun, 9)`.
+:::
+
+## Readings
+
+| 📖 [IMS, chap. 8.1 and 8.2](https://openintro-ims.netlify.app/model-mlr)
+| 📖 [IMS, chap. 7.3](https://openintro-ims.netlify.app/model-slr#sec-outliers-in-regression)
+| 📖 [IMS, chap. 5.7](https://openintro-ims.netlify.app/explore-numerical#sec-transforming-data)
+| 📖 [IMS, chap. 24.6](https://openintro-ims.netlify.app/inf-model-slr#sec-tech-cond-linmod)
+
+## Videos
+
+| 📺 [Linear Regression with Multiple Variables](https://youtu.be/jXg0vU0y1ak?si=rhQ9uWhuhVqnI-Ox)
+| 📺 [What Should You Do With Outliers?](https://youtu.be/OYwq0MlY11g?si=YV1JVOTqTLUJgk0U)
+| 📺 [Checking Model Assumptions with Residual Plots](https://youtu.be/iMdtTCX2Q70?si=5qhftnJZ0jYRhmdB)
+
+## Modules
+
+| 📒 [Module 10.1](/modules/module-10.1.html)
+| 📒 [Module 10.2](/modules/module-10.2.html)
+| 📗 [Module 10.3 (Optional)](/modules/module-10.3.html)
+
+## Assignments
+
+| 📘 Lab, available on [Posit Cloud](https://posit.cloud).

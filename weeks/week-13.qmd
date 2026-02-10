@@ -1,0 +1,20 @@
+---
+title: "Week 13"
+subtitle: "Homework 3"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Homework 3 due by 11:59pm on `r advdate2(sun, 12)`.
+:::
+
+## Assignments
+
+| 🧮 [Homework 3](../assignments/homework-3.qmd)

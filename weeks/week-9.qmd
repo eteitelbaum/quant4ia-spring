@@ -1,0 +1,37 @@
+---
+title: "Week 9"
+subtitle: "Simple Linear Regression"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Lab due by 11:59pm on `r advdate2(sun, 8)`.
+:::
+
+## Readings
+
+| 📖 [IMS, chap. 7.1](https://openintro-ims.netlify.app/model-slr#sec-fit-line-res-cor)
+| 📖 [IMS, chap. 7.2](https://openintro-ims.netlify.app/model-slr#sec-least-squares-regression)
+
+## Videos
+
+| 📺 [Linear Regression with One Variable, Part 1](https://youtu.be/dLc-lfEEYss?si=-Zelb-HBAP-MPvnF)
+| 📺 [Linear Regression with One Variable, Part 2](https://youtu.be/KWULpBYzIYk?si=z_-wmdYlyrdpN4ys)
+| 📺 [Cost Function](https://youtu.be/CFN5zHzEuGY?si=uX_MFAbbSIzXMYQJ)
+| 📺 [Cost Function Intuition](https://youtu.be/peNRqkfukYY?si=UtakmQc9KLaQj7UH)
+
+## Modules
+
+| 📒 [Module 9.1](/modules/module-9.1.html)
+| 📒 [Module 9.2](/modules/module-9.2.html)
+
+## Assignments
+
+| 📘 Lab, available on [Posit Cloud](https://posit.cloud).

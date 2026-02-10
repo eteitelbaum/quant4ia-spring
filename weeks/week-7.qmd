@@ -1,0 +1,34 @@
+---
+title: "Week 7"
+subtitle: "Hypothesis Tests for Proportions"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Lab due by 11:59pm on `r advdate2(sun, 6)`.
+:::
+
+## Readings
+
+| 📖 [IMS, chap. 16](https://openintro-ims.netlify.app/inference-one-prop)
+| 📖 [IMS, chap. 11](https://openintro-ims.netlify.app/foundations-randomization)
+
+## Videos
+
+| 📺 [Using Randomization to Analyze Gender Discrimination](https://www.youtube.com/watch?v=2pHhjx9hyM4)
+
+## Modules
+
+| 📒 [Module 7.1](/modules/module-7.1.html)
+| 📒 [Module 7.2](/modules/module-7.2.html)
+
+## Assignments
+
+| 📘 Lab, available on [Posit Cloud](https://posit.cloud).

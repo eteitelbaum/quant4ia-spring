@@ -1,0 +1,35 @@
+---
+title: "Week 12"
+subtitle: "Interpreting and Presenting Models"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source("../helper.R")
+```
+
+::: {.callout-important}
+Lab due by 11:59pm on `r advdate2(sun, 11)`.
+:::
+
+## Readings
+
+| 📖 [IMS, chap. 9.3 and 9.4](https://openintro-ims.netlify.app/model-logistic#logistic-model-with-many-variables)
+
+## Videos
+
+| 📺 [Effect Multipliers in Logistic Regression](https://youtu.be/eb5lGVHHlY0?si=BCQJhZHezE9ihLg3)
+| 📺 [Display Multiple Models with Model Summary](https://youtu.be/My6_X6x5TZw)
+| 📺 [Coefficient Plots for Single Models](https://youtu.be/gif_wkqyub8)
+
+## Modules
+
+| 📒 [Module 12.1](/modules/module-12.1.html)
+| 📒 [Module 12.2](/modules/module-12.2.html)
+
+## Assignments
+
+| 📘 Lab, available on [Posit Cloud](https://posit.cloud).
