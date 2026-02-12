@@ -57,7 +57,7 @@ You have the option of doing this assignment in Posit Cloud or downloading the p
 
 *d) Add annotation to your plot using hline() or vline() to highlight a significant point in your data, like the mean or some other significant value.*
 
-*e) Upload your rendered HTML file to Quarto Pub and share the link with the class on Discord.*
+*e) Upload your rendered HTML file to Quarto Pub and share the link with your submission.*
 
 ::: {.callout-important}
 ## Submission Instructions
