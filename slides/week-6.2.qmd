@@ -1,5 +1,5 @@
 ---
-title: Confidence Intervals
+title: Sampling and Uncertainty
 date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"
@@ -18,31 +18,201 @@ execute:
   freeze: auto
 ---
 
+## Sampling
+
+<br>
+
+::: incremental
+- **Sampling** the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population
+- Versus a **census**, which involves gathering information on every individual in the population
+- Why would you want to use a sample?
+:::
+
+# Sampling Activity
+
+## What proportion of M&Ms are blue?
+
+<br>
+
+-   M&Ms has a precise distribution of colors that it produces in its factories
+-   M&Ms are sorted into bags in factories in a fairly random process
+-   Each bag represents a **sample** from the full **population** of M&Ms
+
+## Activity
+
+-   Get in groups of 2. Each group will have 4-5 bags of M&Ms.
+-   Keep the contents of each bag separate, and do not eat (yet!)
+-   Open up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. **Write this down.** 
+-   What is your best guess (your **estimate**) for the proportion of all M&Ms that are blue?
+
+## Activity
+
+<br>
+
+-   Do the same as above for the rest of your bags (you should have 4-5 **estimates** written down)
+-   Draw a histogram of your estimates (by hand)
+-   Add your estimates to this [Google Sheet](https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit?usp=sharing)
+-   Add your estimates to the class histogram on the whiteboard
+
+## Let's Analyze the Data
+
+<br>
+
+We will use the `googlesheets4` package to pull the data into R so be sure to install it.
+
+```{r}
+#| label: load_mm_data
+#| echo: true
+#| eval: false
+
+#install.packages("googlesheets4")
+
+library(tidyverse)
+library(googlesheets4)
+
+gs4_deauth() # to signify no authorization required
+
+mnm_data <- read_sheet("https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0")
+
+glimpse(mnm_data)
+```
+
+
+## Calculate Some Summary Stats
+
+<br>
+
+```{r}
+#| label: summary_stats
+#| echo: true
+#| eval: false
+
+mnm_data |>
+  summarize(
+    mean_blue = mean(proportion_blue),
+    median_blue = median(proportion_blue),
+    sd_blue = sd(proportion_blue)
+  )
+```
+## Now Let's Make a Histogram 
+
+<br>
+
+```{r}
+#| label: histogram
+#| echo: true
+#| eval: false
+
+ggplot(mnm_data, aes(x = proportion_blue)) +
+  geom_histogram(fill = "steelblue") +
+  labs(
+    title = "Percentage of Blue M&Ms",
+    x = "Proportion Blue",
+    y = "Count"
+  )
+```
+
+## Discuss with Neighbor 
+
+<br>
+
+-   What is the histogram/distribution showing?
+-   Based on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?
+-   Why do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?
+-   How do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)
+
+## What did we just do?
+
+::: incremental
+-   We wanted to say something about the **population** of M&Ms
+-   The **parameter** we care about is the proportion of M&Ms that are blue
+-   It would be impossible to conduct a **census** and to calculate the parameter
+-   We took a **sample** from the population and calculated a **sample statistic**
+-   **statistical inference:** act of making a guess about a **population** using information from a **sample**
+:::
+
+## What did we just do?
+
+::: incremental
+-   We completed this task many times
+-   This produced a **sampling distribution** of our **estimates**
+-   There is a distribution of estimates because of **sampling variability** 
+-   Due to random chance, one estimate from one sample can differ from another
+-   These are foundational ideas for statistical inference that we are going to keep building on
+:::
+
+# Zooming Out
+
+## Target Population
+
+In data analysis, we are usually interested in saying something about a **Target Population.**
+
+::: incremental
+-   What proportion of adult Russians support the war in Ukraine?
+    -   Target population: adult Russians (age 18+)
+-   How many US college students check social media during their classes?
+    -   Target population: US college students
+-   What percentage of M&Ms are blue?
+    -   Target population: all of the M&Ms
+:::
+
+## Sample
+
+<br>
+
+In many instances, we have a **Sample**
+
+-   We cannot talk to every Russian
+-   We cannot talk to all college students
+-   We cannot count all of the M&Ms
+
+## Parameters vs Statistics
+
+<br>
+
+::: incremental
+-   The **parameter** is the value of a calculation for the entire target population
+-   The **statistic** is what we calculate on our sample
+    -   We calculate a statistic in order to say something about the parameter
+:::
+
+## Inference
+
+<br>
+
+::: incremental
+-   **Inference**--The act of "making a guess" about some unknown
+-   **Statistical inference**--Making a good guess about a population from a sample
+-   **Causal inference**--Did X cause Y? [topic for later classes]
+:::
+
+# Uncertainty
+
 ## {.smaller}
 
-On December 19, 2014, the front page of Spanish national newspaper El
-País read *"Catalan public opinion swings toward 'no' for independence, says survey"*.^[Alberto Cairo. [The truthful art: Data, charts, and maps for communication](http://www.thefunctionalart.com/p/the-truthful-art-book.html). New Riders, 2016.]
+An article featuring this plot on the front page of Spanish national newspaper El País was titled *"Catalan public opinion swings toward 'no' for independence, says survey"*.^[Alberto Cairo. [The truthful art: Data, charts, and maps for communication](http://www.thefunctionalart.com/p/the-truthful-art-book.html). New Riders, 2016.] Is this an accurate statment?
 
 ```{r}
 library(tidyverse)
-library(lubridate)
-library(scales)
+
 catalan <- tibble(
   response = c("No", "Yes", "No answer"),
   rate     = c(45.3, 44.5, 10.2)
-) %>%
+) |>
   mutate(response = fct_relevel(response, "No", "Yes", "No answer"))
 ```
 
 ```{r}
 #| label: catalan-misleading
+library(scales)
+
 ggplot(catalan, aes(y = fct_rev(response), x = rate, fill = response)) +
   geom_col(width = .75) +
   scale_fill_manual(values = c("#5C8AA9", "#9D303A", "gray")) +
   scale_x_continuous(labels = label_percent(scale = 1)) +
   theme_minimal(base_size = 16) +
   labs(
-    title = "Do you want Catalonia\nto become an independent state?",
+    title = "Do you want Catalonia to become an independent state?",
     caption = "Margin of error: +/-2.95% at 95% confidence level",
     x = NULL, y = NULL) +
   theme(legend.position = "none")
@@ -215,7 +385,6 @@ Let's use `mutate()` to recode the qualitative variable as a numeric one...
 
 ```{r}
 #| echo: true
-
 russiaData <- russian_influence_on_us_election_2016 |> 
   mutate(try_influence = ifelse(influence_2016 == "Did try", 1, 0))
 ```
@@ -230,7 +399,6 @@ Now let's calculate the mean and standard deviation of the `try_influence` varia
 
 ```{r}
 #| echo: true
-
 russiaData |>
   summarize( 
           mean = mean(try_influence),
@@ -249,7 +417,6 @@ And finally let's draw a bar plot...
 ```{r}
 #| echo: true
 #| eval: false
-
 ggplot(russiaData, aes(x = try_influence)) +
   geom_bar(fill = "steelblue", width = .75) +
   labs(
@@ -277,7 +444,7 @@ ggplot(russiaData, aes(x = try_influence)) +
 
 ## Bootstrap with `tidymodels`
 
-Install `tidymodels` before running this code chunk... 
+Install `tidymodels` before running this code chunk...
 
 ```{r}
 #| echo: true
@@ -290,7 +457,7 @@ boot_df <- russiaData |>
   # specify the variable of interest
   specify(response = try_influence) |>
   # generate 15000 bootstrap samples
-  generate(reps = 15000, type = "bootstrap") |>
+  generate(reps = 10000, type = "bootstrap") |>
   # calculate the mean of each bootstrap sample
   calculate(stat = "mean")
 
@@ -301,13 +468,12 @@ glimpse(boot_df)
 
 <br>
 
-Calculate the confidence interval. A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.
+Calculate the confidence interval manually. A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.
 
 <br>
 
 ```{r}
 #| echo: true 
-
 boot_df |>
   summarize(lower = quantile(stat, 0.025),
             upper = quantile(stat, 0.975))
@@ -315,55 +481,26 @@ boot_df |>
 
 ## 
 
-<br>
-
-Create upper and lower bounds for visualization.
-
-<br>
+Now, let's visualize the CI for our bootstrap distribution:
 
 ```{r}
 #| echo: true
+#| code-fold: true
+#| fig-align: center
 
-# for using these values later
-lower_bound <- boot_df |> summarize(lower_bound = quantile(stat, 0.025)) |> pull() 
-upper_bound <- boot_df |> summarize(upper_bound = quantile(stat, 0.975)) |> pull() 
-```
+# Get confidence interval
+ci <- boot_df |> get_ci(level = 0.95)
 
-##
-
-<br>
-
-Visualize with a histogram
-
-<br>
-
-```{r}
-#| echo: true
-#| eval: false
-
-ggplot(data = boot_df, mapping = aes(x = stat)) +
-  geom_histogram(binwidth =.01, fill = "steelblue4") +
-  geom_vline(xintercept = c(lower_bound, upper_bound), color = "darkgrey", size = 1, linetype = "dashed") +
-  labs(title = "Bootstrap distribution of means",
-       subtitle = "and 95% confidence interval",
-       x = "Estimate",
-       y = "Frequency") +
-  theme_bw()
-```
-
-## 
-
-<br>
-
-```{r}
-ggplot(data = boot_df, mapping = aes(x = stat)) +
-  geom_histogram(binwidth =.01, fill = "steelblue4") +
-  geom_vline(xintercept = c(lower_bound, upper_bound), color = "darkgrey", size = 1, linetype = "dashed") +
-  labs(title = "Bootstrap distribution of means",
-       subtitle = "and 95% confidence interval",
-       x = "Estimate",
-       y = "Frequency") +
-  theme_bw()
+# Visualize bootstrap distribution with CI
+boot_df |>
+  visualize() +
+  shade_ci(ci, color = "red", fill = NULL) +
+  labs( 
+    title = "Distribution of the Means of the Bootstrap Samples",
+    x = "Mean",
+    y = "Count"
+  ) +
+  theme_minimal()
 ```
 
 ## Interpret the confidence interval {.smaller}
@@ -386,11 +523,10 @@ The 95% confidence interval was calculated as (`lower_bound`, `upper_bound`). Wh
 
 <br>
 
-- Change the `reps` argument in the `generate()` function to 1000. What happens to the width of the confidence interval?
-- Change the `reps` argument in the `generate()` function to 5000. What happens to the width of the confidence interval?
-- Change the `reps` argument in the `generate()` function to 10000. What happens to the width of the confidence interval?
-- How does the width of the confidence interval change as the number of bootstrap samples increases?
-- How would you interpret this finding? 
+- Change the confidence level with the `get_ci()` to .90. What happens to the width of the confidence interval?
+- Visualize the new confidence interval
+- How would you interpret this CI? 
+- Now try changing the confidence level to .975. What happens to the width of the confidence interval and how would you interpret it? 
 
 ## Bias vs Precision
 

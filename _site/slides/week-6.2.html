@@ -10,8 +10,8 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-02-09">
-  <title>IAFF 6501--Spring 2024 Schedule – Confidence Intervals</title>
+  <meta name="dcterms.date" content="2026-02-16">
+  <title>IAFF 6501--Spring 2024 Schedule – Sampling and Uncertainty</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -190,9 +190,9 @@
       margin-right: 0; 
     }
   </style>
-<meta property="og:title" content="Confidence Intervals – IAFF 6501–Spring 2024 Schedule">
+<meta property="og:title" content="Sampling and Uncertainty – IAFF 6501–Spring 2024 Schedule">
 <meta property="og:site_name" content="IAFF 6501--Spring 2024 Schedule">
-<meta name="twitter:title" content="Confidence Intervals – IAFF 6501–Spring 2024 Schedule">
+<meta name="twitter:title" content="Sampling and Uncertainty – IAFF 6501–Spring 2024 Schedule">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
@@ -200,16 +200,188 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Confidence Intervals</h1>
+  <h1 class="title">Sampling and Uncertainty</h1>
 
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">February 9, 2026</p>
+  <p class="date">February 16, 2026</p>
+</section>
+<section id="sampling" class="slide level2">
+<h2>Sampling</h2>
+<p><br></p>
+<ul>
+<li class="fragment"><strong>Sampling</strong> the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population</li>
+<li class="fragment">Versus a <strong>census</strong>, which involves gathering information on every individual in the population</li>
+<li class="fragment">Why would you want to use a sample?</li>
+</ul>
+</section>
+<section>
+<section id="sampling-activity" class="title-slide slide level1 center">
+<h1>Sampling Activity</h1>
+
+</section>
+<section id="what-proportion-of-mms-are-blue" class="slide level2">
+<h2>What proportion of M&amp;Ms are blue?</h2>
+<p><br></p>
+<ul>
+<li>M&amp;Ms has a precise distribution of colors that it produces in its factories</li>
+<li>M&amp;Ms are sorted into bags in factories in a fairly random process</li>
+<li>Each bag represents a <strong>sample</strong> from the full <strong>population</strong> of M&amp;Ms</li>
+</ul>
+</section>
+<section id="activity" class="slide level2">
+<h2>Activity</h2>
+<ul>
+<li>Get in groups of 2. Each group will have 4-5 bags of M&amp;Ms.</li>
+<li>Keep the contents of each bag separate, and do not eat (yet!)</li>
+<li>Open up your first bag of M&amp;Ms: calculate the proportion of the M&amp;Ms that are blue. <strong>Write this down.</strong></li>
+<li>What is your best guess (your <strong>estimate</strong>) for the proportion of all M&amp;Ms that are blue?</li>
+</ul>
+</section>
+<section id="activity-1" class="slide level2">
+<h2>Activity</h2>
+<p><br></p>
+<ul>
+<li>Do the same as above for the rest of your bags (you should have 4-5 <strong>estimates</strong> written down)</li>
+<li>Draw a histogram of your estimates (by hand)</li>
+<li>Add your estimates to this <a href="https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit?usp=sharing">Google Sheet</a></li>
+<li>Add your estimates to the class histogram on the whiteboard</li>
+</ul>
+</section>
+<section id="lets-analyze-the-data" class="slide level2">
+<h2>Let’s Analyze the Data</h2>
+<p><br></p>
+<p>We will use the <code>googlesheets4</code> package to pull the data into R so be sure to install it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co">#install.packages("googlesheets4")</span></span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a></a><span class="fu">library</span>(googlesheets4)</span>
+<span id="cb1-5"><a></a></span>
+<span id="cb1-6"><a></a><span class="fu">gs4_deauth</span>() <span class="co"># to signify no authorization required</span></span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a>mnm_data <span class="ot">&lt;-</span> <span class="fu">read_sheet</span>(<span class="st">"https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0"</span>)</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="fu">glimpse</span>(mnm_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculate-some-summary-stats" class="slide level2">
+<h2>Calculate Some Summary Stats</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>mnm_data <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a></a>  <span class="fu">summarize</span>(</span>
+<span id="cb2-3"><a></a>    <span class="at">mean_blue =</span> <span class="fu">mean</span>(proportion_blue),</span>
+<span id="cb2-4"><a></a>    <span class="at">median_blue =</span> <span class="fu">median</span>(proportion_blue),</span>
+<span id="cb2-5"><a></a>    <span class="at">sd_blue =</span> <span class="fu">sd</span>(proportion_blue)</span>
+<span id="cb2-6"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="now-lets-make-a-histogram" class="slide level2">
+<h2>Now Let’s Make a Histogram</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">ggplot</span>(mnm_data, <span class="fu">aes</span>(<span class="at">x =</span> proportion_blue)) <span class="sc">+</span></span>
+<span id="cb3-2"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-4"><a></a>    <span class="at">title =</span> <span class="st">"Percentage of Blue M&amp;Ms"</span>,</span>
+<span id="cb3-5"><a></a>    <span class="at">x =</span> <span class="st">"Proportion Blue"</span>,</span>
+<span id="cb3-6"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb3-7"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="discuss-with-neighbor" class="slide level2">
+<h2>Discuss with Neighbor</h2>
+<p><br></p>
+<ul>
+<li>What is the histogram/distribution showing?</li>
+<li>Based on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&amp;Ms are blue? Why do you give that answer?</li>
+<li>Why do some bag of M&amp;Ms have proportions of blues that are higher and lower than the number you gave above?</li>
+<li>How do our estimates relate to the actual percentage of blue M&amp;Ms manufactured (ask Google or ChatGPT)</li>
+</ul>
+</section>
+<section id="what-did-we-just-do" class="slide level2">
+<h2>What did we just do?</h2>
+<ul>
+<li class="fragment">We wanted to say something about the <strong>population</strong> of M&amp;Ms</li>
+<li class="fragment">The <strong>parameter</strong> we care about is the proportion of M&amp;Ms that are blue</li>
+<li class="fragment">It would be impossible to conduct a <strong>census</strong> and to calculate the parameter</li>
+<li class="fragment">We took a <strong>sample</strong> from the population and calculated a <strong>sample statistic</strong></li>
+<li class="fragment"><strong>statistical inference:</strong> act of making a guess about a <strong>population</strong> using information from a <strong>sample</strong></li>
+</ul>
+</section>
+<section id="what-did-we-just-do-1" class="slide level2">
+<h2>What did we just do?</h2>
+<ul>
+<li class="fragment">We completed this task many times</li>
+<li class="fragment">This produced a <strong>sampling distribution</strong> of our <strong>estimates</strong></li>
+<li class="fragment">There is a distribution of estimates because of <strong>sampling variability</strong></li>
+<li class="fragment">Due to random chance, one estimate from one sample can differ from another</li>
+<li class="fragment">These are foundational ideas for statistical inference that we are going to keep building on</li>
+</ul>
+</section></section>
+<section>
+<section id="zooming-out" class="title-slide slide level1 center">
+<h1>Zooming Out</h1>
+
+</section>
+<section id="target-population" class="slide level2">
+<h2>Target Population</h2>
+<p>In data analysis, we are usually interested in saying something about a <strong>Target Population.</strong></p>
+<ul>
+<li class="fragment">What proportion of adult Russians support the war in Ukraine?
+<ul>
+<li class="fragment">Target population: adult Russians (age 18+)</li>
+</ul></li>
+<li class="fragment">How many US college students check social media during their classes?
+<ul>
+<li class="fragment">Target population: US college students</li>
+</ul></li>
+<li class="fragment">What percentage of M&amp;Ms are blue?
+<ul>
+<li class="fragment">Target population: all of the M&amp;Ms</li>
+</ul></li>
+</ul>
+</section>
+<section id="sample" class="slide level2">
+<h2>Sample</h2>
+<p><br></p>
+<p>In many instances, we have a <strong>Sample</strong></p>
+<ul>
+<li>We cannot talk to every Russian</li>
+<li>We cannot talk to all college students</li>
+<li>We cannot count all of the M&amp;Ms</li>
+</ul>
+</section>
+<section id="parameters-vs-statistics" class="slide level2">
+<h2>Parameters vs Statistics</h2>
+<p><br></p>
+<ul>
+<li class="fragment">The <strong>parameter</strong> is the value of a calculation for the entire target population</li>
+<li class="fragment">The <strong>statistic</strong> is what we calculate on our sample
+<ul>
+<li class="fragment">We calculate a statistic in order to say something about the parameter</li>
+</ul></li>
+</ul>
+</section>
+<section id="inference" class="slide level2">
+<h2>Inference</h2>
+<p><br></p>
+<ul>
+<li class="fragment"><strong>Inference</strong>–The act of “making a guess” about some unknown</li>
+<li class="fragment"><strong>Statistical inference</strong>–Making a good guess about a population from a sample</li>
+<li class="fragment"><strong>Causal inference</strong>–Did X cause Y? [topic for later classes]</li>
+</ul>
+</section></section>
+<section>
+<section id="uncertainty" class="title-slide slide level1 center">
+<h1>Uncertainty</h1>
+
 </section>
 <section id="section" class="slide level2 smaller">
 <h2></h2>
-<p>On December 19, 2014, the front page of Spanish national newspaper El País read <em>“Catalan public opinion swings toward ‘no’ for independence, says survey”</em>.<sup>1</sup></p>
+<p>An article featuring this plot on the front page of Spanish national newspaper El País was titled <em>“Catalan public opinion swings toward ‘no’ for independence, says survey”</em>.<sup>1</sup> Is this an accurate statment?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -227,7 +399,7 @@
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="week-6.2_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+<p><img data-src="week-6.2_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -359,10 +531,10 @@
 <p>For this example, we will use data from the Open Intro package. Install that package before running this code chunk.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co">#install.packages("openintro")</span></span>
-<span id="cb1-2"><a></a><span class="fu">library</span>(openintro)</span>
-<span id="cb1-3"><a></a></span>
-<span id="cb1-4"><a></a><span class="fu">glimpse</span>(russian_influence_on_us_election_2016)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co">#install.packages("openintro")</span></span>
+<span id="cb4-2"><a></a><span class="fu">library</span>(openintro)</span>
+<span id="cb4-3"><a></a></span>
+<span id="cb4-4"><a></a><span class="fu">glimpse</span>(russian_influence_on_us_election_2016)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 506
 Columns: 1
@@ -376,8 +548,8 @@ $ influence_2016 &lt;chr&gt; "Did not try", "Did not try", "Did not try", "Don't
 <p>Let’s use <code>mutate()</code> to recode the qualitative variable as a numeric one…</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>russiaData <span class="ot">&lt;-</span> russian_influence_on_us_election_2016 <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a></a>  <span class="fu">mutate</span>(<span class="at">try_influence =</span> <span class="fu">ifelse</span>(influence_2016 <span class="sc">==</span> <span class="st">"Did try"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>russiaData <span class="ot">&lt;-</span> russian_influence_on_us_election_2016 <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a></a>  <span class="fu">mutate</span>(<span class="at">try_influence =</span> <span class="fu">ifelse</span>(influence_2016 <span class="sc">==</span> <span class="st">"Did try"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="section-6" class="slide level2">
@@ -386,11 +558,11 @@ $ influence_2016 &lt;chr&gt; "Did not try", "Did not try", "Did not try", "Don't
 <p>Now let’s calculate the mean and standard deviation of the <code>try_influence</code> variable…</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>russiaData <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a></a>  <span class="fu">summarize</span>( </span>
-<span id="cb4-3"><a></a>          <span class="at">mean =</span> <span class="fu">mean</span>(try_influence),</span>
-<span id="cb4-4"><a></a>          <span class="at">sd =</span> <span class="fu">sd</span>(try_influence)</span>
-<span id="cb4-5"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>russiaData <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a></a>  <span class="fu">summarize</span>( </span>
+<span id="cb7-3"><a></a>          <span class="at">mean =</span> <span class="fu">mean</span>(try_influence),</span>
+<span id="cb7-4"><a></a>          <span class="at">sd =</span> <span class="fu">sd</span>(try_influence)</span>
+<span id="cb7-5"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
    mean    sd
@@ -405,40 +577,40 @@ $ influence_2016 &lt;chr&gt; "Did not try", "Did not try", "Did not try", "Don't
 <p>And finally let’s draw a bar plot…</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">ggplot</span>(russiaData, <span class="fu">aes</span>(<span class="at">x =</span> try_influence)) <span class="sc">+</span></span>
-<span id="cb6-2"><a></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">width =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-4"><a></a>    <span class="at">title =</span> <span class="st">"Did Russia try to influence the U.S. election?"</span>,</span>
-<span id="cb6-5"><a></a>    <span class="at">x =</span> <span class="st">"0 = 'No', 1 = 'Yes'"</span>,</span>
-<span id="cb6-6"><a></a>    <span class="at">y =</span> <span class="st">"Frequncy"</span></span>
-<span id="cb6-7"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb6-8"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">ggplot</span>(russiaData, <span class="fu">aes</span>(<span class="at">x =</span> try_influence)) <span class="sc">+</span></span>
+<span id="cb9-2"><a></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">width =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-4"><a></a>    <span class="at">title =</span> <span class="st">"Did Russia try to influence the U.S. election?"</span>,</span>
+<span id="cb9-5"><a></a>    <span class="at">x =</span> <span class="st">"0 = 'No', 1 = 'Yes'"</span>,</span>
+<span id="cb9-6"><a></a>    <span class="at">y =</span> <span class="st">"Frequncy"</span></span>
+<span id="cb9-7"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb9-8"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="section-8" class="slide level2">
 <h2></h2>
 <p><br></p>
 
-<img data-src="week-6.2_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<img data-src="week-6.2_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
 <section id="bootstrap-with-tidymodels" class="slide level2">
 <h2>Bootstrap with <code>tidymodels</code></h2>
 <p>Install <code>tidymodels</code> before running this code chunk…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co">#install.packages("tidymodels")</span></span>
-<span id="cb7-2"><a></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb7-3"><a></a></span>
-<span id="cb7-4"><a></a><span class="fu">set.seed</span>(<span class="dv">66</span>)</span>
-<span id="cb7-5"><a></a>boot_df <span class="ot">&lt;-</span> russiaData <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a></a>  <span class="co"># specify the variable of interest</span></span>
-<span id="cb7-7"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> try_influence) <span class="sc">|&gt;</span></span>
-<span id="cb7-8"><a></a>  <span class="co"># generate 15000 bootstrap samples</span></span>
-<span id="cb7-9"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">15000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-10"><a></a>  <span class="co"># calculate the mean of each bootstrap sample</span></span>
-<span id="cb7-11"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>)</span>
-<span id="cb7-12"><a></a></span>
-<span id="cb7-13"><a></a><span class="fu">glimpse</span>(boot_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co">#install.packages("tidymodels")</span></span>
+<span id="cb10-2"><a></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb10-3"><a></a></span>
+<span id="cb10-4"><a></a><span class="fu">set.seed</span>(<span class="dv">66</span>)</span>
+<span id="cb10-5"><a></a>boot_df <span class="ot">&lt;-</span> russiaData <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a></a>  <span class="co"># specify the variable of interest</span></span>
+<span id="cb10-7"><a></a>  <span class="fu">specify</span>(<span class="at">response =</span> try_influence) <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a></a>  <span class="co"># generate 15000 bootstrap samples</span></span>
+<span id="cb10-9"><a></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">10000</span>, <span class="at">type =</span> <span class="st">"bootstrap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a></a>  <span class="co"># calculate the mean of each bootstrap sample</span></span>
+<span id="cb10-11"><a></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"mean"</span>)</span>
+<span id="cb10-12"><a></a></span>
+<span id="cb10-13"><a></a><span class="fu">glimpse</span>(boot_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 15,000
+<pre><code>Rows: 10,000
 Columns: 2
 $ replicate &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
 $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0.138…</code></pre>
@@ -448,12 +620,12 @@ $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0
 <section id="section-9" class="slide level2">
 <h2></h2>
 <p><br></p>
-<p>Calculate the confidence interval. A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.</p>
+<p>Calculate the confidence interval manually. A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>boot_df <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a></a>  <span class="fu">summarize</span>(<span class="at">lower =</span> <span class="fu">quantile</span>(stat, <span class="fl">0.025</span>),</span>
-<span id="cb9-3"><a></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(stat, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>boot_df <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a></a>  <span class="fu">summarize</span>(<span class="at">lower =</span> <span class="fu">quantile</span>(stat, <span class="fl">0.025</span>),</span>
+<span id="cb12-3"><a></a>            <span class="at">upper =</span> <span class="fu">quantile</span>(stat, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   lower upper
@@ -464,36 +636,27 @@ $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0
 </section>
 <section id="section-10" class="slide level2">
 <h2></h2>
-<p><br></p>
-<p>Create upper and lower bounds for visualization.</p>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="co"># for using these values later</span></span>
-<span id="cb11-2"><a></a>lower_bound <span class="ot">&lt;-</span> boot_df <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">lower_bound =</span> <span class="fu">quantile</span>(stat, <span class="fl">0.025</span>)) <span class="sc">|&gt;</span> <span class="fu">pull</span>() </span>
-<span id="cb11-3"><a></a>upper_bound <span class="ot">&lt;-</span> boot_df <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">upper_bound =</span> <span class="fu">quantile</span>(stat, <span class="fl">0.975</span>)) <span class="sc">|&gt;</span> <span class="fu">pull</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="section-11" class="slide level2">
-<h2></h2>
-<p><br></p>
-<p>Visualize with a histogram</p>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">ggplot</span>(<span class="at">data =</span> boot_df, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
-<span id="cb12-2"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span>.<span class="dv">01</span>, <span class="at">fill =</span> <span class="st">"steelblue4"</span>) <span class="sc">+</span></span>
-<span id="cb12-3"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(lower_bound, upper_bound), <span class="at">color =</span> <span class="st">"darkgrey"</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb12-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bootstrap distribution of means"</span>,</span>
-<span id="cb12-5"><a></a>       <span class="at">subtitle =</span> <span class="st">"and 95% confidence interval"</span>,</span>
-<span id="cb12-6"><a></a>       <span class="at">x =</span> <span class="st">"Estimate"</span>,</span>
-<span id="cb12-7"><a></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
-<span id="cb12-8"><a></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="section-12" class="slide level2">
-<h2></h2>
-<p><br></p>
+<p>Now, let’s visualize the CI for our bootstrap distribution:</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="co"># Get confidence interval</span></span>
+<span id="cb14-2"><a></a>ci <span class="ot">&lt;-</span> boot_df <span class="sc">|&gt;</span> <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb14-3"><a></a></span>
+<span id="cb14-4"><a></a><span class="co"># Visualize bootstrap distribution with CI</span></span>
+<span id="cb14-5"><a></a>boot_df <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb14-7"><a></a>  <span class="fu">shade_ci</span>(ci, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb14-8"><a></a>  <span class="fu">labs</span>( </span>
+<span id="cb14-9"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of the Means of the Bootstrap Samples"</span>,</span>
+<span id="cb14-10"><a></a>    <span class="at">x =</span> <span class="st">"Mean"</span>,</span>
+<span id="cb14-11"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb14-12"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb14-13"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 
-<img data-src="week-6.2_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+</div>
+<img data-src="week-6.2_files/figure-revealjs/unnamed-chunk-10-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
 <section id="interpret-the-confidence-interval" class="slide level2 smaller">
 <h2>Interpret the confidence interval</h2>
 <p><br></p>
@@ -508,11 +671,10 @@ $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0
 <h2>Your Turn!</h2>
 <p><br></p>
 <ul>
-<li>Change the <code>reps</code> argument in the <code>generate()</code> function to 1000. What happens to the width of the confidence interval?</li>
-<li>Change the <code>reps</code> argument in the <code>generate()</code> function to 5000. What happens to the width of the confidence interval?</li>
-<li>Change the <code>reps</code> argument in the <code>generate()</code> function to 10000. What happens to the width of the confidence interval?</li>
-<li>How does the width of the confidence interval change as the number of bootstrap samples increases?</li>
-<li>How would you interpret this finding?</li>
+<li>Change the confidence level with the <code>get_ci()</code> to .90. What happens to the width of the confidence interval?</li>
+<li>Visualize the new confidence interval</li>
+<li>How would you interpret this CI?</li>
+<li>Now try changing the confidence level to .975. What happens to the width of the confidence interval and how would you interpret it?</li>
 </ul>
 </section>
 <section id="bias-vs-precision" class="slide level2">
@@ -536,7 +698,7 @@ $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0
 </ul>
 
 
-</section>
+</section></section>
 
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">

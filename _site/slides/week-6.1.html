@@ -10,8 +10,8 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-02-09">
-  <title>IAFF 6501--Spring 2024 Schedule – Sampling</title>
+  <meta name="dcterms.date" content="2026-02-16">
+  <title>IAFF 6501--Spring 2024 Schedule – Describing Distributions</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -190,9 +190,11 @@
       margin-right: 0; 
     }
   </style>
-<meta property="og:title" content="Sampling – IAFF 6501–Spring 2024 Schedule">
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+<meta property="og:title" content="Describing Distributions – IAFF 6501–Spring 2024 Schedule">
 <meta property="og:site_name" content="IAFF 6501--Spring 2024 Schedule">
-<meta name="twitter:title" content="Sampling – IAFF 6501–Spring 2024 Schedule">
+<meta name="twitter:title" content="Describing Distributions – IAFF 6501–Spring 2024 Schedule">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
@@ -200,175 +202,361 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Sampling</h1>
+  <h1 class="title">Describing Distributions</h1>
 
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">February 9, 2026</p>
-</section>
-<section id="sampling" class="slide level2">
-<h2>Sampling</h2>
-<ul>
-<li class="fragment"><strong>Sampling</strong> the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population</li>
-<li class="fragment">Versus a <strong>census</strong>, which involves gathering information on every individual in the population</li>
-<li class="fragment">Why would you want to use a sample?</li>
-</ul>
-<p>Today’s code is <a href="https://www.dropbox.com/scl/fo/3u8lgap6nqtcp91gmclgd/h?rlkey=wm2ey4emths9w9585gnp9fygb&amp;dl=0">HERE</a></p>
+  <p class="date">February 16, 2026</p>
 </section>
 <section>
-<section id="sampling-activity" class="title-slide slide level1 center">
-<h1>Sampling Activity</h1>
+<section id="measuring-spread" class="title-slide slide level1 center">
+<h1>Measuring Spread</h1>
 
 </section>
-<section id="what-proportion-of-all-milk-chocolate-mms-are-blue" class="slide level2">
-<h2>What proportion of all milk chocolate M&amp;Ms are blue?</h2>
-<ul>
-<li>M&amp;Ms has a precise distribution of colors that it produces in its factories</li>
-<li>M&amp;Ms are sorted into bags in factories in a fairly random process</li>
-<li>Each bag represents a <strong>sample</strong> from the full <strong>population</strong> of M&amp;Ms</li>
-</ul>
+<section id="why-measure-and-visualize-spread" class="slide level2">
+<h2>Why Measure and Visualize Spread?</h2>
+
+<img data-src="week-6.1_files/figure-revealjs/spread-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="iqr" class="title-slide slide level1 center">
+<h1>IQR</h1>
+
 </section>
-<section id="activity" class="slide level2">
-<h2>Activity</h2>
-<ul>
-<li>Get in groups of 2. Each group will have 4-5 bags of M&amp;Ms.</li>
-<li>Keep the contents of each bag separate, and do not eat (yet!)</li>
-<li>Open up your first bag of M&amp;Ms: calculate the proportion of the M&amp;Ms that are blue. <strong>Write this down.</strong> What is your best guess (your <strong>estimate</strong>) for the proportion of all M&amp;Ms that are blue?</li>
-</ul>
-</section>
-<section id="activity-1" class="slide level2">
-<h2>Activity</h2>
-<ul>
-<li>Do the same as above for the rest of your bags (you should have 4-5 <strong>estimates</strong> written down)</li>
-<li>Draw a histogram of your estimates (by hand)</li>
-<li>Add your estimates to this <a href="https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit?usp=sharing">Google Sheet</a></li>
-<li>Add your estimates to the class histogram on the whiteboard</li>
-</ul>
-</section>
-<section id="lets-analyze-the-data" class="slide level2">
-<h2>Let’s Analyze the Data</h2>
+<section id="what-is-a-range" class="slide level2">
+<h2>What is a Range?</h2>
 <p><br></p>
-<p>We will use the <code>googlesheets4</code> package to pull the data into R so be sure to install it.</p>
+<ul>
+<li>Range (min and max values)</li>
+<li>Not ideal b/c does not tell us much about where most of the values are located</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co">#install.packages("googlesheets4")</span></span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-4"><a></a><span class="fu">library</span>(googlesheets4)</span>
-<span id="cb1-5"><a></a></span>
-<span id="cb1-6"><a></a><span class="fu">gs4_deauth</span>() <span class="co"># to signify no authorization required</span></span>
-<span id="cb1-7"><a></a></span>
-<span id="cb1-8"><a></a>mnm_data <span class="ot">&lt;-</span> <span class="fu">read_sheet</span>(<span class="st">"https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0"</span>)</span>
-<span id="cb1-9"><a></a></span>
-<span id="cb1-10"><a></a><span class="fu">glimpse</span>(mnm_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a></a>  <span class="fu">summarize</span>(<span class="at">min =</span> <span class="fu">min</span>(polyarchy),</span>
+<span id="cb1-3"><a></a>            <span class="at">max =</span> <span class="fu">max</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    min   max
+1 0.015 0.918</code></pre>
+</div>
 </div>
 </section>
-<section id="calculate-some-summary-stats" class="slide level2">
-<h2>Calculate Some Summary Stats</h2>
-<p><br></p>
+<section id="interquartile-range" class="slide level2">
+<h2>Interquartile Range</h2>
+<p>IQR: 25th percentile - 75th percentile</p>
+
+<img data-src="week-6.1_files/figure-revealjs/unnamed-chunk-1-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="interquartile-range-1" class="slide level2">
+<h2>Interquartile Range</h2>
+<ul>
+<li>The middle 50 percent of the countries in the data lie between 0.262 and 0.747</li>
+<li>The IQR (0.485) is the difference between the Q3 and Q1 values</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>mnm_data <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a></a>  <span class="fu">summarize</span>(</span>
-<span id="cb2-3"><a></a>    <span class="at">mean_blue =</span> <span class="fu">mean</span>(proportion_blue),</span>
-<span id="cb2-4"><a></a>    <span class="at">median_blue =</span> <span class="fu">median</span>(proportion_blue),</span>
-<span id="cb2-5"><a></a>    <span class="at">sd_blue =</span> <span class="fu">sd</span>(proportion_blue)</span>
-<span id="cb2-6"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>vdem2022 <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a></a>  <span class="fu">summarize</span>(<span class="at">IQRlow =</span>  <span class="fu">quantile</span>(polyarchy, .<span class="dv">25</span>),</span>
+<span id="cb3-3"><a></a>            <span class="at">IQRhigh =</span> <span class="fu">quantile</span>(polyarchy, .<span class="dv">75</span>),</span>
+<span id="cb3-4"><a></a>            <span class="at">IQRlength =</span> <span class="fu">IQR</span>(polyarchy)</span>
+<span id="cb3-5"><a></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  IQRlow IQRhigh IQRlength
+1  0.259  0.7485    0.4895</code></pre>
+</div>
 </div>
 </section>
-<section id="now-lets-make-a-histogram" class="slide level2">
-<h2>Now Let’s Make a Histogram</h2>
+<section id="box-plot" class="slide level2">
+<h2>Box Plot</h2>
 <p><br></p>
+<ul>
+<li>A box plot is a graphical representation of the distribution based on the median and quartiles</li>
+<li>It is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum</li>
+</ul>
+</section>
+<section id="box-plot-1" class="slide level2">
+<h2>Box Plot</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> polyarchy)) <span class="sc">+</span></span>
+<span id="cb5-2"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb5-3"><a></a>   <span class="fu">labs</span>(</span>
+<span id="cb5-4"><a></a>    <span class="at">x =</span> <span class="st">""</span>, </span>
+<span id="cb5-5"><a></a>    <span class="at">y =</span> <span class="st">"Electoral Democracy"</span>, </span>
+<span id="cb5-6"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2022"</span>, </span>
+<span id="cb5-7"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span></span>
+<span id="cb5-8"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb5-9"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="week-6.1_files/figure-revealjs/boxplot-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section></section>
+<section>
+<section id="standard-deviation" class="title-slide slide level1 center">
+<h1>Standard Deviation</h1>
+
+</section>
+<section id="measure-of-spead-standard-deviation" class="slide level2">
+<h2>Measure of Spead: Standard Deviation</h2>
+<p><br></p>
+<ul>
+<li>Can think of it as something like the “average distance” of each data point from the mean</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">ggplot</span>(mnm_data, <span class="fu">aes</span>(<span class="at">x =</span> proportion_blue)) <span class="sc">+</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-4"><a></a>    <span class="at">title =</span> <span class="st">"Percentage of Blue M&amp;Ms"</span>,</span>
-<span id="cb3-5"><a></a>    <span class="at">x =</span> <span class="st">"Proportion Blue"</span>,</span>
-<span id="cb3-6"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb3-7"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(polyarchy),</span>
+<span id="cb6-3"><a></a>            <span class="at">stdDev =</span> <span class="fu">sd</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      mean    stdDev
+1 0.496514 0.2629688</code></pre>
+</div>
 </div>
 </section>
-<section id="discuss-with-neighbor" class="slide level2">
-<h2>Discuss with Neighbor</h2>
+<section id="standard-deviation-1" class="slide level2">
+<h2>Standard Deviation</h2>
+<p><br></p>
 <ul>
-<li>What is the histogram/distribution showing?</li>
-<li>Based on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&amp;Ms are blue? Why do you give that answer?</li>
-<li>Why do some bag of M&amp;Ms have proportions of blues that are higher and lower than the number you gave above?</li>
-<li>How do our estimates relate to the actual percentage of blue M&amp;Ms manufactured (ask Google or ChatGPT)</li>
+<li>A low standard deviation indicates that the values tend to be close to the mean</li>
+<li>A high standard deviation indicates that the values are spread out over a wider range</li>
 </ul>
 </section>
-<section id="what-did-we-just-do" class="slide level2">
-<h2>What did we just do?</h2>
+<section id="starting-with-variance" class="slide level2">
+<h2>Starting with Variance</h2>
+<p><br></p>
 <ul>
-<li class="fragment">We wanted to say something about the <strong>population</strong> of M&amp;Ms</li>
-<li class="fragment">The <strong>parameter</strong> we care about is the proportion of M&amp;Ms that are blue</li>
-<li class="fragment">It would be impossible to conduct a <strong>census</strong> and to calculate the parameter</li>
-<li class="fragment">We took a <strong>sample</strong> from the population and calculated a <strong>sample statistic</strong></li>
-<li class="fragment"><strong>statistical inference:</strong> act of making a guess about a <strong>population</strong> using information from a <strong>sample</strong></li>
+<li>Variance is a step towards calculating the standard deviation.</li>
+<li>It quantifies the average squared deviation of each number from the mean of the data set.</li>
 </ul>
 </section>
-<section id="what-have-we-just-done" class="slide level2">
-<h2>What have we just done?</h2>
+<section id="calculating-deviation-from-the-mean" class="slide level2">
+<h2>Calculating Deviation from the Mean</h2>
 <ul>
-<li class="fragment">We completed this task many times</li>
-<li class="fragment">This produced a <strong>sampling distribution</strong> of our <strong>estimates</strong></li>
-<li class="fragment">There is a distribution of estimates because of <strong>sampling variability</strong></li>
-<li class="fragment">Due to random chance, one estimate from one sample can differ from another</li>
-<li class="fragment">These are foundational ideas for statistical inference that we are going to keep building on</li>
+<li>First, calculate the mean (<span class="math inline">\(\bar{X}\)</span>) of the dataset.</li>
+<li>For each data point (<span class="math inline">\(X_i\)</span>), calculate its deviation from the mean: <span class="math display">\[e_i = X_i - \bar{X}\]</span>
+<ul>
+<li>Example with a mean of 5:
+<ul>
+<li>For a data point where <span class="math inline">\((X_i = 0): (0 - 5 = -5)\)</span></li>
+<li>For a data point where <span class="math inline">\((X_i = 10): (10 - 5 = 5)\)</span></li>
+</ul></li>
+</ul></li>
 </ul>
+</section>
+<section id="squaring-the-deviations" class="slide level2">
+<h2>Squaring the Deviations</h2>
+<ul>
+<li>Squaring each deviation (<span class="math inline">\(e_i\)</span>) to eliminate negative values: <span class="math display">\[e_i^2 = (X_i - \bar{X})^2\]</span></li>
+<li>Summing up all squared deviations: <span class="math display">\[\sum_{i=1}^{n} (X_i - \bar{X})^2\]</span></li>
+<li>This sum represents the total squared deviation from the mean.</li>
+</ul>
+</section>
+<section id="calculating-the-variance" class="slide level2">
+<h2>Calculating the Variance</h2>
+<p><br></p>
+<ul>
+<li>Divide the total squared deviation by <span class="math inline">\((n-1)\)</span> (to account for the sample variance): <span class="math display">\[\text{Variance} = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2\]</span></li>
+<li>Using <span class="math inline">\((n-1)\)</span> ensures an unbiased estimate of the population variance when calculating from a sample.</li>
+</ul>
+</section>
+<section id="deriving-the-standard-deviation" class="slide level2">
+<h2>Deriving the Standard Deviation</h2>
+<p><br></p>
+<ul>
+<li>The standard deviation is the square root of the variance: <span class="math display">\[s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2}\]</span></li>
+<li>Taking the square root converts the variance back to the units of the original data.</li>
+</ul>
+</section>
+<section id="standard-deviation-simple-example" class="slide level2">
+<h2>Standard Deviation Simple Example</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
+<span id="cb8-2"><a></a>e <span class="ot">&lt;-</span> x <span class="sc">-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb8-3"><a></a>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -5 -4 -3 -2 -1  0  1  2  3  4  5</code></pre>
+</div>
+</div>
+</section>
+<section id="standard-deviation-simple-example-1" class="slide level2">
+<h2>Standard Deviation Simple Example</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
+<span id="cb10-2"><a></a>e_squared <span class="ot">&lt;-</span> e<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb10-3"><a></a>e_squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 25 16  9  4  1  0  1  4  9 16 25</code></pre>
+</div>
+</div>
+</section>
+<section id="standard-deviation-simple-example-2" class="slide level2">
+<h2>Standard Deviation Simple Example</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
+<span id="cb12-2"><a></a>sum_e_squared <span class="ot">&lt;-</span> <span class="fu">sum</span>(e_squared)</span>
+<span id="cb12-3"><a></a>sum_e_squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 110</code></pre>
+</div>
+</div>
+</section>
+<section id="standard-deviation-simple-example-3" class="slide level2">
+<h2>Standard Deviation Simple Example</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>variance <span class="ot">&lt;-</span> sum_e_squared<span class="sc">/</span>(<span class="fu">length</span>(x)<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb14-2"><a></a>variance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11</code></pre>
+</div>
+</div>
+</section>
+<section id="standard-deviation-simple-example-4" class="slide level2">
+<h2>Standard Deviation Simple Example</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>standard_dev <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(variance)</span>
+<span id="cb16-2"><a></a>standard_dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.316625</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">sd</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.316625</code></pre>
+</div>
+</div>
+</section>
+<section id="your-turn" class="slide level2">
+<h2>Your Turn!</h2>
+<p><br></p>
+<ul>
+<li>Calculate measures of spread for the <code>polyarchy</code> variable in the V-Dem data (mean, median, IQR, standard deviation)</li>
+<li>How would you interpret these measures?</li>
+<li>Try a box plot for the <code>polyarchy</code> variable</li>
+<li>Try another variable in the V-Dem data</li>
+<li>How does it compare to <code>polyarchy</code>?</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer2" minutes="5" seconds="0" update-every="1" tabindex="0" style="right:10%;bottom:10%;"></countdown-timer>
+</div>
+</div>
 </section></section>
 <section>
-<section id="zooming-out" class="title-slide slide level1 center">
-<h1>Zooming Out</h1>
+<section id="groups" class="title-slide slide level1 center">
+<h1>Groups</h1>
 
 </section>
-<section id="target-population" class="slide level2">
-<h2>Target Population</h2>
-<p>In data analysis, we are usually interested in saying something about a <strong>Target Population.</strong></p>
-<ul>
-<li class="fragment">What proportion of adult Russians support the war in Ukraine?
-<ul>
-<li class="fragment">Target population: adult Russians (age 18+)</li>
-</ul></li>
-<li class="fragment">How many US college students check social media during their classes?
-<ul>
-<li class="fragment">Target population: US college students</li>
-</ul></li>
-<li class="fragment">What percentage of M&amp;Ms are blue?
-<ul>
-<li class="fragment">Target population: all of the M&amp;Ms</li>
-</ul></li>
-</ul>
-</section>
-<section id="sample" class="slide level2">
-<h2>Sample</h2>
-<p><br></p>
-<p>In many instances, we have a <strong>Sample</strong></p>
-<ul>
-<li>We cannot talk to every Russian</li>
-<li>We cannot talk to all college students</li>
-<li>We cannot count all of the M&amp;Ms</li>
-</ul>
-</section>
-<section id="parameters-vs-statistics" class="slide level2">
-<h2>Parameters vs Statistics</h2>
+<section id="calculating-statistics-by-groups" class="slide level2">
+<h2>Calculating Statistics by groups</h2>
 <p><br></p>
 <ul>
-<li class="fragment">The <strong>parameter</strong> is the value of a calculation for the entire target population</li>
-<li class="fragment">The <strong>statistic</strong> is what we calculate on our sample
-<ul>
-<li class="fragment">We calculate a statistic in order to say something about the parameter</li>
-</ul></li>
+<li>What if we want to describe electoral democracy and see how it differs by some different variable? For example, by world region, or by year?</li>
+<li>In this case we want to combine numerical summaries with categorical variables</li>
+<li>This brings us back to bar chart</li>
 </ul>
 </section>
-<section id="inference" class="slide level2">
-<h2>Inference</h2>
+<section id="calculating-statistics-by-groups-1" class="slide level2">
+<h2>Calculating Statistics by Groups</h2>
+<ul>
+<li>Let’s calculate the mean and median of electoral democracy in each world region</li>
+<li>For this, we add the <em>group_by()</em> to our previous code</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_dem =</span> <span class="fu">mean</span>(polyarchy),</span>
+<span id="cb20-4"><a></a>            <span class="at">median_dem =</span> <span class="fu">median</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  region         mean_dem median_dem
+  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+1 Africa            0.402      0.381
+2 Asia              0.424      0.414
+3 Eastern Europe    0.535      0.568
+4 Latin America     0.605      0.683
+5 Middle East       0.230      0.207
+6 The West          0.855      0.853</code></pre>
+</div>
+</div>
+</section>
+<section id="calculating-statistics-by-groups-2" class="slide level2">
+<h2>Calculating Statistics by Groups</h2>
+<ul>
+<li>Let’s store our statistics as a new data object, <em>democracy_region</em></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a>democracy_region <span class="ot">&lt;-</span> vdem2022 <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_dem =</span> <span class="fu">mean</span>(polyarchy),</span>
+<span id="cb22-4"><a></a>            <span class="at">median_dem =</span> <span class="fu">median</span>(polyarchy))</span>
+<span id="cb22-5"><a></a></span>
+<span id="cb22-6"><a></a>democracy_region</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  region         mean_dem median_dem
+  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+1 Africa            0.402      0.381
+2 Asia              0.424      0.414
+3 Eastern Europe    0.535      0.568
+4 Latin America     0.605      0.683
+5 Middle East       0.230      0.207
+6 The West          0.855      0.853</code></pre>
+</div>
+</div>
+</section>
+<section id="visualize-using-our-bar-chart-skills" class="slide level2">
+<h2>Visualize using our Bar Chart Skills</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="fu">ggplot</span>(democracy_region, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(region, <span class="sc">-</span>mean_dem), <span class="at">y =</span> mean_dem)) <span class="sc">+</span></span>
+<span id="cb24-2"><a></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb24-3"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-4"><a></a>    <span class="at">x =</span> <span class="st">"Region"</span>, </span>
+<span id="cb24-5"><a></a>    <span class="at">y =</span> <span class="st">"Mean Polyarchy Score"</span>, </span>
+<span id="cb24-6"><a></a>    <span class="at">title =</span> <span class="st">"Democracy by region, 1990 - present"</span>, </span>
+<span id="cb24-7"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span></span>
+<span id="cb24-8"><a></a>    ) <span class="sc">+</span> </span>
+<span id="cb24-9"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="week-6.1_files/figure-revealjs/group-by-3-1.png" width="960" class="r-stretch"></section>
+<section id="numerical-variable-by-group" class="slide level2">
+<h2>Numerical Variable by Group</h2>
+<p>How should we interpret this plot?</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb25-2"><a></a><span class="co">#library(forcats)</span></span>
+<span id="cb25-3"><a></a>  <span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy, <span class="at">y =</span> region, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
+<span id="cb25-4"><a></a>    <span class="fu">geom_density_ridges</span>() <span class="sc">+</span></span>
+<span id="cb25-5"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-6"><a></a>    <span class="at">x =</span> <span class="st">"Electoral Democracy"</span>,</span>
+<span id="cb25-7"><a></a>    <span class="at">y =</span> <span class="st">"Region"</span>,</span>
+<span id="cb25-8"><a></a>    <span class="at">title =</span> <span class="st">"A Ridge Plot"</span>,</span>
+<span id="cb25-9"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span>,</span>
+<span id="cb25-10"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb25-11"><a></a>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb25-12"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="week-6.1_files/figure-revealjs/ridge-plot-1.png" width="960" class="r-stretch"></section>
+<section id="your-turn-1" class="slide level2">
+<h2>Your Turn!</h2>
 <p><br></p>
 <ul>
-<li class="fragment"><strong>Inference</strong>–The act of “making a guess” about some unknown</li>
-<li class="fragment"><strong>Statistical inference</strong>–Making a good guess about a population from a sample</li>
-<li class="fragment"><strong>Causal inference</strong>–Did X cause Y? [topic for later classes]</li>
+<li>Make a bar chart summarizing <code>polyarchy</code> or some other V-Dem variable</li>
+<li>Now try your hand at a ridge plot</li>
 </ul>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer3" minutes="5" seconds="0" update-every="1" tabindex="0" style="right:10%;bottom:10%;"></countdown-timer>
+</div>
+</div>
 
 
 </section></section>

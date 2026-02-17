@@ -1,5 +1,5 @@
 ---
-title: Sampling
+title: Describing Distributions
 date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"
@@ -18,164 +18,369 @@ execute:
   freeze: auto
 ---
 
-## Sampling
-
-::: incremental
-- **Sampling** the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population
-- Versus a **census**, which involves gathering information on every individual in the population
-- Why would you want to use a sample?
-:::
-
-Today's code is [HERE](https://www.dropbox.com/scl/fo/3u8lgap6nqtcp91gmclgd/h?rlkey=wm2ey4emths9w9585gnp9fygb&dl=0)
-
-# Sampling Activity
-
-## What proportion of all milk chocolate M&Ms are blue?
-
--   M&Ms has a precise distribution of colors that it produces in its factories
--   M&Ms are sorted into bags in factories in a fairly random process
--   Each bag represents a **sample** from the full **population** of M&Ms
-
-## Activity
-
--   Get in groups of 2. Each group will have 4-5 bags of M&Ms.
--   Keep the contents of each bag separate, and do not eat (yet!)
--   Open up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. **Write this down.** What is your best guess (your **estimate**) for the proportion of all M&Ms that are blue?
-
-## Activity
-
--   Do the same as above for the rest of your bags (you should have 4-5 **estimates** written down)
--   Draw a histogram of your estimates (by hand)
--   Add your estimates to this [Google Sheet](https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit?usp=sharing)
--   Add your estimates to the class histogram on the whiteboard
-
-## Let's Analyze the Data
-
-<br>
-
-We will use the `googlesheets4` package to pull the data into R so be sure to install it.
-
 ```{r}
-#| label: load_mm_data
-#| echo: true
-#| eval: false
+#| label: setup
+#| include: false
 
-#install.packages("googlesheets4")
-
+# Load packages 
+library(vdemdata)
 library(tidyverse)
-library(googlesheets4)
+library(countdown)
 
-gs4_deauth() # to signify no authorization required
-
-mnm_data <- read_sheet("https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0")
-
-glimpse(mnm_data)
+# Create dataset for year 2022, with country name, year, and electoral dem
+vdem2022 <- vdem |>
+  filter(year == 2022)  |>
+  select(
+    country = country_name, 
+    year, 
+    polyarchy = v2x_polyarchy, 
+    region = e_regionpol_6C 
+    ) |>
+  mutate(region = case_match(region, 
+                        1 ~ "Eastern Europe", 
+                        2 ~ "Latin America",  
+                        3 ~ "Middle East",   
+                        4 ~ "Africa", 
+                        5 ~ "The West", 
+                        6 ~ "Asia")) 
 ```
 
+# Measuring Spread
 
-## Calculate Some Summary Stats
+## Why Measure and Visualize Spread?
+
+```{r}
+#| label: spread
+
+library(patchwork)
+
+x <- tibble(x = rnorm(1000, mean = 0, 2))
+a <- ggplot(x, aes(x = x )) +
+  geom_histogram(binwidth = .5, fill = "steelblue") + theme_bw() +
+   labs(
+    x = "A made up measure", 
+    y = "Frequency", 
+    title = "A Distribution with Mean = 0"
+  ) + xlim(-20, 20)
+x <- tibble(x = rnorm(1000,mean = 0, 10))
+b <- ggplot(x, aes(x = x )) +
+  geom_histogram(binwidth = .5, fill = "steelblue") + theme_bw() +
+   labs(
+    x = "A made up measure", 
+    y = "Frequency", 
+    title = "A Distribution with Mean = 0"
+  ) + xlim(-20, 20)
+a + b
+```
+
+# IQR
+
+## What is a Range?
+
+<br>
+
+-   Range (min and max values)
+-   Not ideal b/c does not tell us much about where most of the values are located
+
+```{r}
+#| label: min-max
+#| echo: true
+
+vdem2022 |>
+  summarize(min = min(polyarchy),
+            max = max(polyarchy))
+```
+
+## Interquartile Range
+
+IQR: 25th percentile - 75th percentile
+
+```{r}
+#| echo: false
+#| fig-align: center
+
+low <- quantile(vdem2022$polyarchy, .25)
+high <- quantile(vdem2022$polyarchy, .75)
+ggplot(vdem2022, aes(x = polyarchy )) +
+  geom_histogram(binwidth = .05, fill = "steelblue") + theme_bw() +
+   labs(
+    x = "Electoral Democracy", 
+    y = "Frequency", 
+    title = "Distribution of Electoral Democracy in 2022", 
+    caption = "Source: V-Dem Institute"
+  ) + 
+  geom_vline(xintercept = low, linewidth = 2, color = "darkorange") + 
+  geom_vline(xintercept = high, linewidth = 2, color = "darkorange") 
+```
+
+## Interquartile Range
+
+- The middle 50 percent of the countries in the data lie between 0.262 and 0.747
+- The IQR (0.485) is the difference between the Q3 and Q1 values 
+
+```{r}
+#| label: iqr
+#| echo: true
+
+vdem2022 %>% 
+  summarize(IQRlow =  quantile(polyarchy, .25),
+            IQRhigh = quantile(polyarchy, .75),
+            IQRlength = IQR(polyarchy)
+          )
+```
+
+## Box Plot
+
+<br>
+
+- A box plot is a graphical representation of the distribution based on the median and quartiles
+- It is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum
+
+## Box Plot
+
+```{r}
+#| label: boxplot
+#| echo: true
+#| code-fold: true
+#| fig-align: center
+
+ggplot(vdem2022, aes(x = "", y = polyarchy)) +
+  geom_boxplot(fill = "steelblue") + 
+   labs(
+    x = "", 
+    y = "Electoral Democracy", 
+    title = "Distribution of Electoral Democracy in 2022", 
+    caption = "Source: V-Dem Institute"
+  ) +
+  theme_minimal()
+```
+
+# Standard Deviation
+
+## Measure of Spead: Standard Deviation
+
+<br>
+
+-   Can think of it as something like the "average distance" of each data point from the mean
+
+```{r echo=TRUE}
+vdem2022 |>
+  summarize(mean = mean(polyarchy),
+            stdDev = sd(polyarchy))
+```
+
+## Standard Deviation
+
+<br>
+
+- A low standard deviation indicates that the values tend to be close to the mean
+- A high standard deviation indicates that the values are spread out over a wider range
+
+## Starting with Variance
+
+<br>
+
+- Variance is a step towards calculating the standard deviation.
+- It quantifies the average squared deviation of each number from the mean of the data set.
+
+## Calculating Deviation from the Mean
+
+- First, calculate the mean ($\bar{X}$) of the dataset.
+- For each data point ($X_i$), calculate its deviation from the mean: $$e_i = X_i - \bar{X}$$
+  - Example with a mean of 5:
+    - For a data point where $(X_i = 0): (0 - 5 = -5)$
+    - For a data point where $(X_i = 10): (10 - 5 = 5)$
+
+## Squaring the Deviations
+
+- Squaring each deviation ($e_i$) to eliminate negative values: $$e_i^2 = (X_i - \bar{X})^2$$
+- Summing up all squared deviations: $$\sum_{i=1}^{n} (X_i - \bar{X})^2$$
+- This sum represents the total squared deviation from the mean.
+
+## Calculating the Variance
+
+<br>
+
+- Divide the total squared deviation by $(n-1)$ (to account for the sample variance): $$\text{Variance} = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2$$
+- Using $(n-1)$ ensures an unbiased estimate of the population variance when calculating from a sample.
+
+## Deriving the Standard Deviation
+
+<br>
+
+- The standard deviation is the square root of the variance: $$s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2}$$
+- Taking the square root converts the variance back to the units of the original data.
+
+## Standard Deviation Simple Example
 
 <br>
 
 ```{r}
-#| label: summary_stats
+#| label: std-dev-1
 #| echo: true
-#| eval: false
-
-mnm_data |>
-  summarize(
-    mean_blue = mean(proportion_blue),
-    median_blue = median(proportion_blue),
-    sd_blue = sd(proportion_blue)
-  )
+x = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+e <- x - mean(x)
+e
 ```
-## Now Let's Make a Histogram 
+
+## Standard Deviation Simple Example
 
 <br>
 
 ```{r}
-#| label: histogram
+#| label: std-dev-2
 #| echo: true
-#| eval: false
+x = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+e_squared <- e^2
+e_squared
+```
 
-ggplot(mnm_data, aes(x = proportion_blue)) +
-  geom_histogram(fill = "steelblue") +
+## Standard Deviation Simple Example
+
+<br>
+
+```{r}
+#| label: std-dev-3
+#| echo: true
+x = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+sum_e_squared <- sum(e_squared)
+sum_e_squared
+```
+
+## Standard Deviation Simple Example
+
+<br>
+
+```{r}
+#| label: std-dev-4
+#| echo: true
+variance <- sum_e_squared/(length(x)-1)
+variance
+```
+
+## Standard Deviation Simple Example
+
+<br>
+
+```{r}
+#| label: std-dev-5
+#| echo: true
+standard_dev <- sqrt(variance)
+standard_dev
+sd(x)
+```
+
+## Your Turn!
+
+<br>
+
+- Calculate measures of spread for the `polyarchy` variable in the V-Dem data (mean, median, IQR, standard deviation)
+- How would you interpret these measures?
+- Try a box plot for the `polyarchy` variable
+- Try another variable in the V-Dem data
+- How does it compare to `polyarchy`?
+
+
+```{r}
+#| label: timer2
+
+countdown(minutes = 5, 
+          id = "timer2", 
+          bottom = "10%", 
+          right = "10%")
+```
+
+# Groups
+
+## Calculating Statistics by groups
+
+<br>
+
+-   What if we want to describe electoral democracy and see how it differs by some different variable? For example, by world region, or by year?
+-   In this case we want to combine numerical summaries with categorical variables
+-   This brings us back to bar chart
+
+## Calculating Statistics by Groups
+
+-   Let's calculate the mean and median of electoral democracy in each world region
+-   For this, we add the *group_by()* to our previous code
+
+```{r}
+#| label: group-by-1
+#| echo: true
+#| code-line-numbers: "2"
+vdem2022 |>
+  group_by(region) |>
+  summarize(mean_dem = mean(polyarchy),
+            median_dem = median(polyarchy))
+```
+
+## Calculating Statistics by Groups
+
+-   Let's store our statistics as a new data object, *democracy_region*
+
+```{r}
+#| label: group-by-2
+#| echo: true
+#| code-line-numbers: "1"
+democracy_region <- vdem2022 |> 
+  group_by(region) |>
+  summarize(mean_dem = mean(polyarchy),
+            median_dem = median(polyarchy))
+
+democracy_region
+```
+
+## Visualize using our Bar Chart Skills
+
+```{r}
+#| label: group-by-3
+#| echo: true
+#| code-fold: true
+ggplot(democracy_region, aes(x = reorder(region, -mean_dem), y = mean_dem)) +
+  geom_col(fill = "steelblue") + 
   labs(
-    title = "Percentage of Blue M&Ms",
-    x = "Proportion Blue",
-    y = "Count"
-  )
+    x = "Region", 
+    y = "Mean Polyarchy Score", 
+    title = "Democracy by region, 1990 - present", 
+    caption = "Source: V-Dem Institute"
+    ) + 
+  theme_minimal()
 ```
 
-## Discuss with Neighbor 
+## Numerical Variable by Group
 
--   What is the histogram/distribution showing?
--   Based on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?
--   Why do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?
--   How do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)
+How should we interpret this plot?
+```{r}
+#| label: ridge-plot
+#| echo: true
+#| code-fold: true
+library(ggridges)
+#library(forcats)
+  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +
+    geom_density_ridges() +
+  labs(
+    x = "Electoral Democracy",
+    y = "Region",
+    title = "A Ridge Plot",
+    caption = "Source: V-Dem Institute",
+  ) +
+  scale_fill_viridis_d() +
+  theme_minimal()
+```
 
-## What did we just do?
-
-::: incremental
--   We wanted to say something about the **population** of M&Ms
--   The **parameter** we care about is the proportion of M&Ms that are blue
--   It would be impossible to conduct a **census** and to calculate the parameter
--   We took a **sample** from the population and calculated a **sample statistic**
--   **statistical inference:** act of making a guess about a **population** using information from a **sample**
-:::
-
-## What have we just done?
-
-::: incremental
--   We completed this task many times
--   This produced a **sampling distribution** of our **estimates**
--   There is a distribution of estimates because of **sampling variability** 
--   Due to random chance, one estimate from one sample can differ from another
--   These are foundational ideas for statistical inference that we are going to keep building on
-:::
-
-# Zooming Out
-
-## Target Population
-
-In data analysis, we are usually interested in saying something about a **Target Population.**
-
-::: incremental
--   What proportion of adult Russians support the war in Ukraine?
-    -   Target population: adult Russians (age 18+)
--   How many US college students check social media during their classes?
-    -   Target population: US college students
--   What percentage of M&Ms are blue?
-    -   Target population: all of the M&Ms
-:::
-
-## Sample
+## Your Turn!
 
 <br>
 
-In many instances, we have a **Sample**
+- Make a bar chart summarizing `polyarchy` or some other V-Dem variable
+- Now try your hand at a ridge plot
 
--   We cannot talk to every Russian
--   We cannot talk to all college students
--   We cannot count all of the M&Ms
+```{r}
+#| label: timer3
 
-## Parameters vs Statistics
-
-<br>
-
-::: incremental
--   The **parameter** is the value of a calculation for the entire target population
--   The **statistic** is what we calculate on our sample
-    -   We calculate a statistic in order to say something about the parameter
-:::
-
-## Inference
-
-<br>
-
-::: incremental
--   **Inference**--The act of "making a guess" about some unknown
--   **Statistical inference**--Making a good guess about a population from a sample
--   **Causal inference**--Did X cause Y? [topic for later classes]
-:::
-
+countdown(minutes = 5, 
+          id = "timer3", 
+          bottom = "10%", 
+          right = "10%")
+```
