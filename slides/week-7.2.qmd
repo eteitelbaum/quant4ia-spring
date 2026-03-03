@@ -47,6 +47,8 @@ execute:
 
 ## Résumé Experiment Example
 
+<br>
+
 Bertrand and Mullainathan studied racial discrimination in responses to job applications in Chicago and Boston. They sent 4,870 résumés, randomly assigning names associated with different racial groups.
 - Data are in `openintro` package as an object called `resume`
 - I will save as `myDat`

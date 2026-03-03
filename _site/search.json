@@ -4270,7 +4270,7 @@
     "href": "slides/week-7.2.html#résumé-experiment-example",
     "title": "Hypothesis Testing 2",
     "section": "Résumé Experiment Example",
-    "text": "Résumé Experiment Example\nBertrand and Mullainathan studied racial discrimination in responses to job applications in Chicago and Boston. They sent 4,870 résumés, randomly assigning names associated with different racial groups. - Data are in openintro package as an object called resume - I will save as myDat\n\nlibrary(openintro)\nmyDat &lt;- resume"
+    "text": "Résumé Experiment Example\n\nBertrand and Mullainathan studied racial discrimination in responses to job applications in Chicago and Boston. They sent 4,870 résumés, randomly assigning names associated with different racial groups. - Data are in openintro package as an object called resume - I will save as myDat\n\nlibrary(openintro)\nmyDat &lt;- resume"
   },
   {
     "objectID": "slides/week-7.2.html#callbacks-by-race",
@@ -4319,7 +4319,7 @@
     "href": "slides/week-7.2.html#section-5",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(lower_bound_black, lower_bound_white),\n  upper95 = c(upper_bound_black, upper_bound_white)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0747\n2 White    0.0965  0.0850  0.109"
+    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(lower_bound_black, lower_bound_white),\n  upper95 = c(upper_bound_black, upper_bound_white)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
   },
   {
     "objectID": "slides/week-7.2.html#plot",
