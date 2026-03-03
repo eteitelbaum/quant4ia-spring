@@ -4270,7 +4270,7 @@
     "href": "slides/week-7.2.html#résumé-experiment-example",
     "title": "Hypothesis Testing 2",
     "section": "Résumé Experiment Example",
-    "text": "Résumé Experiment Example\n\nBertrand and Mullainathan studied racial discrimination in responses to job applications in Chicago and Boston. They sent 4,870 résumés, randomly assigning names associated with different racial groups. - Data are in openintro package as an object called resume - I will save as myDat\n\nlibrary(openintro)\nmyDat &lt;- resume"
+    "text": "Résumé Experiment Example\n\nBertrand and Mullainathan studied racial discrimination in responses to job applications in Chicago and Boston. They sent 4,870 résumés, randomly assigning names associated with different racial groups.\n\n\nlibrary(openintro)\nmyDat &lt;- resume"
   },
   {
     "objectID": "slides/week-7.2.html#callbacks-by-race",
@@ -4305,21 +4305,21 @@
     "href": "slides/week-7.2.html#section-3",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "First, let’s make the CIs for the white applicants.\n\n\nlibrary(tidymodels)\nboot_df_white &lt;- myDat |&gt;\n  filter(race == \"white\") |&gt; \n  specify(response = received_callback) |&gt;  \n  generate(reps = 15000, type = \"bootstrap\") |&gt; \n  calculate(stat = \"mean\")\nlower_bound_white &lt;- boot_df_white |&gt; summarize(lower_bound_white = quantile(stat, 0.025)) |&gt; pull() \nupper_bound_white &lt;- boot_df_white |&gt; summarize(upper_bound_white = quantile(stat, 0.975)) |&gt; pull()"
+    "text": "First, let’s make the CIs for the white applicants.\n\n\nlibrary(tidymodels)\nboot_df_white &lt;- myDat |&gt;\n  filter(race == \"white\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")\nci_white &lt;- boot_df_white |&gt; get_ci(level = 0.95)\nci_white\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1   0.0850    0.108"
   },
   {
     "objectID": "slides/week-7.2.html#section-4",
     "href": "slides/week-7.2.html#section-4",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "Now, let’s create the CIs for black applicants.\n\n\nboot_df_black &lt;- myDat |&gt;\n  filter(race == \"black\") |&gt; \n  specify(response = received_callback) |&gt;  \n  generate(reps = 15000, type = \"bootstrap\") |&gt; \n  calculate(stat = \"mean\")\nlower_bound_black &lt;- boot_df_black |&gt; summarize(lower_bound_black = quantile(stat, 0.025)) |&gt; pull() \nupper_bound_black &lt;- boot_df_black |&gt; summarize(upper_bound_black = quantile(stat, 0.975)) |&gt; pull()"
+    "text": "Visualize the bootstrap distribution and CI for white applicants.\n\n\n\nCode\nboot_df_white |&gt;\n  visualize() +\n  shade_ci(ci_white, color = \"red\", fill = \"red\") +\n  labs(\n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-7.2.html#section-5",
     "href": "slides/week-7.2.html#section-5",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(lower_bound_black, lower_bound_white),\n  upper95 = c(upper_bound_black, upper_bound_white)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
+    "text": "Now, let’s create the CIs for black applicants.\n\n\nboot_df_black &lt;- myDat |&gt;\n  filter(race == \"black\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")\nci_black &lt;- boot_df_black |&gt; get_ci(level = 0.95)\nci_black\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1   0.0550   0.0743"
   },
   {
     "objectID": "slides/week-7.2.html#plot",
@@ -6946,5 +6946,19 @@
     "title": "Hypothesis Testing 2",
     "section": "Visualize the p-value",
     "text": "Visualize the p-value\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = teffect, direction = \"greater\")"
+  },
+  {
+    "objectID": "slides/week-7.2.html#section-6",
+    "href": "slides/week-7.2.html#section-6",
+    "title": "Hypothesis Testing 2",
+    "section": "",
+    "text": "Visualize the bootstrap distribution and CI for black applicants.\n\n\n\nCode\nboot_df_black |&gt;\n  visualize() +\n  shade_ci(ci_black, color = \"red\", fill = \"red\") +\n  labs(\n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-7.2.html#section-7",
+    "href": "slides/week-7.2.html#section-7",
+    "title": "Hypothesis Testing 2",
+    "section": "",
+    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(ci_black$lower_ci, ci_white$lower_ci),\n  upper95 = c(ci_black$upper_ci, ci_white$upper_ci)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
   }
 ]
