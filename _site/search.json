@@ -3044,7 +3044,7 @@
     "href": "assignments/homework-2.html#part-2-generate-estimates-and-95-percent-confidence-intervals-30-points",
     "title": "Assignment 2",
     "section": "Part 2: Generate Estimates and 95 Percent Confidence Intervals (30 points)",
-    "text": "Part 2: Generate Estimates and 95 Percent Confidence Intervals (30 points)\nThere are five response variables in the data. Each of these corresponds to a different outcome of interest: village decision making infrastructure (vdc), public goods (f_psch), inclusion/gender equality (role_wmn), social capital and trust (trust_own), and social conflict (no_conflict).\n\nFor each of the outcomes: use group_by() and summarize() to calculate the mean of each response variable in both treatment and control villages. (5 points)\nSelect TWO outcome variables of interest to you. For each, use tidymodels to generate 95 percent confidence intervals around these estimates. You should do this for villages in treatment and control separately. (10 points)\nStore your estimates and the upper and lower bounds of your confidence intervals for future use. Label this object estimates. (5 points)\nWrite a short paragraph that correctly interprets the confidence intervals in treatment and control groups for both outcomes you selected. Based on your confidence intervals, what is your initial conclusion about whether the program had an impact on the outcome variables you selected. (10 points)",
+    "text": "Part 2: Generate Estimates and 95 Percent Confidence Intervals (30 points)\nThe five outcome variables are: village decision making infrastructure (vdc), public goods (f_psch), gender equality (role_wmn), social capital (trust_own), and conflict (no_conflict).\n\nUse group_by() and summarize() to calculate the mean of each outcome in treatment and control villages. (5 points)\nSelect TWO outcomes of interest. For each, generate a bootstrap distribution using tidymodels and calculate 95% confidence intervals for treatment and control villages separately. (10 points)\nStore your means and CI bounds in a tibble called estimates. (5 points)\nInterpret the confidence intervals for both outcomes. Based on these, what is your initial conclusion about whether the program had an impact? (10 points)",
     "crumbs": [
       "Homework",
       "Homework 2"
@@ -3055,7 +3055,7 @@
     "href": "assignments/homework-2.html#part-3-graph-your-estimates-and-confidence-intervals-20-points",
     "title": "Assignment 2",
     "section": "Part 3: Graph your estimates and confidence intervals (20 points)",
-    "text": "Part 3: Graph your estimates and confidence intervals (20 points)\n\nFor both outcomes you chose, graph your estimate and 95 percent confidence interval in treatment and control groups. You can produce a bar plot or use geom_point, whichever you think best displays the information. This should generate 2 separate graphs, one for each outcome. For full credit, produce graphs that you could use professionally: that is, these graphs should use appropriate labels, colors, and a nice theme (15 points)\n\nBonus 2 points if you can figure out how to include all of this information on one graph!\n\nWrite a short paragraph interpreting the graphs: what do they teach us about the impact of the program on the two outcomes in treatment vs control. (5 points)",
+    "text": "Part 3: Graph your estimates and confidence intervals (20 points)\n\nUsing your estimates object, create one graph per outcome (two graphs total) showing the mean and 95% CI for treatment and control villages. Use either a bar plot or geom_point() with error bars. Graphs should be publication-ready: clear labels, appropriate colors, and a clean theme. (15 points)\n\nOptional: combine both outcomes into a single graph.\n\nIn a short paragraph, interpret the graphs: what do they tell us about the program’s impact? (5 points)",
     "crumbs": [
       "Homework",
       "Homework 2"
@@ -3066,7 +3066,7 @@
     "href": "assignments/homework-2.html#part-4-conduct-hypothesis-tests-30-points",
     "title": "Assignment 2",
     "section": "Part 4: Conduct Hypothesis Tests (30 points)",
-    "text": "Part 4: Conduct Hypothesis Tests (30 points)\nIn this section, you wil conduct hypothesis tests that assess whether the GoBifo program had an impact.\n\nFor the two outcomes you selected: Clearly state the null hypothesis and the alternative hypothesis for each test. Write these out in a list. (5 points)\nFor each outcome, calculate the treatment effect of the program: this is the mean in treatment minus the mean in control. What are the treatment effects? (5 points)\nFor each outcome, use tidymodels to conduct a hypothesis test to assess whether the treatment effects you estimate are likely to be due to chance. For each, produce the p-value. (10 points)\nSelect one outcome: make a histogram of the null distribution from your hypothesis test. Adjust the bar width as needed. Include a dotted vertical line with your estimate on the plot. Generally, what does this graph tell you about how likely your treatment effect is to be due to chance alone? (5 points)\nInterpret both p-values in language that people who know nothing about statistics might understand. For each outcome (response) variable, do you reject the null hypothesis? (5 points)",
+    "text": "Part 4: Conduct Hypothesis Tests (30 points)\nIn this section, you will conduct hypothesis tests that assess whether the GoBifo program had an impact.\n\nFor the two outcomes you selected: clearly state the null hypothesis and the alternative hypothesis for each test. Write these out in a list. (5 points)\nFor each outcome, calculate the treatment effect of the program: this is the mean in treatment minus the mean in control. What are the treatment effects? (5 points)\nFor each outcome, use tidymodels to simulate the null distribution. Use specify(), hypothesize(null = \"independence\"), generate(type = \"permute\"), and calculate() to build it. (5 points)\nFor each outcome, calculate the p-value using get_p_value() from the infer package. Be sure to set the direction argument correctly based on your alternative hypothesis (e.g. \"greater\", \"less\", or \"two-sided\"). (5 points)\nFor each outcome, visualize the null distribution using visualize() from the infer package. Add shade_p_value() to highlight the region corresponding to the p-value. (5 points)\nInterpret both p-values in language that people who know nothing about statistics might understand. For each outcome, do you reject the null hypothesis? (5 points)",
     "crumbs": [
       "Homework",
       "Homework 2"
@@ -3088,7 +3088,7 @@
     "href": "assignments/homework-2.html#extra-credit",
     "title": "Assignment 2",
     "section": "Extra Credit",
-    "text": "Extra Credit\n\nThere are three outcome variables you did not select: create visualizions that display the means and 95% confidence intervals in treatment and control groups for these three outcomes. (2 points)\nConduct hypothesis tests for each the three additional outcomes. What do you conclude from each test? (2 points)\nWrite a paragraph updating your conclusion about the impact of the program and your interpretation of all of the evidence (2 points)\nCreate a single visualization that could “tell the whole story” of the results from this study. (3 points)\n\n\n\n\n\n\n\nSubmission Instructions\n\n\n\nHead over to Blackboard and go to the Homework 2 assignment. There you will find a link that you can use to upload your project folder.\nIf you worked with a partner, only one of you should submit the project folder but both of you should still make a submission to Blackboard so that we have a submission to grade. If you have worked with someoone but still have a substantially different project, you can submit separately.\nThe person submitting the project folder should take a screen shot of the confirmation message (“Finished Uploading”) and share it with the other group members. This screen shot will be what you submit in Blackboard.\nNext, click “Create Submission” and write a statement stating whether you worked on the project independently or whether you are submitting jointly with someone else. Also note whether you used a large language model (LLM) like ChatGPT to help you with the work and which parts of the assignment you used the LLM for. It is fine to use an LLM to help with your code but you must acknowledge the use of it in your submission.\nThen, upload the screenshot you saved in the first step. Now submit the assignment.\nPlease remember to upload your entire project folder and not just the Quarto document.",
+    "text": "Extra Credit\n\nThere are three outcome variables you did not select: create visualizions that display the means and 95% confidence intervals in treatment and control groups for these three outcomes. (2 points)\nConduct hypothesis tests for each the three additional outcomes. What do you conclude from each test? (2 points)\nWrite a paragraph updating your conclusion about the impact of the program and your interpretation of all of the evidence (2 points)\nCreate a single visualization that could “tell the whole story” of the results from this study. (3 points)\n\n\n\n\n\n\n\nSubmission Instructions\n\n\n\nHead over to Blackboard and go to the Homework 2 assignment. Click “Create Submission” and write a brief statement saying that you have submitted the assignment and that all of the work is your own.\nFrom there, upload a compressed (zipped) version of your project folder including the rendered HTML file. To compress your project folder, right-click the folder and choose Compress (Mac) or Send to → Compressed (zipped) folder (Windows). Then upload the resulting .zip file.",
     "crumbs": [
       "Homework",
       "Homework 2"
@@ -4207,14 +4207,14 @@
     "href": "slides/week-7.1.html#calculate-the-p-value",
     "title": "Hypothesis Testing 1",
     "section": "Calculate the p-value",
-    "text": "Calculate the p-value\n p-value–in what % of the simulations was the simulated sample proportion at least as extreme as the observed sample proportion?\n\nnull_dist |&gt;\n  # select out the value in the null distribution that are less that 0.25\n  filter(stat &lt;= (15/60)) |&gt;\n  # calculate the proportion - (number less divided by all values in null_dist)\n  summarise(p_value = n()/nrow(null_dist))\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1   0.238"
+    "text": "Calculate the p-value\n p-value–in what % of the simulations was the simulated sample proportion at least as extreme as the observed sample proportion?\n\nnull_dist |&gt;\n  get_p_value(obs_stat = 15/60, direction = \"less\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1   0.238"
   },
   {
     "objectID": "slides/week-7.1.html#visualizing-the-p-value",
     "href": "slides/week-7.1.html#visualizing-the-p-value",
     "title": "Hypothesis Testing 1",
     "section": "Visualizing the p-value",
-    "text": "Visualizing the p-value"
+    "text": "Visualizing the p-value\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = 15/60, direction = \"less\")"
   },
   {
     "objectID": "slides/week-7.1.html#significance-level",
@@ -4319,7 +4319,7 @@
     "href": "slides/week-7.2.html#section-5",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(lower_bound_black, lower_bound_white),\n  upper95 = c(upper_bound_black, upper_bound_white)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
+    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(lower_bound_black, lower_bound_white),\n  upper95 = c(upper_bound_black, upper_bound_white)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0747\n2 White    0.0965  0.0850  0.109"
   },
   {
     "objectID": "slides/week-7.2.html#plot",
@@ -4417,7 +4417,7 @@
     "href": "slides/week-7.2.html#calculate-the-p-value",
     "title": "Hypothesis Testing 2",
     "section": "Calculate the p-value",
-    "text": "Calculate the p-value\n\n\nnull_dist |&gt;\n  filter(stat &gt; teffect) |&gt;\n  summarise(p_value = n()/nrow(null_dist)) \n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1       0"
+    "text": "Calculate the p-value\n\n\nnull_dist |&gt;\n  get_p_value(obs_stat = teffect, direction = \"greater\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1       0"
   },
   {
     "objectID": "slides/week-7.2.html#what-should-we-conclude",
@@ -6939,5 +6939,12 @@
     "title": "Sampling and Uncertainty",
     "section": "What did we just do?",
     "text": "What did we just do?\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
+  },
+  {
+    "objectID": "slides/week-7.2.html#visualize-the-p-value",
+    "href": "slides/week-7.2.html#visualize-the-p-value",
+    "title": "Hypothesis Testing 2",
+    "section": "Visualize the p-value",
+    "text": "Visualize the p-value\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = teffect, direction = \"greater\")"
   }
 ]

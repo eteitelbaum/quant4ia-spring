@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-02-09">
+  <meta name="dcterms.date" content="2026-03-02">
   <title>IAFF 6501--Spring 2024 Schedule – Hypothesis Testing 2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -208,7 +208,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">February 9, 2026</p>
+  <p class="date">March 2, 2026</p>
 </section>
 <section id="hypotheses" class="slide level2">
 <h2>Hypotheses</h2>
@@ -345,8 +345,8 @@
 <pre><code># A tibble: 2 × 4
   race  meanCalls lower95 upper95
   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1 Black    0.0645  0.0550  0.0743
-2 White    0.0965  0.0850  0.108 </code></pre>
+1 Black    0.0645  0.0550  0.0747
+2 White    0.0965  0.0850  0.109 </code></pre>
 </div>
 </div>
 </section>
@@ -529,29 +529,12 @@
 <span id="cb12-6"><a></a>            <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"black"</span>)) <span class="co"># </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="visualize" class="slide level2">
-<h2>Visualize</h2>
-
-<img data-src="week-7.2_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
-<section id="visualize-1" class="slide level2">
-<h2>Visualize</h2>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">ggplot</span>(<span class="at">data =</span> null_dist, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> stat)) <span class="sc">+</span></span>
-<span id="cb13-2"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.01</span>, <span class="at">fill =</span> <span class="st">"steelblue4"</span>) <span class="sc">+</span></span>
-<span id="cb13-3"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Null distribution + Estimate"</span>,</span>
-<span id="cb13-4"><a></a>       <span class="at">x =</span> <span class="st">"Estimated Difference under the Null"</span>) <span class="sc">+</span>     </span>
-<span id="cb13-5"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> teffect, <span class="at">linetype=</span><span class="st">"dotted"</span>, </span>
-<span id="cb13-6"><a></a>                <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
 <section id="calculate-the-p-value" class="slide level2">
 <h2>Calculate the p-value</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>null_dist <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a></a>  <span class="fu">filter</span>(stat <span class="sc">&gt;</span> teffect) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a></a>  <span class="fu">summarise</span>(<span class="at">p_value =</span> <span class="fu">n</span>()<span class="sc">/</span><span class="fu">nrow</span>(null_dist)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>null_dist <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a></a>  <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> teffect, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   p_value
@@ -560,6 +543,18 @@
 </div>
 </div>
 </section>
+<section id="visualize-the-p-value" class="slide level2">
+<h2>Visualize the p-value</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>null_dist <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb15-3"><a></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> teffect, <span class="at">direction =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="week-7.2_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
 <section id="what-should-we-conclude" class="slide level2">
 <h2>What should we conclude?</h2>
 <p><br></p>

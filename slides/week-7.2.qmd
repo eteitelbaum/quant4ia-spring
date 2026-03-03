@@ -281,49 +281,24 @@ null_dist <- myDat |>
             order = c("white", "black")) # 
 ```
 
-## Visualize
-
-```{r}
-#| echo: false
-
-ggplot(data = null_dist, mapping = aes(x = stat)) +
-  geom_histogram(binwidth = 0.01, fill = "steelblue4") +
-  labs(title = "Null distribution + Estimate",
-       x = "Estimated Difference under the Null") +     
-  geom_vline(xintercept = teffect, linetype="dotted", 
-                color = "black", size=1) + theme_bw()
-```
-
-## Visualize
-
-<br>
-
-```{r}
-#| echo: true
-#| eval: false
-
-ggplot(data = null_dist, mapping = aes(x = stat)) +
-  geom_histogram(binwidth = 0.01, fill = "steelblue4") +
-  labs(title = "Null distribution + Estimate",
-       x = "Estimated Difference under the Null") +     
-  geom_vline(xintercept = teffect, linetype="dotted", 
-                color = "black", size=1) + theme_bw()
-```
-
 ## Calculate the p-value
 
 <br>
 
 ```{r}
-#| echo: false
-
-options(scipen = 999, digits = 10) # to avoid scientific notation
+null_dist |>
+  get_p_value(obs_stat = teffect, direction = "greater")
 ```
 
+## Visualize the p-value
+
 ```{r}
+#| echo: true
+#| code-fold: true
+
 null_dist |>
-  filter(stat > teffect) |>
-  summarise(p_value = n()/nrow(null_dist)) 
+  visualize() +
+  shade_p_value(obs_stat = teffect, direction = "greater")
 ```
 
 ## What should we conclude?

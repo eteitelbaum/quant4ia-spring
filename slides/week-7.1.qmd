@@ -322,20 +322,18 @@ ggplot(data = null_dist, mapping = aes(x = stat)) +
 #| echo: true
 
 null_dist |>
-  # select out the value in the null distribution that are less that 0.25
-  filter(stat <= (15/60)) |>
-  # calculate the proportion - (number less divided by all values in null_dist)
-  summarise(p_value = n()/nrow(null_dist))
+  get_p_value(obs_stat = 15/60, direction = "less")
 ```
 
 ## Visualizing the p-value
 
-```{r echo=FALSE, out.width="50%"}
-ggplot(data = null_dist, mapping = aes(x = stat)) +
-  geom_histogram(binwidth = 0.05, fill = "steelblue4") +
-  labs(title = "Null distribution") +     
-  geom_vline(xintercept = .25, linetype="dotted", 
-                color = "black", size=1) + theme_bw()
+```{r}
+#| echo: true
+#| code-fold: true
+
+null_dist |>
+  visualize() +
+  shade_p_value(obs_stat = 15/60, direction = "less")
 ```
 
 ## "Significance" level {.smaller}

@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-02-09">
+  <meta name="dcterms.date" content="2026-03-02">
   <title>IAFF 6501--Spring 2024 Schedule – Hypothesis Testing 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -208,7 +208,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">February 9, 2026</p>
+  <p class="date">March 2, 2026</p>
 </section>
 <section>
 <section id="hypothesis-test-for-a-single-proportion" class="title-slide slide level1 center">
@@ -507,10 +507,7 @@ Null Hypothesis: point
 <p><br> <em>p-value</em>–in what % of the simulations was the simulated sample proportion at least as extreme as the observed sample proportion?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>null_dist <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a></a>  <span class="co"># select out the value in the null distribution that are less that 0.25</span></span>
-<span id="cb16-3"><a></a>  <span class="fu">filter</span>(stat <span class="sc">&lt;=</span> (<span class="dv">15</span><span class="sc">/</span><span class="dv">60</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a></a>  <span class="co"># calculate the proportion - (number less divided by all values in null_dist)</span></span>
-<span id="cb16-5"><a></a>  <span class="fu">summarise</span>(<span class="at">p_value =</span> <span class="fu">n</span>()<span class="sc">/</span><span class="fu">nrow</span>(null_dist))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-2"><a></a>  <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> <span class="dv">15</span><span class="sc">/</span><span class="dv">60</span>, <span class="at">direction =</span> <span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   p_value
@@ -521,8 +518,16 @@ Null Hypothesis: point
 </section>
 <section id="visualizing-the-p-value" class="slide level2">
 <h2>Visualizing the p-value</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>null_dist <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb18-3"><a></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> <span class="dv">15</span><span class="sc">/</span><span class="dv">60</span>, <span class="at">direction =</span> <span class="st">"less"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 
-<img data-src="week-7.1_files/figure-revealjs/unnamed-chunk-13-1.png" style="width:50.0%" class="r-stretch"></section>
+</div>
+<img data-src="week-7.1_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
 <section id="significance-level" class="slide level2 smaller">
 <h2>“Significance” level</h2>
 <p><br></p>
