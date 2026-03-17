@@ -1503,14 +1503,14 @@
     "href": "slides/week-10.1.html#section",
     "title": "Linear Regression",
     "section": "",
-    "text": "Step 1: Specify model\n\n\nlinear_reg()"
+    "text": "Fit model using base R lm() with formula syntax\n\n\nmod_fit &lt;- lm(lib_dem ~ log_wealth, data = modelData)"
   },
   {
     "objectID": "slides/week-10.1.html#section-1",
     "href": "slides/week-10.1.html#section-1",
     "title": "Linear Regression",
     "section": "",
-    "text": "Step 2: Set model fitting engine\n\n\nlinear_reg() |&gt;\n  set_engine(\"lm\") # lm: linear model"
+    "text": "View results with summary()\n\n\\[\\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\\]\n\nsummary(mod_fit)\n\n\nCall:\nlm(formula = lib_dem ~ log_wealth, data = modelData)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.58804 -0.15009  0.03924  0.18502  0.40243 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 0.008895   0.047694   0.186    0.852    \nlog_wealth  0.129689   0.014524   8.929 6.35e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.2178 on 172 degrees of freedom\n  (5 observations deleted due to missingness)\nMultiple R-squared:  0.3167,    Adjusted R-squared:  0.3128 \nF-statistic: 79.73 on 1 and 172 DF,  p-value: 6.353e-16"
   },
   {
     "objectID": "slides/week-10.1.html#section-2",
@@ -1685,7 +1685,7 @@
     "href": "slides/week-10.1.html#your-turn-1",
     "title": "Linear Regression",
     "section": "Your Turn",
-    "text": "Your Turn\n\nAre democracies less corrupt?\n\n\n\nFilter the V-Dem data to only include the year 2019\nMake a scatterplot to visualize the relationship between democracy (X) and corruption (Y) (use the v2x_libdem variable for democracy)\nFit a linear model\nInterpret results for the slope and intercept\nFor a country with the average (mean) level of democracy, what is the predicted level of corruption?\n\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn\n\nAre democracies less corrupt?\n\n\n\nFilter the V-Dem data to only include the year 2019\nMake a scatterplot to visualize the relationship between democracy (X) and corruption (Y) (use the v2x_libdem variable for democracy)\nFit a linear model\nInterpret results for the slope and intercept\nFor a country with the average (mean) level of democracy, what is the predicted level of corruption?"
   },
   {
     "objectID": "slides/week-10.1.html#create-your-own-model",

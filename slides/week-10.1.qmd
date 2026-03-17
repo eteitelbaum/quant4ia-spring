@@ -23,7 +23,6 @@ execute:
 #| label: setup
 
 library(tidyverse)
-library(tidymodels)
 library(vdemdata)
 ```
 
@@ -60,78 +59,38 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   theme_bw()
 ```
 
-# Estimate Model using Tidymodels
+# Estimate Model
 
-## 
-
-<br>
-
-Step 1: Specify model
+##
 
 <br>
 
-```{r}
-#| label: specify-model
-#| echo: true
-#| eval: false
-
-linear_reg()
-```
-
-## 
+Fit model using base R `lm()` with **formula syntax**
 
 <br>
-
-Step 2: Set model fitting *engine*
-
-<br>
-
-```{r}
-#| label: set-engine
-#| echo: true
-#| eval: false
-
-linear_reg() |>
-  set_engine("lm") # lm: linear model
-```
-
-## 
-
-<br>
-
-Step 3: Fit model & estimate parameters
-
-<bt>
-
-... using **formula syntax**
 
 ```{r}
 #| label: fit-model
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(lib_dem ~ log_wealth, data = modelData) 
+mod_fit <- lm(lib_dem ~ log_wealth, data = modelData)
 ```
 
-## 
+##
 
 <br>
 
-Step 4: Tidy things up...
+View results with `summary()`
 
 <br>
 
 $$\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}$$
 
 ```{r}
-#| label: tidy-model
+#| label: model-summary
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(lib_dem ~ log_wealth, data = modelData) |>
-  tidy()
+summary(mod_fit)
 ```
 
 
@@ -206,18 +165,20 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
 
 
 ```{r}
-#| label: best-line3 
+#| label: best-line3
 
-mod_fit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(lib_dem ~ log_wealth, data = modelData)
+mod_fit <- lm(lib_dem ~ log_wealth, data = modelData)
 
-fit_tidy <- tidy(mod_fit$fit) 
-fit_aug  <- augment(mod_fit$fit) %>%
+a <- round(coef(mod_fit)[1], 2)
+b <- round(coef(mod_fit)[2], 2)
+
+fit_aug <- data.frame(
+  log_wealth = mod_fit$model$log_wealth,
+  lib_dem    = mod_fit$model$lib_dem,
+  .fitted    = fitted(mod_fit),
+  .resid     = residuals(mod_fit)
+) |>
   mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
-
-a <- round(fit_tidy$estimate[1], 2)
-b <- round(fit_tidy$estimate[2], 2)
 
 ggplot(data = fit_aug) +
   geom_point(aes(x = log_wealth, y = lib_dem, color = res_cat)) +

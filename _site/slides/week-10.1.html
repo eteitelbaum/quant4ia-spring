@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-02-09">
+  <meta name="dcterms.date" content="2026-03-17">
   <title>IAFF 6501--Spring 2024 Schedule – Linear Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -190,8 +190,8 @@
       margin-right: 0; 
     }
   </style>
-  <link href="../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
-  <script src="../site_libs/countdown-0.4.0/countdown.js"></script>
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
 <meta property="og:title" content="Linear Regression – IAFF 6501–Spring 2024 Schedule">
 <meta property="og:site_name" content="IAFF 6501--Spring 2024 Schedule">
 <meta name="twitter:title" content="Linear Regression – IAFF 6501–Spring 2024 Schedule">
@@ -207,7 +207,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">February 9, 2026</p>
+  <p class="date">March 17, 2026</p>
 </section>
 <section id="linear-model-with-single-predictor" class="slide level2">
 <h2>Linear Model with Single Predictor</h2>
@@ -221,69 +221,47 @@
 
 <img data-src="week-10.1_files/figure-revealjs/model-data-1.png" width="960" class="r-stretch"></section>
 <section>
-<section id="estimate-model-using-tidymodels" class="title-slide slide level1 center">
-<h1>Estimate Model using Tidymodels</h1>
+<section id="estimate-model" class="title-slide slide level1 center">
+<h1>Estimate Model</h1>
 
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
 <p><br></p>
-<p>Step 1: Specify model</p>
+<p>Fit model using base R <code>lm()</code> with <strong>formula syntax</strong></p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">linear_reg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>mod_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(lib_dem <span class="sc">~</span> log_wealth, <span class="at">data =</span> modelData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="section-1" class="slide level2">
 <h2></h2>
 <p><br></p>
-<p>Step 2: Set model fitting <em>engine</em></p>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="co"># lm: linear model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="section-2" class="slide level2">
-<h2></h2>
-<p><br></p>
-<p>Step 3: Fit model &amp; estimate parameters</p>
-<p><bt></bt></p>
-<p>… using <strong>formula syntax</strong></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">fit</span>(lib_dem <span class="sc">~</span> log_wealth, <span class="at">data =</span> modelData) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>parsnip model object
-
-
-Call:
-stats::lm(formula = lib_dem ~ log_wealth, data = data)
-
-Coefficients:
-(Intercept)   log_wealth  
-     0.1327       0.1197  </code></pre>
-</div>
-</div>
-</section>
-<section id="section-3" class="slide level2">
-<h2></h2>
-<p><br></p>
-<p>Step 4: Tidy things up…</p>
+<p>View results with <code>summary()</code></p>
 <p><br></p>
 <p><span class="math display">\[\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">linear_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a></a>  <span class="fu">fit</span>(lib_dem <span class="sc">~</span> log_wealth, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a></a>  <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">summary</span>(mod_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term        estimate std.error statistic  p.value
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)    0.133    0.0380      3.49 6.04e- 4
-2 log_wealth     0.120    0.0147      8.16 6.97e-14</code></pre>
+<pre><code>
+Call:
+lm(formula = lib_dem ~ log_wealth, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.58804 -0.15009  0.03924  0.18502  0.40243 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 0.008895   0.047694   0.186    0.852    
+log_wealth  0.129689   0.014524   8.929 6.35e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2178 on 172 degrees of freedom
+  (5 observations deleted due to missingness)
+Multiple R-squared:  0.3167,    Adjusted R-squared:  0.3128 
+F-statistic: 79.73 on 1 and 172 DF,  p-value: 6.353e-16</code></pre>
 </div>
 </div>
 </section>
@@ -368,7 +346,7 @@ Coefficients:
 <p>What is sum of squared residuals for <span class="math inline">\(y = 0 + 0*X\)</span>?</p>
 
 <img data-src="week-10.1_files/figure-revealjs/best-line8-1.png" width="960" class="r-stretch"><div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>(<span class="dv">1-0</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2-0</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3-0</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>(<span class="dv">1-0</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2-0</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3-0</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 14</code></pre>
 </div>
@@ -384,7 +362,7 @@ Coefficients:
 <p>What is sum of squared residuals for <span class="math inline">\(y = 0 + 2*X\)</span>?</p>
 
 <img data-src="week-10.1_files/figure-revealjs/best-line11-1.png" width="960" class="r-stretch"><div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>(<span class="dv">1-2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2-4</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3-6</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>(<span class="dv">1-2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2-4</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3-6</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 14</code></pre>
 </div>
@@ -400,7 +378,7 @@ Coefficients:
 <p>What is sum of squared residuals for <span class="math inline">\(y = 0 + -1*X\)</span>?</p>
 
 <img data-src="week-10.1_files/figure-revealjs/best-line14-1.png" width="960" class="r-stretch"><div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">+</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3</span><span class="sc">+</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">+</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3</span><span class="sc">+</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 56</code></pre>
 </div>
@@ -467,10 +445,7 @@ Coefficients:
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div class="countdown" id="timer1" data-update-every="1" tabindex="0" style="right:10%;bottom:5%;">
-<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+<countdown-timer class="countdown" id="timer1" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:10%;bottom:5%;--countdown-color-border:#fff;--countdown-color-text:#fff;--countdown-color-running-background:#42affa;--countdown-color-running-text:black;--countdown-color-finished-background:#E5D19D;--countdown-color-finished-text:#00264A;"></countdown-timer>
 </div>
 </div>
 </section>
