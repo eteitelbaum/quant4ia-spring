@@ -267,14 +267,14 @@
     "href": "modules/module-4.11.html#explore-the-data-with-kableextra",
     "title": "Module 4.1",
     "section": "Explore the data with kableExtra",
-    "text": "Explore the data with kableExtra\n\nNow let’s use some dplyr slice functions and kableExtra to subset and explore the data. First let’s see which are the wealthiest states. To do this, we can apply slice_max() to identify the states with the highest incomes among the top 5 percent of wage earners. We will save that list as an object called top_10 and then call kable() to view it.\n\nlibrary(kableExtra)\n\ntop_10 &lt;- quintiles |&gt;\n  slice_max(top5, n = 10)\n\nkable(top_10)\n\n\n\nname\nq1\nq2\nq3\nq4\nq5\ntop5\n\n\n\nDistrict of Columbia\n12971\n51060\n94478\n157803\n375792\n670768\n\n\nConnecticut\n17417\n48870\n84042\n133488\n319533\n602707\n\n\nNew York\n14054\n42220\n75647\n123318\n302676\n574063\n\n\nNew Jersey\n18458\n52339\n90337\n142858\n319140\n562886\n\n\nMassachusetts\n16812\n50519\n89602\n142491\n316447\n558616\n\n\nCalifornia\n17433\n49234\n84658\n134560\n309857\n555007\n\n\nMaryland\n19946\n55165\n91725\n140353\n293979\n503597\n\n\nWashington\n19367\n50803\n82817\n127003\n277165\n487950\n\n\nVirginia\n17922\n48359\n81072\n127411\n280299\n486006\n\n\nIllinois\n15102\n42688\n72900\n114531\n258373\n466713\n\n\n\n\n\nNow let’s do the same thing but searching for the poorest states instead. We will use the slice_min() function to identify the states with the lowest incomes in the first quintile of earners.\n\nbottom_10 &lt;- quintiles |&gt;\n  slice_min(q1, n = 10)\n\nkable(bottom_10)\n\n\n\nname\nq1\nq2\nq3\nq4\nq5\ntop5\n\n\n\nPuerto Rico\n2906\n12144\n22163\n38397\n99043\n187234\n\n\nMississippi\n10096\n27963\n49418\n80125\n175581\n308523\n\n\nLouisiana\n10371\n29781\n53925\n89536\n201514\n357026\n\n\nNew Mexico\n11058\n31274\n54295\n86905\n188282\n323568\n\n\nWest Virginia\n11120\n29606\n51038\n81393\n174019\n299882\n\n\nAlabama\n11602\n31928\n55270\n88640\n193311\n336788\n\n\nKentucky\n11846\n32616\n55838\n88089\n194168\n350411\n\n\nArkansas\n12076\n31051\n52280\n82811\n188510\n344470\n\n\nSouth Carolina\n12680\n34881\n58665\n92118\n207367\n374427\n\n\nDistrict of Columbia\n12971\n51060\n94478\n157803\n375792\n670768\n\n\n\n\n\nOK now let’s make a table with a selection of states that reflects the full range of household incomes. So first, we will use slice_min() and slice_max() without arguments to select the state with the poorest households in q1 and the state with the wealthiest households in top5. The we will use slice_sample() to take a random sample of five additional states.\nWe will store these selections in three objects and then combine them into a single data frame called states using the dplyr function bind_rows. bind_rows() appends data frames with different observations for the same set of columns. You can think of its a kind of “verticle merging” of data frames.\nAfter we have done the append, we can view the new data by calling kable(states).\n\n# lowest \nstate_min &lt;- quintiles |&gt; \n  slice_min(q1) \n\n# highest\nstate_max &lt;- quintiles |&gt; \n  slice_max(top5) \n\n# randomly select five more\nfive_more &lt;- quintiles |&gt;\n   slice_sample(n = 5) \n\nstates &lt;- bind_rows(state_min, state_max, five_more) |&gt;\n  arrange(desc(top5))\n\nkable(states)\n\n\n\nname\nq1\nq2\nq3\nq4\nq5\ntop5\n\n\n\nDistrict of Columbia\n12971\n51060\n94478\n157803\n375792\n670768\n\n\nNew Hampshire\n20203\n51363\n83876\n126230\n258632\n440829\n\n\nTexas\n15033\n40532\n67928\n107319\n239765\n427006\n\n\nArizona\n15486\n40774\n66384\n102299\n223521\n395620\n\n\nSouth Dakota\n16002\n39619\n64234\n95810\n200212\n358060\n\n\nIndiana\n14748\n38052\n62211\n94655\n198848\n347661\n\n\nPuerto Rico\n2906\n12144\n22163\n38397\n99043\n187234"
+    "text": "Explore the data with kableExtra\n\nNow let’s use some dplyr slice functions and kableExtra to subset and explore the data. First let’s see which are the wealthiest states. To do this, we can apply slice_max() to identify the states with the highest incomes among the top 5 percent of wage earners. We will save that list as an object called top_10 and then call kable() to view it.\n\nlibrary(kableExtra)\n\ntop_10 &lt;- quintiles |&gt;\n  slice_max(top5, n = 10)\n\nkable(top_10)\n\n\n\nname\nq1\nq2\nq3\nq4\nq5\ntop5\n\n\n\nDistrict of Columbia\n12971\n51060\n94478\n157803\n375792\n670768\n\n\nConnecticut\n17417\n48870\n84042\n133488\n319533\n602707\n\n\nNew York\n14054\n42220\n75647\n123318\n302676\n574063\n\n\nNew Jersey\n18458\n52339\n90337\n142858\n319140\n562886\n\n\nMassachusetts\n16812\n50519\n89602\n142491\n316447\n558616\n\n\nCalifornia\n17433\n49234\n84658\n134560\n309857\n555007\n\n\nMaryland\n19946\n55165\n91725\n140353\n293979\n503597\n\n\nWashington\n19367\n50803\n82817\n127003\n277165\n487950\n\n\nVirginia\n17922\n48359\n81072\n127411\n280299\n486006\n\n\nIllinois\n15102\n42688\n72900\n114531\n258373\n466713\n\n\n\n\n\nNow let’s do the same thing but searching for the poorest states instead. We will use the slice_min() function to identify the states with the lowest incomes in the first quintile of earners.\n\nbottom_10 &lt;- quintiles |&gt;\n  slice_min(q1, n = 10)\n\nkable(bottom_10)\n\n\n\nname\nq1\nq2\nq3\nq4\nq5\ntop5\n\n\n\nPuerto Rico\n2906\n12144\n22163\n38397\n99043\n187234\n\n\nMississippi\n10096\n27963\n49418\n80125\n175581\n308523\n\n\nLouisiana\n10371\n29781\n53925\n89536\n201514\n357026\n\n\nNew Mexico\n11058\n31274\n54295\n86905\n188282\n323568\n\n\nWest Virginia\n11120\n29606\n51038\n81393\n174019\n299882\n\n\nAlabama\n11602\n31928\n55270\n88640\n193311\n336788\n\n\nKentucky\n11846\n32616\n55838\n88089\n194168\n350411\n\n\nArkansas\n12076\n31051\n52280\n82811\n188510\n344470\n\n\nSouth Carolina\n12680\n34881\n58665\n92118\n207367\n374427\n\n\nDistrict of Columbia\n12971\n51060\n94478\n157803\n375792\n670768\n\n\n\n\n\nOK now let’s make a table with a selection of states that reflects the full range of household incomes. So first, we will use slice_min() and slice_max() without arguments to select the state with the poorest households in q1 and the state with the wealthiest households in top5. The we will use slice_sample() to take a random sample of five additional states.\nWe will store these selections in three objects and then combine them into a single data frame called states using the dplyr function bind_rows. bind_rows() appends data frames with different observations for the same set of columns. You can think of its a kind of “verticle merging” of data frames.\nAfter we have done the append, we can view the new data by calling kable(states).\n\n# lowest \nstate_min &lt;- quintiles |&gt; \n  slice_min(q1) \n\n# highest\nstate_max &lt;- quintiles |&gt; \n  slice_max(top5) \n\n# randomly select five more\nfive_more &lt;- quintiles |&gt;\n   slice_sample(n = 5) \n\nstates &lt;- bind_rows(state_min, state_max, five_more) |&gt;\n  arrange(desc(top5))\n\nkable(states)\n\n\n\nname\nq1\nq2\nq3\nq4\nq5\ntop5\n\n\n\nDistrict of Columbia\n12971\n51060\n94478\n157803\n375792\n670768\n\n\nNew Jersey\n18458\n52339\n90337\n142858\n319140\n562886\n\n\nGeorgia\n14139\n38707\n65443\n102914\n234209\n422018\n\n\nOregon\n16014\n42554\n70418\n108483\n232703\n404468\n\n\nNorth Dakota\n15507\n41406\n68558\n104602\n217143\n380261\n\n\nMichigan\n14460\n38184\n63466\n98543\n213981\n376426\n\n\nPuerto Rico\n2906\n12144\n22163\n38397\n99043\n187234"
   },
   {
     "objectID": "modules/module-4.11.html#display-the-data-with-a-gt-table",
     "href": "modules/module-4.11.html#display-the-data-with-a-gt-table",
     "title": "Module 4.1",
     "section": "Display the data with a gt table",
-    "text": "Display the data with a gt table\n\nNow that we have some good data for a table, let’s make a really beautiful table with the gt package. “gt” stands for “grammar of tables.” So just as we talked about a “grammar of graphics” when we were studying plots, we can talk about the “grammar of tables” and break a table down into its component parts.\ngt envisions six main parts of a table that can be customized in various ways. The table header includes the title and possibly a subtitle. Next, we have the stub section that contains our row labels and, above that, a stubhead label, which we could use to provide more information about what is in the rows. Then, we have column labels that tell us about what is in each column and the table body which contains the actual data that we want to present. Finally, we have the table footer, which would contain any notes that we have about information contained in the table as well as information about sources. Check out the gt function reference to get a sense of all the customizations available.\nLet’s go ahead and start out by making a basic gt table with a title, subtitle, column labels, source note and format the numbers as dollar figures.\nMake a good gt table\n\nlibrary(gt)\n\ngoodtable &lt;- gt(states) |&gt; \n  tab_header(\n    title = \"Mean Household Income of Quintiles, 2021\",\n    subtitle = \"Seven Representative U.S. States\"\n  ) |&gt; \n  cols_label(\n    name = \"\",\n    q1 = \"lowest\",\n    q2 = \"second\",\n    q3 = \"third\",\n    q4 = \"fourth\",\n    q5 = \"highest\",\n    top5 = \"top 5%\"\n  ) |&gt; \n  fmt_currency(\n    columns = c(q1:top5),\n    currency = \"USD\", \n    use_subunits = FALSE\n  ) |&gt;\n  # note that you can use markdown (md) to format the source note for html documents\n  tab_source_note(source_note = md(\"**Source**: US Census Bureau, American Community Survey\"))\n\ngoodtable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Hampshire\n$20,203\n$51,363\n$83,876\n$126,230\n$258,632\n$440,829\n\n\nTexas\n$15,033\n$40,532\n$67,928\n$107,319\n$239,765\n$427,006\n\n\nArizona\n$15,486\n$40,774\n$66,384\n$102,299\n$223,521\n$395,620\n\n\nSouth Dakota\n$16,002\n$39,619\n$64,234\n$95,810\n$200,212\n$358,060\n\n\nIndiana\n$14,748\n$38,052\n$62,211\n$94,655\n$198,848\n$347,661\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nChange column width\nNow let’s add some further customization. One thing to pay attention to is the column width. Too narrow of columns can make it difficult to read the information, while too wide of columns can cause the table not to fit on the page. We can adjust the column width of our table with the cols_width() function.\n\nvgoodtable &lt;- goodtable |&gt;\n  cols_width(c(q1:top5) ~ px(90))\n\nvgoodtable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Hampshire\n$20,203\n$51,363\n$83,876\n$126,230\n$258,632\n$440,829\n\n\nTexas\n$15,033\n$40,532\n$67,928\n$107,319\n$239,765\n$427,006\n\n\nArizona\n$15,486\n$40,774\n$66,384\n$102,299\n$223,521\n$395,620\n\n\nSouth Dakota\n$16,002\n$39,619\n$64,234\n$95,810\n$200,212\n$358,060\n\n\nIndiana\n$14,748\n$38,052\n$62,211\n$94,655\n$198,848\n$347,661\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nChange font\nNext we want to make sure that the fonts that we use are legible and accessible, just like we did for our charts. We can do this with opt_table_font().\n\ngreattable &lt;- vgoodtable |&gt;\n  opt_table_font(font = \"verdana\")\n\ngreattable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Hampshire\n$20,203\n$51,363\n$83,876\n$126,230\n$258,632\n$440,829\n\n\nTexas\n$15,033\n$40,532\n$67,928\n$107,319\n$239,765\n$427,006\n\n\nArizona\n$15,486\n$40,774\n$66,384\n$102,299\n$223,521\n$395,620\n\n\nSouth Dakota\n$16,002\n$39,619\n$64,234\n$95,810\n$200,212\n$358,060\n\n\nIndiana\n$14,748\n$38,052\n$62,211\n$94,655\n$198,848\n$347,661\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nCenter\nThen we want to check to make sure that information is aligned properly in the table. We can use right, left or center justify our text, depending on its purpose, by calling cols_align().\n\nvgreattable &lt;- greattable |&gt;\n  cols_align(\n  align = \"center\",\n  columns = q1:top5\n)\n\nvgreattable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Hampshire\n$20,203\n$51,363\n$83,876\n$126,230\n$258,632\n$440,829\n\n\nTexas\n$15,033\n$40,532\n$67,928\n$107,319\n$239,765\n$427,006\n\n\nArizona\n$15,486\n$40,774\n$66,384\n$102,299\n$223,521\n$395,620\n\n\nSouth Dakota\n$16,002\n$39,619\n$64,234\n$95,810\n$200,212\n$358,060\n\n\nIndiana\n$14,748\n$38,052\n$62,211\n$94,655\n$198,848\n$347,661\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nAdd borders and lines\nFinally, we want to think about how to use borders and lines to separate and identify different elements of the table using tab_options() like this.\n\nawesometable &lt;- vgreattable |&gt;\n  tab_options(\n    table.border.top.color = \"black\", \n    table.border.bottom.color = \"black\",\n    heading.border.bottom.color = \"black\", \n    column_labels.border.bottom.color = \"black\", \n    table_body.border.bottom.color = \"black\"\n  )\n\nawesometable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Hampshire\n$20,203\n$51,363\n$83,876\n$126,230\n$258,632\n$440,829\n\n\nTexas\n$15,033\n$40,532\n$67,928\n$107,319\n$239,765\n$427,006\n\n\nArizona\n$15,486\n$40,774\n$66,384\n$102,299\n$223,521\n$395,620\n\n\nSouth Dakota\n$16,002\n$39,619\n$64,234\n$95,810\n$200,212\n$358,060\n\n\nIndiana\n$14,748\n$38,052\n$62,211\n$94,655\n$198,848\n$347,661\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nExport your table\nNow try exporting your table as .png file with the gtsave() function.\n\ngtsave(awesometable, \"awesometable.png\")"
+    "text": "Display the data with a gt table\n\nNow that we have some good data for a table, let’s make a really beautiful table with the gt package. “gt” stands for “grammar of tables.” So just as we talked about a “grammar of graphics” when we were studying plots, we can talk about the “grammar of tables” and break a table down into its component parts.\ngt envisions six main parts of a table that can be customized in various ways. The table header includes the title and possibly a subtitle. Next, we have the stub section that contains our row labels and, above that, a stubhead label, which we could use to provide more information about what is in the rows. Then, we have column labels that tell us about what is in each column and the table body which contains the actual data that we want to present. Finally, we have the table footer, which would contain any notes that we have about information contained in the table as well as information about sources. Check out the gt function reference to get a sense of all the customizations available.\nLet’s go ahead and start out by making a basic gt table with a title, subtitle, column labels, source note and format the numbers as dollar figures.\nMake a good gt table\n\nlibrary(gt)\n\ngoodtable &lt;- gt(states) |&gt; \n  tab_header(\n    title = \"Mean Household Income of Quintiles, 2021\",\n    subtitle = \"Seven Representative U.S. States\"\n  ) |&gt; \n  cols_label(\n    name = \"\",\n    q1 = \"lowest\",\n    q2 = \"second\",\n    q3 = \"third\",\n    q4 = \"fourth\",\n    q5 = \"highest\",\n    top5 = \"top 5%\"\n  ) |&gt; \n  fmt_currency(\n    columns = c(q1:top5),\n    currency = \"USD\", \n    use_subunits = FALSE\n  ) |&gt;\n  # note that you can use markdown (md) to format the source note for html documents\n  tab_source_note(source_note = md(\"**Source**: US Census Bureau, American Community Survey\"))\n\ngoodtable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Jersey\n$18,458\n$52,339\n$90,337\n$142,858\n$319,140\n$562,886\n\n\nGeorgia\n$14,139\n$38,707\n$65,443\n$102,914\n$234,209\n$422,018\n\n\nOregon\n$16,014\n$42,554\n$70,418\n$108,483\n$232,703\n$404,468\n\n\nNorth Dakota\n$15,507\n$41,406\n$68,558\n$104,602\n$217,143\n$380,261\n\n\nMichigan\n$14,460\n$38,184\n$63,466\n$98,543\n$213,981\n$376,426\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nChange column width\nNow let’s add some further customization. One thing to pay attention to is the column width. Too narrow of columns can make it difficult to read the information, while too wide of columns can cause the table not to fit on the page. We can adjust the column width of our table with the cols_width() function.\n\nvgoodtable &lt;- goodtable |&gt;\n  cols_width(c(q1:top5) ~ px(90))\n\nvgoodtable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Jersey\n$18,458\n$52,339\n$90,337\n$142,858\n$319,140\n$562,886\n\n\nGeorgia\n$14,139\n$38,707\n$65,443\n$102,914\n$234,209\n$422,018\n\n\nOregon\n$16,014\n$42,554\n$70,418\n$108,483\n$232,703\n$404,468\n\n\nNorth Dakota\n$15,507\n$41,406\n$68,558\n$104,602\n$217,143\n$380,261\n\n\nMichigan\n$14,460\n$38,184\n$63,466\n$98,543\n$213,981\n$376,426\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nChange font\nNext we want to make sure that the fonts that we use are legible and accessible, just like we did for our charts. We can do this with opt_table_font().\n\ngreattable &lt;- vgoodtable |&gt;\n  opt_table_font(font = \"verdana\")\n\ngreattable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Jersey\n$18,458\n$52,339\n$90,337\n$142,858\n$319,140\n$562,886\n\n\nGeorgia\n$14,139\n$38,707\n$65,443\n$102,914\n$234,209\n$422,018\n\n\nOregon\n$16,014\n$42,554\n$70,418\n$108,483\n$232,703\n$404,468\n\n\nNorth Dakota\n$15,507\n$41,406\n$68,558\n$104,602\n$217,143\n$380,261\n\n\nMichigan\n$14,460\n$38,184\n$63,466\n$98,543\n$213,981\n$376,426\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nCenter\nThen we want to check to make sure that information is aligned properly in the table. We can use right, left or center justify our text, depending on its purpose, by calling cols_align().\n\nvgreattable &lt;- greattable |&gt;\n  cols_align(\n  align = \"center\",\n  columns = q1:top5\n)\n\nvgreattable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Jersey\n$18,458\n$52,339\n$90,337\n$142,858\n$319,140\n$562,886\n\n\nGeorgia\n$14,139\n$38,707\n$65,443\n$102,914\n$234,209\n$422,018\n\n\nOregon\n$16,014\n$42,554\n$70,418\n$108,483\n$232,703\n$404,468\n\n\nNorth Dakota\n$15,507\n$41,406\n$68,558\n$104,602\n$217,143\n$380,261\n\n\nMichigan\n$14,460\n$38,184\n$63,466\n$98,543\n$213,981\n$376,426\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nAdd borders and lines\nFinally, we want to think about how to use borders and lines to separate and identify different elements of the table using tab_options() like this.\n\nawesometable &lt;- vgreattable |&gt;\n  tab_options(\n    table.border.top.color = \"black\", \n    table.border.bottom.color = \"black\",\n    heading.border.bottom.color = \"black\", \n    column_labels.border.bottom.color = \"black\", \n    table_body.border.bottom.color = \"black\"\n  )\n\nawesometable\n\n\n\n\n\n\nMean Household Income of Quintiles, 2021\n\n\nSeven Representative U.S. States\n\n\n\nlowest\nsecond\nthird\nfourth\nhighest\ntop 5%\n\n\n\n\nDistrict of Columbia\n$12,971\n$51,060\n$94,478\n$157,803\n$375,792\n$670,768\n\n\nNew Jersey\n$18,458\n$52,339\n$90,337\n$142,858\n$319,140\n$562,886\n\n\nGeorgia\n$14,139\n$38,707\n$65,443\n$102,914\n$234,209\n$422,018\n\n\nOregon\n$16,014\n$42,554\n$70,418\n$108,483\n$232,703\n$404,468\n\n\nNorth Dakota\n$15,507\n$41,406\n$68,558\n$104,602\n$217,143\n$380,261\n\n\nMichigan\n$14,460\n$38,184\n$63,466\n$98,543\n$213,981\n$376,426\n\n\nPuerto Rico\n$2,906\n$12,144\n$22,163\n$38,397\n$99,043\n$187,234\n\n\n\n\nSource: US Census Bureau, American Community Survey\n\n\n\n\n\nExport your table\nNow try exporting your table as .png file with the gtsave() function.\n\ngtsave(awesometable, \"awesometable.png\")"
   },
   {
     "objectID": "modules/module-4.11.html#when-a-plot-is-better-than-a-table",
@@ -764,179 +764,102 @@
     ]
   },
   {
-    "objectID": "slides/week-6.1.html#why-measure-and-visualize-spread",
-    "href": "slides/week-6.1.html#why-measure-and-visualize-spread",
-    "title": "Describing Distributions",
-    "section": "Why Measure and Visualize Spread?",
-    "text": "Why Measure and Visualize Spread?"
+    "objectID": "slides/week-6.1.html#sampling",
+    "href": "slides/week-6.1.html#sampling",
+    "title": "Sampling",
+    "section": "Sampling",
+    "text": "Sampling\n\nSampling the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population\nVersus a census, which involves gathering information on every individual in the population\nWhy would you want to use a sample?\n\nToday’s code is HERE"
   },
   {
-    "objectID": "slides/week-6.1.html#what-is-a-range",
-    "href": "slides/week-6.1.html#what-is-a-range",
-    "title": "Describing Distributions",
-    "section": "What is a Range?",
-    "text": "What is a Range?\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.918"
+    "objectID": "slides/week-6.1.html#what-proportion-of-all-milk-chocolate-mms-are-blue",
+    "href": "slides/week-6.1.html#what-proportion-of-all-milk-chocolate-mms-are-blue",
+    "title": "Sampling",
+    "section": "What proportion of all milk chocolate M&Ms are blue?",
+    "text": "What proportion of all milk chocolate M&Ms are blue?\n\nM&Ms has a precise distribution of colors that it produces in its factories\nM&Ms are sorted into bags in factories in a fairly random process\nEach bag represents a sample from the full population of M&Ms"
   },
   {
-    "objectID": "slides/week-6.1.html#interquartile-range",
-    "href": "slides/week-6.1.html#interquartile-range",
-    "title": "Describing Distributions",
-    "section": "Interquartile Range",
-    "text": "Interquartile Range\nIQR: 25th percentile - 75th percentile"
+    "objectID": "slides/week-6.1.html#activity",
+    "href": "slides/week-6.1.html#activity",
+    "title": "Sampling",
+    "section": "Activity",
+    "text": "Activity\n\nGet in groups of 2. Each group will have 4-5 bags of M&Ms.\nKeep the contents of each bag separate, and do not eat (yet!)\nOpen up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. Write this down. What is your best guess (your estimate) for the proportion of all M&Ms that are blue?"
   },
   {
-    "objectID": "slides/week-6.1.html#interquartile-range-1",
-    "href": "slides/week-6.1.html#interquartile-range-1",
-    "title": "Describing Distributions",
-    "section": "Interquartile Range",
-    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 %&gt;% \n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1  0.259  0.7485    0.4895"
+    "objectID": "slides/week-6.1.html#activity-1",
+    "href": "slides/week-6.1.html#activity-1",
+    "title": "Sampling",
+    "section": "Activity",
+    "text": "Activity\n\nDo the same as above for the rest of your bags (you should have 4-5 estimates written down)\nDraw a histogram of your estimates (by hand)\nAdd your estimates to this Google Sheet\nAdd your estimates to the class histogram on the whiteboard"
   },
   {
-    "objectID": "slides/week-6.1.html#box-plot",
-    "href": "slides/week-6.1.html#box-plot",
-    "title": "Describing Distributions",
-    "section": "Box Plot",
-    "text": "Box Plot\n\n\nA box plot is a graphical representation of the distribution based on the median and quartiles\nIt is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum"
+    "objectID": "slides/week-6.1.html#lets-analyze-the-data",
+    "href": "slides/week-6.1.html#lets-analyze-the-data",
+    "title": "Sampling",
+    "section": "Let’s Analyze the Data",
+    "text": "Let’s Analyze the Data\n\nWe will use the googlesheets4 package to pull the data into R so be sure to install it.\n\n#install.packages(\"googlesheets4\")\n\nlibrary(tidyverse)\nlibrary(googlesheets4)\n\ngs4_deauth() # to signify no authorization required\n\nmnm_data &lt;- read_sheet(\"https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0\")\n\nglimpse(mnm_data)"
   },
   {
-    "objectID": "slides/week-6.1.html#box-plot-1",
-    "href": "slides/week-6.1.html#box-plot-1",
-    "title": "Describing Distributions",
-    "section": "Box Plot",
-    "text": "Box Plot\n\n\nCode\nggplot(vdem2022, aes(x = \"\", y = polyarchy)) +\n  geom_boxplot(fill = \"steelblue\") + \n   labs(\n    x = \"\", \n    y = \"Electoral Democracy\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+    "objectID": "slides/week-6.1.html#calculate-some-summary-stats",
+    "href": "slides/week-6.1.html#calculate-some-summary-stats",
+    "title": "Sampling",
+    "section": "Calculate Some Summary Stats",
+    "text": "Calculate Some Summary Stats\n\n\nmnm_data |&gt;\n  summarize(\n    mean_blue = mean(proportion_blue),\n    median_blue = median(proportion_blue),\n    sd_blue = sd(proportion_blue)\n  )"
   },
   {
-    "objectID": "slides/week-6.1.html#measure-of-spead-standard-deviation",
-    "href": "slides/week-6.1.html#measure-of-spead-standard-deviation",
-    "title": "Describing Distributions",
-    "section": "Measure of Spead: Standard Deviation",
-    "text": "Measure of Spead: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n      mean    stdDev\n1 0.496514 0.2629688"
+    "objectID": "slides/week-6.1.html#now-lets-make-a-histogram",
+    "href": "slides/week-6.1.html#now-lets-make-a-histogram",
+    "title": "Sampling",
+    "section": "Now Let’s Make a Histogram",
+    "text": "Now Let’s Make a Histogram\n\n\nggplot(mnm_data, aes(x = proportion_blue)) +\n  geom_histogram(fill = \"steelblue\") +\n  labs(\n    title = \"Percentage of Blue M&Ms\",\n    x = \"Proportion Blue\",\n    y = \"Count\"\n  )"
   },
   {
-    "objectID": "slides/week-6.1.html#standard-deviation-1",
-    "href": "slides/week-6.1.html#standard-deviation-1",
-    "title": "Describing Distributions",
-    "section": "Standard Deviation",
-    "text": "Standard Deviation\n\n\nA low standard deviation indicates that the values tend to be close to the mean\nA high standard deviation indicates that the values are spread out over a wider range"
+    "objectID": "slides/week-6.1.html#discuss-with-neighbor",
+    "href": "slides/week-6.1.html#discuss-with-neighbor",
+    "title": "Sampling",
+    "section": "Discuss with Neighbor",
+    "text": "Discuss with Neighbor\n\nWhat is the histogram/distribution showing?\nBased on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)"
   },
   {
-    "objectID": "slides/week-6.1.html#starting-with-variance",
-    "href": "slides/week-6.1.html#starting-with-variance",
-    "title": "Describing Distributions",
-    "section": "Starting with Variance",
-    "text": "Starting with Variance\n\n\nVariance is a step towards calculating the standard deviation.\nIt quantifies the average squared deviation of each number from the mean of the data set."
+    "objectID": "slides/week-6.1.html#what-did-we-just-do",
+    "href": "slides/week-6.1.html#what-did-we-just-do",
+    "title": "Sampling",
+    "section": "What did we just do?",
+    "text": "What did we just do?\n\nWe wanted to say something about the population of M&Ms\nThe parameter we care about is the proportion of M&Ms that are blue\nIt would be impossible to conduct a census and to calculate the parameter\nWe took a sample from the population and calculated a sample statistic\nstatistical inference: act of making a guess about a population using information from a sample"
   },
   {
-    "objectID": "slides/week-6.1.html#calculating-deviation-from-the-mean",
-    "href": "slides/week-6.1.html#calculating-deviation-from-the-mean",
-    "title": "Describing Distributions",
-    "section": "Calculating Deviation from the Mean",
-    "text": "Calculating Deviation from the Mean\n\nFirst, calculate the mean (\\(\\bar{X}\\)) of the dataset.\nFor each data point (\\(X_i\\)), calculate its deviation from the mean: \\[e_i = X_i - \\bar{X}\\]\n\nExample with a mean of 5:\n\nFor a data point where \\((X_i = 0): (0 - 5 = -5)\\)\nFor a data point where \\((X_i = 10): (10 - 5 = 5)\\)"
+    "objectID": "slides/week-6.1.html#what-have-we-just-done",
+    "href": "slides/week-6.1.html#what-have-we-just-done",
+    "title": "Sampling",
+    "section": "What have we just done?",
+    "text": "What have we just done?\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
   },
   {
-    "objectID": "slides/week-6.1.html#squaring-the-deviations",
-    "href": "slides/week-6.1.html#squaring-the-deviations",
-    "title": "Describing Distributions",
-    "section": "Squaring the Deviations",
-    "text": "Squaring the Deviations\n\nSquaring each deviation (\\(e_i\\)) to eliminate negative values: \\[e_i^2 = (X_i - \\bar{X})^2\\]\nSumming up all squared deviations: \\[\\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nThis sum represents the total squared deviation from the mean."
+    "objectID": "slides/week-6.1.html#target-population",
+    "href": "slides/week-6.1.html#target-population",
+    "title": "Sampling",
+    "section": "Target Population",
+    "text": "Target Population\nIn data analysis, we are usually interested in saying something about a Target Population.\n\nWhat proportion of adult Russians support the war in Ukraine?\n\nTarget population: adult Russians (age 18+)\n\nHow many US college students check social media during their classes?\n\nTarget population: US college students\n\nWhat percentage of M&Ms are blue?\n\nTarget population: all of the M&Ms"
   },
   {
-    "objectID": "slides/week-6.1.html#calculating-the-variance",
-    "href": "slides/week-6.1.html#calculating-the-variance",
-    "title": "Describing Distributions",
-    "section": "Calculating the Variance",
-    "text": "Calculating the Variance\n\n\nDivide the total squared deviation by \\((n-1)\\) (to account for the sample variance): \\[\\text{Variance} = \\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nUsing \\((n-1)\\) ensures an unbiased estimate of the population variance when calculating from a sample."
+    "objectID": "slides/week-6.1.html#sample",
+    "href": "slides/week-6.1.html#sample",
+    "title": "Sampling",
+    "section": "Sample",
+    "text": "Sample\n\nIn many instances, we have a Sample\n\nWe cannot talk to every Russian\nWe cannot talk to all college students\nWe cannot count all of the M&Ms"
   },
   {
-    "objectID": "slides/week-6.1.html#deriving-the-standard-deviation",
-    "href": "slides/week-6.1.html#deriving-the-standard-deviation",
-    "title": "Describing Distributions",
-    "section": "Deriving the Standard Deviation",
-    "text": "Deriving the Standard Deviation\n\n\nThe standard deviation is the square root of the variance: \\[s = \\sqrt{\\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2}\\]\nTaking the square root converts the variance back to the units of the original data."
+    "objectID": "slides/week-6.1.html#parameters-vs-statistics",
+    "href": "slides/week-6.1.html#parameters-vs-statistics",
+    "title": "Sampling",
+    "section": "Parameters vs Statistics",
+    "text": "Parameters vs Statistics\n\n\nThe parameter is the value of a calculation for the entire target population\nThe statistic is what we calculate on our sample\n\nWe calculate a statistic in order to say something about the parameter"
   },
   {
-    "objectID": "slides/week-6.1.html#standard-deviation-simple-example",
-    "href": "slides/week-6.1.html#standard-deviation-simple-example",
-    "title": "Describing Distributions",
-    "section": "Standard Deviation Simple Example",
-    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne &lt;- x - mean(x)\ne\n\n [1] -5 -4 -3 -2 -1  0  1  2  3  4  5"
-  },
-  {
-    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-1",
-    "href": "slides/week-6.1.html#standard-deviation-simple-example-1",
-    "title": "Describing Distributions",
-    "section": "Standard Deviation Simple Example",
-    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne_squared &lt;- e^2\ne_squared\n\n [1] 25 16  9  4  1  0  1  4  9 16 25"
-  },
-  {
-    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-2",
-    "href": "slides/week-6.1.html#standard-deviation-simple-example-2",
-    "title": "Describing Distributions",
-    "section": "Standard Deviation Simple Example",
-    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nsum_e_squared &lt;- sum(e_squared)\nsum_e_squared\n\n[1] 110"
-  },
-  {
-    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-3",
-    "href": "slides/week-6.1.html#standard-deviation-simple-example-3",
-    "title": "Describing Distributions",
-    "section": "Standard Deviation Simple Example",
-    "text": "Standard Deviation Simple Example\n\n\nvariance &lt;- sum_e_squared/(length(x)-1)\nvariance\n\n[1] 11"
-  },
-  {
-    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-4",
-    "href": "slides/week-6.1.html#standard-deviation-simple-example-4",
-    "title": "Describing Distributions",
-    "section": "Standard Deviation Simple Example",
-    "text": "Standard Deviation Simple Example\n\n\nstandard_dev &lt;- sqrt(variance)\nstandard_dev\n\n[1] 3.316625\n\nsd(x)\n\n[1] 3.316625"
-  },
-  {
-    "objectID": "slides/week-6.1.html#your-turn",
-    "href": "slides/week-6.1.html#your-turn",
-    "title": "Describing Distributions",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
-  },
-  {
-    "objectID": "slides/week-6.1.html#calculating-statistics-by-groups",
-    "href": "slides/week-6.1.html#calculating-statistics-by-groups",
-    "title": "Describing Distributions",
-    "section": "Calculating Statistics by groups",
-    "text": "Calculating Statistics by groups\n\n\nWhat if we want to describe electoral democracy and see how it differs by some different variable? For example, by world region, or by year?\nIn this case we want to combine numerical summaries with categorical variables\nThis brings us back to bar chart"
-  },
-  {
-    "objectID": "slides/week-6.1.html#calculating-statistics-by-groups-1",
-    "href": "slides/week-6.1.html#calculating-statistics-by-groups-1",
-    "title": "Describing Distributions",
-    "section": "Calculating Statistics by Groups",
-    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
-  },
-  {
-    "objectID": "slides/week-6.1.html#calculating-statistics-by-groups-2",
-    "href": "slides/week-6.1.html#calculating-statistics-by-groups-2",
-    "title": "Describing Distributions",
-    "section": "Calculating Statistics by Groups",
-    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
-  },
-  {
-    "objectID": "slides/week-6.1.html#visualize-using-our-bar-chart-skills",
-    "href": "slides/week-6.1.html#visualize-using-our-bar-chart-skills",
-    "title": "Describing Distributions",
-    "section": "Visualize using our Bar Chart Skills",
-    "text": "Visualize using our Bar Chart Skills\n\n\nCode\nggplot(democracy_region, aes(x = reorder(region, -mean_dem), y = mean_dem)) +\n  geom_col(fill = \"steelblue\") + \n  labs(\n    x = \"Region\", \n    y = \"Mean Polyarchy Score\", \n    title = \"Democracy by region, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    ) + \n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-6.1.html#numerical-variable-by-group",
-    "href": "slides/week-6.1.html#numerical-variable-by-group",
-    "title": "Describing Distributions",
-    "section": "Numerical Variable by Group",
-    "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-6.1.html#your-turn-1",
-    "href": "slides/week-6.1.html#your-turn-1",
-    "title": "Describing Distributions",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
+    "objectID": "slides/week-6.1.html#inference",
+    "href": "slides/week-6.1.html#inference",
+    "title": "Sampling",
+    "section": "Inference",
+    "text": "Inference\n\n\nInference–The act of “making a guess” about some unknown\nStatistical inference–Making a good guess about a population from a sample\nCausal inference–Did X cause Y? [topic for later classes]"
   },
   {
     "objectID": "slides/week-4.2.html#publish-html-to-quarto-pub",
@@ -1590,6 +1513,20 @@
     "text": "View results with summary()\n\n\\[\\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\\]\n\nsummary(mod_fit)\n\n\nCall:\nlm(formula = lib_dem ~ log_wealth, data = modelData)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.58804 -0.15009  0.03924  0.18502  0.40243 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 0.008895   0.047694   0.186    0.852    \nlog_wealth  0.129689   0.014524   8.929 6.35e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.2178 on 172 degrees of freedom\n  (5 observations deleted due to missingness)\nMultiple R-squared:  0.3167,    Adjusted R-squared:  0.3128 \nF-statistic: 79.73 on 1 and 172 DF,  p-value: 6.353e-16"
   },
   {
+    "objectID": "slides/week-10.1.html#section-2",
+    "href": "slides/week-10.1.html#section-2",
+    "title": "Linear Regression",
+    "section": "",
+    "text": "Step 3: Fit model & estimate parameters\n\n… using formula syntax\n\nlinear_reg() |&gt;\n  set_engine(\"lm\") |&gt;\n  fit(lib_dem ~ log_wealth, data = modelData) \n\nparsnip model object\n\n\nCall:\nstats::lm(formula = lib_dem ~ log_wealth, data = data)\n\nCoefficients:\n(Intercept)   log_wealth  \n     0.1327       0.1197"
+  },
+  {
+    "objectID": "slides/week-10.1.html#section-3",
+    "href": "slides/week-10.1.html#section-3",
+    "title": "Linear Regression",
+    "section": "",
+    "text": "Step 4: Tidy things up…\n\n\\[\\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\\]\n\nlinear_reg() |&gt;\n  set_engine(\"lm\") |&gt;\n  fit(lib_dem ~ log_wealth, data = modelData) |&gt;\n  tidy()\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)    0.133    0.0380      3.49 6.04e- 4\n2 log_wealth     0.120    0.0147      8.16 6.97e-14"
+  },
+  {
     "objectID": "slides/week-10.1.html#interpretation",
     "href": "slides/week-10.1.html#interpretation",
     "title": "Linear Regression",
@@ -1756,6 +1693,13 @@
     "title": "Linear Regression",
     "section": "Create Your Own Model",
     "text": "Create Your Own Model\n\n\nWhat is a theory that you would like to test with V-Dem data?\nWhat is the dependent variable?\nWhat is the independent variable?\nMap out steps to wrangle the data and fit a regression model\nWhat do you expect to find?\nNow go ahead and wrangle the data\nFit the model\nInterpret the coefficients and their significance\nDid the results match your expectations?"
+  },
+  {
+    "objectID": "slides/week-5.1.html#todays-classwork",
+    "href": "slides/week-5.1.html#todays-classwork",
+    "title": "Categorical Data",
+    "section": "Today’s Classwork",
+    "text": "Today’s Classwork\n\nDownload classwork folder for today’s class from here"
   },
   {
     "objectID": "slides/week-5.1.html#section",
@@ -2064,6 +2008,181 @@
     "title": "Numerical Data",
     "section": "Recap",
     "text": "Recap\n\n\nWe can use statistics like mean or median to describe the center of a variable\nWe can visualize the entire distribution to charachterize the distribution of the variable\nWe should also say something about the spread of the distribution"
+  },
+  {
+    "objectID": "slides/week-5.2.html#why-measure-and-visualize-spread",
+    "href": "slides/week-5.2.html#why-measure-and-visualize-spread",
+    "title": "Numerical Data",
+    "section": "Why Measure and Visualize Spread?",
+    "text": "Why Measure and Visualize Spread?"
+  },
+  {
+    "objectID": "slides/week-5.2.html#measures-of-spread-range",
+    "href": "slides/week-5.2.html#measures-of-spread-range",
+    "title": "Numerical Data",
+    "section": "Measures of Spread: Range",
+    "text": "Measures of Spread: Range\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.918"
+  },
+  {
+    "objectID": "slides/week-5.2.html#measure-of-spread-interquartile-range",
+    "href": "slides/week-5.2.html#measure-of-spread-interquartile-range",
+    "title": "Numerical Data",
+    "section": "Measure of Spread: Interquartile Range",
+    "text": "Measure of Spread: Interquartile Range\nIQR: 25th percentile - 75th percentile"
+  },
+  {
+    "objectID": "slides/week-5.2.html#interquartile-range",
+    "href": "slides/week-5.2.html#interquartile-range",
+    "title": "Numerical Data",
+    "section": "Interquartile Range",
+    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 %&gt;% \n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1  0.259  0.7485    0.4895"
+  },
+  {
+    "objectID": "slides/week-5.2.html#box-plot",
+    "href": "slides/week-5.2.html#box-plot",
+    "title": "Numerical Data",
+    "section": "Box Plot",
+    "text": "Box Plot\n\nA box plot is a graphical representation of the distribution based on the median and quartiles\nIt is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum"
+  },
+  {
+    "objectID": "slides/week-5.2.html#box-plot-1",
+    "href": "slides/week-5.2.html#box-plot-1",
+    "title": "Numerical Data",
+    "section": "Box Plot",
+    "text": "Box Plot\n\n\nCode\nggplot(vdem2022, aes(x = \"\", y = polyarchy)) +\n  geom_boxplot(fill = \"steelblue\") + \n   labs(\n    x = \"\", \n    y = \"Electoral Democracy\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-5.2.html#measure-of-spead-standard-deviation",
+    "href": "slides/week-5.2.html#measure-of-spead-standard-deviation",
+    "title": "Numerical Data",
+    "section": "Measure of Spead: Standard Deviation",
+    "text": "Measure of Spead: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n      mean    stdDev\n1 0.496514 0.2629688"
+  },
+  {
+    "objectID": "slides/week-5.2.html#standard-deviation",
+    "href": "slides/week-5.2.html#standard-deviation",
+    "title": "Numerical Data",
+    "section": "Standard Deviation",
+    "text": "Standard Deviation\n\n\nA low standard deviation indicates that the values tend to be close to the mean\nA high standard deviation indicates that the values are spread out over a wider range"
+  },
+  {
+    "objectID": "slides/week-5.2.html#starting-with-variance",
+    "href": "slides/week-5.2.html#starting-with-variance",
+    "title": "Numerical Data",
+    "section": "Starting with Variance",
+    "text": "Starting with Variance\n\n\nVariance is a step towards calculating the standard deviation.\nIt quantifies the average squared deviation of each number from the mean of the data set."
+  },
+  {
+    "objectID": "slides/week-5.2.html#calculating-deviation-from-the-mean",
+    "href": "slides/week-5.2.html#calculating-deviation-from-the-mean",
+    "title": "Numerical Data",
+    "section": "Calculating Deviation from the Mean",
+    "text": "Calculating Deviation from the Mean\n\nFirst, calculate the mean (\\(\\bar{X}\\)) of the dataset.\nFor each data point (\\(X_i\\)), calculate its deviation from the mean: \\[e_i = X_i - \\bar{X}\\]\n\nExample with a mean of 5:\n\nFor a data point where \\((X_i = 0): (0 - 5 = -5)\\)\nFor a data point where \\((X_i = 10): (10 - 5 = 5)\\)"
+  },
+  {
+    "objectID": "slides/week-5.2.html#squaring-the-deviations",
+    "href": "slides/week-5.2.html#squaring-the-deviations",
+    "title": "Numerical Data",
+    "section": "Squaring the Deviations",
+    "text": "Squaring the Deviations\n\nSquaring each deviation (\\(e_i\\)) to eliminate negative values: \\[e_i^2 = (X_i - \\bar{X})^2\\]\nSumming up all squared deviations: \\[\\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nThis sum represents the total squared deviation from the mean."
+  },
+  {
+    "objectID": "slides/week-5.2.html#calculating-the-variance",
+    "href": "slides/week-5.2.html#calculating-the-variance",
+    "title": "Numerical Data",
+    "section": "Calculating the Variance",
+    "text": "Calculating the Variance\n\nDivide the total squared deviation by \\((n-1)\\) (to account for the sample variance): \\[\\text{Variance} = \\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nUsing \\((n-1)\\) ensures an unbiased estimate of the population variance when calculating from a sample."
+  },
+  {
+    "objectID": "slides/week-5.2.html#deriving-the-standard-deviation",
+    "href": "slides/week-5.2.html#deriving-the-standard-deviation",
+    "title": "Numerical Data",
+    "section": "Deriving the Standard Deviation",
+    "text": "Deriving the Standard Deviation\n\n\nThe standard deviation is the square root of the variance: \\[s = \\sqrt{\\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2}\\]\nTaking the square root converts the variance back to the units of the original data."
+  },
+  {
+    "objectID": "slides/week-5.2.html#standard-deviation-simple-example",
+    "href": "slides/week-5.2.html#standard-deviation-simple-example",
+    "title": "Numerical Data",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne &lt;- x - mean(x)\ne\n\n [1] -5 -4 -3 -2 -1  0  1  2  3  4  5"
+  },
+  {
+    "objectID": "slides/week-5.2.html#standard-deviation-simple-example-1",
+    "href": "slides/week-5.2.html#standard-deviation-simple-example-1",
+    "title": "Numerical Data",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne_squared &lt;- e^2\ne_squared\n\n [1] 25 16  9  4  1  0  1  4  9 16 25"
+  },
+  {
+    "objectID": "slides/week-5.2.html#standard-deviation-simple-example-2",
+    "href": "slides/week-5.2.html#standard-deviation-simple-example-2",
+    "title": "Numerical Data",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nsum_e_squared &lt;- sum(e_squared)\nsum_e_squared\n\n[1] 110"
+  },
+  {
+    "objectID": "slides/week-5.2.html#standard-deviation-simple-example-3",
+    "href": "slides/week-5.2.html#standard-deviation-simple-example-3",
+    "title": "Numerical Data",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nvariance &lt;- sum_e_squared/(length(x)-1)\nvariance\n\n[1] 11"
+  },
+  {
+    "objectID": "slides/week-5.2.html#standard-deviation-simple-example-4",
+    "href": "slides/week-5.2.html#standard-deviation-simple-example-4",
+    "title": "Numerical Data",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nstandard_dev &lt;- sqrt(variance)\nstandard_dev\n\n[1] 3.316625\n\nsd(x)\n\n[1] 3.316625"
+  },
+  {
+    "objectID": "slides/week-5.2.html#your-turn-1",
+    "href": "slides/week-5.2.html#your-turn-1",
+    "title": "Numerical Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
+  },
+  {
+    "objectID": "slides/week-5.2.html#calculating-statistics-by-groups",
+    "href": "slides/week-5.2.html#calculating-statistics-by-groups",
+    "title": "Numerical Data",
+    "section": "Calculating Statistics by groups",
+    "text": "Calculating Statistics by groups\n\n\nWhat if we want to describe electoral democracy and see how it differs by some different variable? For example, by world region, or by year?\nIn this case we want to combine numerical summaries with categorical variables\nThis brings us back to bar chart"
+  },
+  {
+    "objectID": "slides/week-5.2.html#calculating-statistics-by-groups-1",
+    "href": "slides/week-5.2.html#calculating-statistics-by-groups-1",
+    "title": "Numerical Data",
+    "section": "Calculating Statistics by Groups",
+    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
+  },
+  {
+    "objectID": "slides/week-5.2.html#calculating-statistics-by-groups-2",
+    "href": "slides/week-5.2.html#calculating-statistics-by-groups-2",
+    "title": "Numerical Data",
+    "section": "Calculating Statistics by Groups",
+    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
+  },
+  {
+    "objectID": "slides/week-5.2.html#visualize-using-our-bar-chart-skills",
+    "href": "slides/week-5.2.html#visualize-using-our-bar-chart-skills",
+    "title": "Numerical Data",
+    "section": "Visualize using our Bar Chart Skills",
+    "text": "Visualize using our Bar Chart Skills\n\n\nCode\nggplot(democracy_region, aes(x = reorder(region, -mean_dem), y = mean_dem)) +\n  geom_col(fill = \"steelblue\") + \n  labs(\n    x = \"Region\", \n    y = \"Mean Polyarchy Score\", \n    title = \"Democracy by region, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    ) + \n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-5.2.html#numerical-variable-by-group",
+    "href": "slides/week-5.2.html#numerical-variable-by-group",
+    "title": "Numerical Data",
+    "section": "Numerical Variable by Group",
+    "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-5.2.html#your-turn-2",
+    "href": "slides/week-5.2.html#your-turn-2",
+    "title": "Numerical Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
   },
   {
     "objectID": "slides/week-3.1.html#where-does-data-come-from",
@@ -2882,6 +3001,17 @@
     "title": "Assignment 2",
     "section": "The GoBifo Program in Sierra Leone",
     "text": "The GoBifo Program in Sierra Leone\nSierra Leone was devastated by a civil war lasting from 1991 to 2002. In the post-conflict context, the Ministry of Local Government and Community Development implemented the GoBifo (“forge ahead”) CDD project in Sierra Leone from 2005-2009 (with support from the World Bank and other international donors). See this report for a detailed summary of the program.\nThe program had two key components:\n\nBlock grants of about 4,667 dollars (about 100 per household in each community) that communities could allocate to local development projects, skills trainings, and small-business investment.\n“Technical assistance that promoted democratic decision-making, the participation of socially marginalized women and youth in local politics, and transparent budgeting practices” (Casey, Glennerster, and Miguel 2012)\n\nThe GiBifo program also included an impact evaluation, conducted by economists Katherine Casey, Rachel Glennerster, and Edward Miguel. The academic paper generated from the project is in the References section (Casey, Glennerster, and Miguel 2012).\nWait until after you complete your assignment to read the full paper.\nImportantly, the impact evaluation included randomization: communities in the study were randomly assigned to receive the GoBifo program, or not. In this sense, the impact evaluation was similar to a clinical drug trial, where some subjects are randomly assigned to receive the medicine while others do not receive it. This aspect of the design makes it easier to assess the causal impact of this project: we can compare outcomes in the treatment (GoBifo program) and control groups, and test for whether any differences we observe are likely to be due to chance.",
+    "crumbs": [
+      "Homework",
+      "Homework 2"
+    ]
+  },
+  {
+    "objectID": "assignments/homework-2.html#load-data-and-packages",
+    "href": "assignments/homework-2.html#load-data-and-packages",
+    "title": "Assignment 2",
+    "section": "Load Data and Packages",
+    "text": "Load Data and Packages\nYou can use the code below to load the packages and data. Make sure the .csv file is saved in your RProj folder for this project.\n\nlibrary(tidyverse)\nlibrary(tidymodels)\n\n\nmyData &lt;- read_csv(\"gobifo_data.csv\")",
     "crumbs": [
       "Homework",
       "Homework 2"
@@ -4192,20 +4322,6 @@
     "text": "Now, let’s create the CIs for black applicants.\n\n\nboot_df_black &lt;- myDat |&gt;\n  filter(race == \"black\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")\nci_black &lt;- boot_df_black |&gt; get_ci(level = 0.95)\nci_black\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1   0.0550   0.0743"
   },
   {
-    "objectID": "slides/week-7.2.html#section-6",
-    "href": "slides/week-7.2.html#section-6",
-    "title": "Hypothesis Testing 2",
-    "section": "",
-    "text": "Visualize the bootstrap distribution and CI for black applicants.\n\n\n\nCode\nboot_df_black |&gt;\n  visualize() +\n  shade_ci(ci_black, color = \"red\", fill = \"red\") +\n  labs(\n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-7.2.html#section-7",
-    "href": "slides/week-7.2.html#section-7",
-    "title": "Hypothesis Testing 2",
-    "section": "",
-    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(ci_black$lower_ci, ci_white$lower_ci),\n  upper95 = c(ci_black$upper_ci, ci_white$upper_ci)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
-  },
-  {
     "objectID": "slides/week-7.2.html#plot",
     "href": "slides/week-7.2.html#plot",
     "title": "Hypothesis Testing 2",
@@ -4283,18 +4399,25 @@
     "text": "Simulating with tidymodels\n\nIn real life we are going to use the tidymodels package to do the simulation for us.\n\nnull_dist &lt;- myDat |&gt;\n  specify(response = received_callback, explanatory = race) |&gt;\n  hypothesize(null = \"independence\") |&gt;\n  generate(5000, type = \"permute\") |&gt;\n  calculate(stat = \"diff in means\", \n            order = c(\"white\", \"black\")) #"
   },
   {
+    "objectID": "slides/week-7.2.html#visualize",
+    "href": "slides/week-7.2.html#visualize",
+    "title": "Hypothesis Testing 2",
+    "section": "Visualize",
+    "text": "Visualize"
+  },
+  {
+    "objectID": "slides/week-7.2.html#visualize-1",
+    "href": "slides/week-7.2.html#visualize-1",
+    "title": "Hypothesis Testing 2",
+    "section": "Visualize",
+    "text": "Visualize\n\n\nggplot(data = null_dist, mapping = aes(x = stat)) +\n  geom_histogram(binwidth = 0.01, fill = \"steelblue4\") +\n  labs(title = \"Null distribution + Estimate\",\n       x = \"Estimated Difference under the Null\") +     \n  geom_vline(xintercept = teffect, linetype=\"dotted\", \n                color = \"black\", size=1) + theme_bw()"
+  },
+  {
     "objectID": "slides/week-7.2.html#calculate-the-p-value",
     "href": "slides/week-7.2.html#calculate-the-p-value",
     "title": "Hypothesis Testing 2",
     "section": "Calculate the p-value",
     "text": "Calculate the p-value\n\n\nnull_dist |&gt;\n  get_p_value(obs_stat = teffect, direction = \"greater\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1       0"
-  },
-  {
-    "objectID": "slides/week-7.2.html#visualize-the-p-value",
-    "href": "slides/week-7.2.html#visualize-the-p-value",
-    "title": "Hypothesis Testing 2",
-    "section": "Visualize the p-value",
-    "text": "Visualize the p-value\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = teffect, direction = \"greater\")"
   },
   {
     "objectID": "slides/week-7.2.html#what-should-we-conclude",
@@ -4822,104 +4945,6 @@
     "text": "Homework 1\n\n\nFind Homework 1 on the course website\nGet started today!"
   },
   {
-    "objectID": "slides/week-6.2.html#sampling",
-    "href": "slides/week-6.2.html#sampling",
-    "title": "Sampling and Uncertainty",
-    "section": "Sampling",
-    "text": "Sampling\n\n\nSampling the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population\nVersus a census, which involves gathering information on every individual in the population\nWhy would you want to use a sample?"
-  },
-  {
-    "objectID": "slides/week-6.2.html#what-proportion-of-mms-are-blue",
-    "href": "slides/week-6.2.html#what-proportion-of-mms-are-blue",
-    "title": "Sampling and Uncertainty",
-    "section": "What proportion of M&Ms are blue?",
-    "text": "What proportion of M&Ms are blue?\n\n\nM&Ms has a precise distribution of colors that it produces in its factories\nM&Ms are sorted into bags in factories in a fairly random process\nEach bag represents a sample from the full population of M&Ms"
-  },
-  {
-    "objectID": "slides/week-6.2.html#activity",
-    "href": "slides/week-6.2.html#activity",
-    "title": "Sampling and Uncertainty",
-    "section": "Activity",
-    "text": "Activity\n\nGet in groups of 2. Each group will have 4-5 bags of M&Ms.\nKeep the contents of each bag separate, and do not eat (yet!)\nOpen up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. Write this down.\nWhat is your best guess (your estimate) for the proportion of all M&Ms that are blue?"
-  },
-  {
-    "objectID": "slides/week-6.2.html#activity-1",
-    "href": "slides/week-6.2.html#activity-1",
-    "title": "Sampling and Uncertainty",
-    "section": "Activity",
-    "text": "Activity\n\n\nDo the same as above for the rest of your bags (you should have 4-5 estimates written down)\nDraw a histogram of your estimates (by hand)\nAdd your estimates to this Google Sheet\nAdd your estimates to the class histogram on the whiteboard"
-  },
-  {
-    "objectID": "slides/week-6.2.html#lets-analyze-the-data",
-    "href": "slides/week-6.2.html#lets-analyze-the-data",
-    "title": "Sampling and Uncertainty",
-    "section": "Let’s Analyze the Data",
-    "text": "Let’s Analyze the Data\n\nWe will use the googlesheets4 package to pull the data into R so be sure to install it.\n\n#install.packages(\"googlesheets4\")\n\nlibrary(tidyverse)\nlibrary(googlesheets4)\n\ngs4_deauth() # to signify no authorization required\n\nmnm_data &lt;- read_sheet(\"https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0\")\n\nglimpse(mnm_data)"
-  },
-  {
-    "objectID": "slides/week-6.2.html#calculate-some-summary-stats",
-    "href": "slides/week-6.2.html#calculate-some-summary-stats",
-    "title": "Sampling and Uncertainty",
-    "section": "Calculate Some Summary Stats",
-    "text": "Calculate Some Summary Stats\n\n\nmnm_data |&gt;\n  summarize(\n    mean_blue = mean(proportion_blue),\n    median_blue = median(proportion_blue),\n    sd_blue = sd(proportion_blue)\n  )"
-  },
-  {
-    "objectID": "slides/week-6.2.html#now-lets-make-a-histogram",
-    "href": "slides/week-6.2.html#now-lets-make-a-histogram",
-    "title": "Sampling and Uncertainty",
-    "section": "Now Let’s Make a Histogram",
-    "text": "Now Let’s Make a Histogram\n\n\nggplot(mnm_data, aes(x = proportion_blue)) +\n  geom_histogram(fill = \"steelblue\") +\n  labs(\n    title = \"Percentage of Blue M&Ms\",\n    x = \"Proportion Blue\",\n    y = \"Count\"\n  )"
-  },
-  {
-    "objectID": "slides/week-6.2.html#discuss-with-neighbor",
-    "href": "slides/week-6.2.html#discuss-with-neighbor",
-    "title": "Sampling and Uncertainty",
-    "section": "Discuss with Neighbor",
-    "text": "Discuss with Neighbor\n\n\nWhat is the histogram/distribution showing?\nBased on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)"
-  },
-  {
-    "objectID": "slides/week-6.2.html#what-did-we-just-do",
-    "href": "slides/week-6.2.html#what-did-we-just-do",
-    "title": "Sampling and Uncertainty",
-    "section": "What did we just do?",
-    "text": "What did we just do?\n\nWe wanted to say something about the population of M&Ms\nThe parameter we care about is the proportion of M&Ms that are blue\nIt would be impossible to conduct a census and to calculate the parameter\nWe took a sample from the population and calculated a sample statistic\nstatistical inference: act of making a guess about a population using information from a sample"
-  },
-  {
-    "objectID": "slides/week-6.2.html#what-did-we-just-do-1",
-    "href": "slides/week-6.2.html#what-did-we-just-do-1",
-    "title": "Sampling and Uncertainty",
-    "section": "What did we just do?",
-    "text": "What did we just do?\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
-  },
-  {
-    "objectID": "slides/week-6.2.html#target-population",
-    "href": "slides/week-6.2.html#target-population",
-    "title": "Sampling and Uncertainty",
-    "section": "Target Population",
-    "text": "Target Population\nIn data analysis, we are usually interested in saying something about a Target Population.\n\nWhat proportion of adult Russians support the war in Ukraine?\n\nTarget population: adult Russians (age 18+)\n\nHow many US college students check social media during their classes?\n\nTarget population: US college students\n\nWhat percentage of M&Ms are blue?\n\nTarget population: all of the M&Ms"
-  },
-  {
-    "objectID": "slides/week-6.2.html#sample",
-    "href": "slides/week-6.2.html#sample",
-    "title": "Sampling and Uncertainty",
-    "section": "Sample",
-    "text": "Sample\n\nIn many instances, we have a Sample\n\nWe cannot talk to every Russian\nWe cannot talk to all college students\nWe cannot count all of the M&Ms"
-  },
-  {
-    "objectID": "slides/week-6.2.html#parameters-vs-statistics",
-    "href": "slides/week-6.2.html#parameters-vs-statistics",
-    "title": "Sampling and Uncertainty",
-    "section": "Parameters vs Statistics",
-    "text": "Parameters vs Statistics\n\n\nThe parameter is the value of a calculation for the entire target population\nThe statistic is what we calculate on our sample\n\nWe calculate a statistic in order to say something about the parameter"
-  },
-  {
-    "objectID": "slides/week-6.2.html#inference",
-    "href": "slides/week-6.2.html#inference",
-    "title": "Sampling and Uncertainty",
-    "section": "Inference",
-    "text": "Inference\n\n\nInference–The act of “making a guess” about some unknown\nStatistical inference–Making a good guess about a population from a sample\nCausal inference–Did X cause Y? [topic for later classes]"
-  },
-  {
     "objectID": "slides/week-6.2.html#section",
     "href": "slides/week-6.2.html#section",
     "title": "Sampling and Uncertainty",
@@ -5058,6 +5083,13 @@
     "title": "Sampling and Uncertainty",
     "section": "",
     "text": "Now, let’s visualize the CI for our bootstrap distribution:\n\n\nCode\n# Get confidence interval\nci &lt;- boot_df |&gt; get_ci(level = 0.95)\n\n# Visualize bootstrap distribution with CI\nboot_df |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-6.2.html#section-11",
+    "href": "slides/week-6.2.html#section-11",
+    "title": "Sampling and Uncertainty",
+    "section": "",
+    "text": "Visualize with a histogram\n\n\nggplot(data = boot_df, mapping = aes(x = stat)) +\n  geom_histogram(binwidth =.01, fill = \"steelblue4\") +\n  geom_vline(xintercept = c(lower_bound, upper_bound), color = \"darkgrey\", size = 1, linetype = \"dashed\") +\n  labs(title = \"Bootstrap distribution of means\",\n       subtitle = \"and 95% confidence interval\",\n       x = \"Estimate\",\n       y = \"Frequency\") +\n  theme_bw()"
   },
   {
     "objectID": "slides/week-6.2.html#interpret-the-confidence-interval",
@@ -6505,7 +6537,7 @@
     "href": "modules/module-7.2.html#examining-the-data-with-confidence-intervals",
     "title": "Module 7.2",
     "section": "Examining the Data with Confidence Intervals",
-    "text": "Examining the Data with Confidence Intervals\nBefore conducting formal hypothesis tests, it’s valuable to examine both the point estimates and their confidence intervals. This gives us a sense of the precision of our estimates and whether the observed differences might be meaningful.\nLet’s start by calculating the mean callback rates for each racial group:\n\n# Bootstrap CIs for black applicants\nci_black &lt;- resume_dta |&gt;\n  filter(race == \"black\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 10000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.95)\n\n# Bootstrap CIs for white applicants  \nci_white &lt;- resume_dta |&gt;\n  filter(race == \"white\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 10000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.95)\n\n\n\n\n\n\n\nUnderstanding the Code\n\n\n\nThese two code chunks create bootstrap confidence intervals for the callback rates of Black and White applicants in a resume audit study. specify() identifies the response variable of interest (received_callback), generate() creates 10,000 bootstrap resamples for each group, calculate(stat = \"mean\") computes the callback rate in each resample and get_ci() calculates a 95% confidence interval from these bootstrap statistics.\n\n\nNext, let’s put together the means and confidence intervals for both groups into a tibble so we can visualize them together:\n\n# Combine for plotting\nplot_dta &lt;- tibble(\n  race = c(\"black\", \"white\"),\n  mean_calls = c(mean_black, mean_white),\n  lower_95 = c(ci_black$lower_ci, ci_white$lower_ci),\n  upper_95 = c(ci_black$upper_ci, ci_white$upper_ci)\n)\n\nplot_dta\n\n# A tibble: 2 × 4\n  race  mean_calls lower_95 upper_95\n  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1 black     0.0645   0.0546   0.0743\n2 white     0.0965   0.0850   0.108 \n\n\nNow we can use ggplot2 to create a visualization that shows both the callback rates and their uncertainty:\n\nggplot(plot_dta, aes(\n  y = mean_calls, \n  x = race, \n  ymin = lower_95, \n  ymax = upper_95\n  )) +\n  geom_col(fill = \"steelblue4\") +\n  geom_errorbar(width = .05) +\n  theme_bw()  +\n ylim(0, .15) +\n  labs(x = \"Race of Applicant\",\n       y = \"Call Back Rate\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nUnderstanding the Code\n\n\n\nThis ggplot creates a bar chart with error bars to visualize callback rates by race. The geom_col() function creates bars showing the mean callback rates, while geom_errorbar() adds the 95% confidence intervals. The ymin and ymax aesthetics define the error bar endpoints. We use theme_bw() for a clean appearance and ylim() to set consistent y-axis limits for better comparison between groups.\n\n\nLooking at this plot, we can see clear differences between the groups and non-overlapping confidence intervals, which suggests there may be evidence of racial discrimination. But how can we formally test the null hypothesis to decide whether to reject it?",
+    "text": "Examining the Data with Confidence Intervals\nBefore conducting formal hypothesis tests, it’s valuable to examine both the point estimates and their confidence intervals. This gives us a sense of the precision of our estimates and whether the observed differences might be meaningful.\nLet’s start by calculating the mean callback rates for each racial group:\n\n# Bootstrap CIs for black applicants\nci_black &lt;- resume_dta |&gt;\n  filter(race == \"black\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 10000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.95)\n\n# Bootstrap CIs for white applicants  \nci_white &lt;- resume_dta |&gt;\n  filter(race == \"white\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 10000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\") |&gt;\n  get_ci(level = 0.95)\n\n\n\n\n\n\n\nUnderstanding the Code\n\n\n\nThese two code chunks create bootstrap confidence intervals for the callback rates of Black and White applicants in a resume audit study. specify() identifies the response variable of interest (received_callback), generate() creates 10,000 bootstrap resamples for each group, calculate(stat = \"mean\") computes the callback rate in each resample and get_ci() calculates a 95% confidence interval from these bootstrap statistics.\n\n\nNext, let’s put together the means and confidence intervals for both groups into a tibble so we can visualize them together:\n\n# Combine for plotting\nplot_dta &lt;- tibble(\n  race = c(\"black\", \"white\"),\n  mean_calls = c(mean_black, mean_white),\n  lower_95 = c(ci_black$lower_ci, ci_white$lower_ci),\n  upper_95 = c(ci_black$upper_ci, ci_white$upper_ci)\n)\n\nplot_dta\n\n# A tibble: 2 × 4\n  race  mean_calls lower_95 upper_95\n  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;\n1 black     0.0645   0.0550   0.0743\n2 white     0.0965   0.0846   0.109 \n\n\nNow we can use ggplot2 to create a visualization that shows both the callback rates and their uncertainty:\n\nggplot(plot_dta, aes(\n  y = mean_calls, \n  x = race, \n  ymin = lower_95, \n  ymax = upper_95\n  )) +\n  geom_col(fill = \"steelblue4\") +\n  geom_errorbar(width = .05) +\n  theme_bw()  +\n ylim(0, .15) +\n  labs(x = \"Race of Applicant\",\n       y = \"Call Back Rate\")\n\n\n\n\n\n\n\n\n\n\n\n\n\nUnderstanding the Code\n\n\n\nThis ggplot creates a bar chart with error bars to visualize callback rates by race. The geom_col() function creates bars showing the mean callback rates, while geom_errorbar() adds the 95% confidence intervals. The ymin and ymax aesthetics define the error bar endpoints. We use theme_bw() for a clean appearance and ylim() to set consistent y-axis limits for better comparison between groups.\n\n\nLooking at this plot, we can see clear differences between the groups and non-overlapping confidence intervals, which suggests there may be evidence of racial discrimination. But how can we formally test the null hypothesis to decide whether to reject it?",
     "crumbs": [
       "Course Modules",
       "Module 7.2"
@@ -6538,7 +6570,7 @@
     "href": "modules/module-7.2.html#implementing-the-permutation-test",
     "title": "Module 7.2",
     "section": "Implementing the Permutation Test",
-    "text": "Implementing the Permutation Test\nIn practice, we use the tidymodels package to handle the computational details of this simulation. The infer package provides a clean workflow for permutation testing:\n\nnull_dist &lt;- resume_dta |&gt;\n  specify(response = received_callback, explanatory = race) |&gt;\n  hypothesize(null = \"independence\") |&gt;\n  generate(10000, type = \"permute\") |&gt;\n  calculate(stat = \"diff in means\", \n            order = c(\"white\", \"black\"))\n\nOnce we have our null distribution, we can calculate the p-value using the get_pvalue function from the infer package:\n\nget_p_value(null_dist, obs_stat = teffect, direction = \"greater\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1       0\n\n\nHere we get a p-value of exactly zero, suggesting that none of the simulated differences in means was as extreme as the observed difference. This indicates that the observed racial gap in callbacks is highly unlikely to have occurred by chance alone.\n\n\n\n\n\n\nNote\n\n\n\nYou may notice a message saying to “be careful of reporting a p-value of zero” and that this is an artifact of the number of reps chosen in the generate() step. If you increase the number of reps, you may get a p-value that is very close to zero but not exactly zero because the p-value is calculated as the proportion of simulated differences that are greater than or equal to the observed difference. But if you have the patience (or a fast computer), you can increase the number of reps to 100,000 or more and see what happens!",
+    "text": "Implementing the Permutation Test\nIn practice, we use the tidymodels package to handle the computational details of this simulation. The infer package provides a clean workflow for permutation testing:\n\nnull_dist &lt;- resume_dta |&gt;\n  specify(response = received_callback, explanatory = race) |&gt;\n  hypothesize(null = \"independence\") |&gt;\n  generate(10000, type = \"permute\") |&gt;\n  calculate(stat = \"diff in means\", \n            order = c(\"white\", \"black\"))\n\nOnce we have our null distribution, we can calculate the p-value using the get_pvalue function from the infer package:\n\nget_p_value(null_dist, obs_stat = teffect, direction = \"greater\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1  0.0001\n\n\nHere we get a p-value of exactly zero, suggesting that none of the simulated differences in means was as extreme as the observed difference. This indicates that the observed racial gap in callbacks is highly unlikely to have occurred by chance alone.\n\n\n\n\n\n\nNote\n\n\n\nYou may notice a message saying to “be careful of reporting a p-value of zero” and that this is an artifact of the number of reps chosen in the generate() step. If you increase the number of reps, you may get a p-value that is very close to zero but not exactly zero because the p-value is calculated as the proportion of simulated differences that are greater than or equal to the observed difference. But if you have the patience (or a fast computer), you can increase the number of reps to 100,000 or more and see what happens!",
     "crumbs": [
       "Course Modules",
       "Module 7.2"
@@ -6620,5 +6652,313 @@
       "Course Modules",
       "Module 7.1"
     ]
+  },
+  {
+    "objectID": "slides/week-6.1.html#why-measure-and-visualize-spread",
+    "href": "slides/week-6.1.html#why-measure-and-visualize-spread",
+    "title": "Describing Distributions",
+    "section": "Why Measure and Visualize Spread?",
+    "text": "Why Measure and Visualize Spread?"
+  },
+  {
+    "objectID": "slides/week-6.1.html#what-is-a-range",
+    "href": "slides/week-6.1.html#what-is-a-range",
+    "title": "Describing Distributions",
+    "section": "What is a Range?",
+    "text": "What is a Range?\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.918"
+  },
+  {
+    "objectID": "slides/week-6.1.html#interquartile-range",
+    "href": "slides/week-6.1.html#interquartile-range",
+    "title": "Describing Distributions",
+    "section": "Interquartile Range",
+    "text": "Interquartile Range\nIQR: 25th percentile - 75th percentile"
+  },
+  {
+    "objectID": "slides/week-6.1.html#interquartile-range-1",
+    "href": "slides/week-6.1.html#interquartile-range-1",
+    "title": "Describing Distributions",
+    "section": "Interquartile Range",
+    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 %&gt;% \n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1  0.259  0.7485    0.4895"
+  },
+  {
+    "objectID": "slides/week-6.1.html#box-plot",
+    "href": "slides/week-6.1.html#box-plot",
+    "title": "Describing Distributions",
+    "section": "Box Plot",
+    "text": "Box Plot\n\n\nA box plot is a graphical representation of the distribution based on the median and quartiles\nIt is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum"
+  },
+  {
+    "objectID": "slides/week-6.1.html#box-plot-1",
+    "href": "slides/week-6.1.html#box-plot-1",
+    "title": "Describing Distributions",
+    "section": "Box Plot",
+    "text": "Box Plot\n\n\nCode\nggplot(vdem2022, aes(x = \"\", y = polyarchy)) +\n  geom_boxplot(fill = \"steelblue\") + \n   labs(\n    x = \"\", \n    y = \"Electoral Democracy\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-6.1.html#measure-of-spead-standard-deviation",
+    "href": "slides/week-6.1.html#measure-of-spead-standard-deviation",
+    "title": "Describing Distributions",
+    "section": "Measure of Spead: Standard Deviation",
+    "text": "Measure of Spead: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n      mean    stdDev\n1 0.496514 0.2629688"
+  },
+  {
+    "objectID": "slides/week-6.1.html#standard-deviation-1",
+    "href": "slides/week-6.1.html#standard-deviation-1",
+    "title": "Describing Distributions",
+    "section": "Standard Deviation",
+    "text": "Standard Deviation\n\n\nA low standard deviation indicates that the values tend to be close to the mean\nA high standard deviation indicates that the values are spread out over a wider range"
+  },
+  {
+    "objectID": "slides/week-6.1.html#starting-with-variance",
+    "href": "slides/week-6.1.html#starting-with-variance",
+    "title": "Describing Distributions",
+    "section": "Starting with Variance",
+    "text": "Starting with Variance\n\n\nVariance is a step towards calculating the standard deviation.\nIt quantifies the average squared deviation of each number from the mean of the data set."
+  },
+  {
+    "objectID": "slides/week-6.1.html#calculating-deviation-from-the-mean",
+    "href": "slides/week-6.1.html#calculating-deviation-from-the-mean",
+    "title": "Describing Distributions",
+    "section": "Calculating Deviation from the Mean",
+    "text": "Calculating Deviation from the Mean\n\nFirst, calculate the mean (\\(\\bar{X}\\)) of the dataset.\nFor each data point (\\(X_i\\)), calculate its deviation from the mean: \\[e_i = X_i - \\bar{X}\\]\n\nExample with a mean of 5:\n\nFor a data point where \\((X_i = 0): (0 - 5 = -5)\\)\nFor a data point where \\((X_i = 10): (10 - 5 = 5)\\)"
+  },
+  {
+    "objectID": "slides/week-6.1.html#squaring-the-deviations",
+    "href": "slides/week-6.1.html#squaring-the-deviations",
+    "title": "Describing Distributions",
+    "section": "Squaring the Deviations",
+    "text": "Squaring the Deviations\n\nSquaring each deviation (\\(e_i\\)) to eliminate negative values: \\[e_i^2 = (X_i - \\bar{X})^2\\]\nSumming up all squared deviations: \\[\\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nThis sum represents the total squared deviation from the mean."
+  },
+  {
+    "objectID": "slides/week-6.1.html#calculating-the-variance",
+    "href": "slides/week-6.1.html#calculating-the-variance",
+    "title": "Describing Distributions",
+    "section": "Calculating the Variance",
+    "text": "Calculating the Variance\n\n\nDivide the total squared deviation by \\((n-1)\\) (to account for the sample variance): \\[\\text{Variance} = \\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nUsing \\((n-1)\\) ensures an unbiased estimate of the population variance when calculating from a sample."
+  },
+  {
+    "objectID": "slides/week-6.1.html#deriving-the-standard-deviation",
+    "href": "slides/week-6.1.html#deriving-the-standard-deviation",
+    "title": "Describing Distributions",
+    "section": "Deriving the Standard Deviation",
+    "text": "Deriving the Standard Deviation\n\n\nThe standard deviation is the square root of the variance: \\[s = \\sqrt{\\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2}\\]\nTaking the square root converts the variance back to the units of the original data."
+  },
+  {
+    "objectID": "slides/week-6.1.html#standard-deviation-simple-example",
+    "href": "slides/week-6.1.html#standard-deviation-simple-example",
+    "title": "Describing Distributions",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne &lt;- x - mean(x)\ne\n\n [1] -5 -4 -3 -2 -1  0  1  2  3  4  5"
+  },
+  {
+    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-1",
+    "href": "slides/week-6.1.html#standard-deviation-simple-example-1",
+    "title": "Describing Distributions",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne_squared &lt;- e^2\ne_squared\n\n [1] 25 16  9  4  1  0  1  4  9 16 25"
+  },
+  {
+    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-2",
+    "href": "slides/week-6.1.html#standard-deviation-simple-example-2",
+    "title": "Describing Distributions",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nsum_e_squared &lt;- sum(e_squared)\nsum_e_squared\n\n[1] 110"
+  },
+  {
+    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-3",
+    "href": "slides/week-6.1.html#standard-deviation-simple-example-3",
+    "title": "Describing Distributions",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nvariance &lt;- sum_e_squared/(length(x)-1)\nvariance\n\n[1] 11"
+  },
+  {
+    "objectID": "slides/week-6.1.html#standard-deviation-simple-example-4",
+    "href": "slides/week-6.1.html#standard-deviation-simple-example-4",
+    "title": "Describing Distributions",
+    "section": "Standard Deviation Simple Example",
+    "text": "Standard Deviation Simple Example\n\n\nstandard_dev &lt;- sqrt(variance)\nstandard_dev\n\n[1] 3.316625\n\nsd(x)\n\n[1] 3.316625"
+  },
+  {
+    "objectID": "slides/week-6.1.html#your-turn",
+    "href": "slides/week-6.1.html#your-turn",
+    "title": "Describing Distributions",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
+  },
+  {
+    "objectID": "slides/week-6.1.html#calculating-statistics-by-groups",
+    "href": "slides/week-6.1.html#calculating-statistics-by-groups",
+    "title": "Describing Distributions",
+    "section": "Calculating Statistics by groups",
+    "text": "Calculating Statistics by groups\n\n\nWhat if we want to describe electoral democracy and see how it differs by some different variable? For example, by world region, or by year?\nIn this case we want to combine numerical summaries with categorical variables\nThis brings us back to bar chart"
+  },
+  {
+    "objectID": "slides/week-6.1.html#calculating-statistics-by-groups-1",
+    "href": "slides/week-6.1.html#calculating-statistics-by-groups-1",
+    "title": "Describing Distributions",
+    "section": "Calculating Statistics by Groups",
+    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
+  },
+  {
+    "objectID": "slides/week-6.1.html#calculating-statistics-by-groups-2",
+    "href": "slides/week-6.1.html#calculating-statistics-by-groups-2",
+    "title": "Describing Distributions",
+    "section": "Calculating Statistics by Groups",
+    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.402      0.381\n2 Asia              0.424      0.414\n3 Eastern Europe    0.535      0.568\n4 Latin America     0.605      0.683\n5 Middle East       0.230      0.207\n6 The West          0.855      0.853"
+  },
+  {
+    "objectID": "slides/week-6.1.html#visualize-using-our-bar-chart-skills",
+    "href": "slides/week-6.1.html#visualize-using-our-bar-chart-skills",
+    "title": "Describing Distributions",
+    "section": "Visualize using our Bar Chart Skills",
+    "text": "Visualize using our Bar Chart Skills\n\n\nCode\nggplot(democracy_region, aes(x = reorder(region, -mean_dem), y = mean_dem)) +\n  geom_col(fill = \"steelblue\") + \n  labs(\n    x = \"Region\", \n    y = \"Mean Polyarchy Score\", \n    title = \"Democracy by region, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    ) + \n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-6.1.html#numerical-variable-by-group",
+    "href": "slides/week-6.1.html#numerical-variable-by-group",
+    "title": "Describing Distributions",
+    "section": "Numerical Variable by Group",
+    "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-6.1.html#your-turn-1",
+    "href": "slides/week-6.1.html#your-turn-1",
+    "title": "Describing Distributions",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
+  },
+  {
+    "objectID": "slides/week-6.2.html#sampling",
+    "href": "slides/week-6.2.html#sampling",
+    "title": "Sampling and Uncertainty",
+    "section": "Sampling",
+    "text": "Sampling\n\n\nSampling the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population\nVersus a census, which involves gathering information on every individual in the population\nWhy would you want to use a sample?"
+  },
+  {
+    "objectID": "slides/week-6.2.html#what-proportion-of-all-milk-chocolate-mms-are-blue",
+    "href": "slides/week-6.2.html#what-proportion-of-all-milk-chocolate-mms-are-blue",
+    "title": "Sampling and Uncertainty",
+    "section": "What proportion of all milk chocolate M&Ms are blue?",
+    "text": "What proportion of all milk chocolate M&Ms are blue?\n\nM&Ms has a precise distribution of colors that it produces in its factories\nM&Ms are sorted into bags in factories in a fairly random process\nEach bag represents a sample from the full population of M&Ms"
+  },
+  {
+    "objectID": "slides/week-6.2.html#activity",
+    "href": "slides/week-6.2.html#activity",
+    "title": "Sampling and Uncertainty",
+    "section": "Activity",
+    "text": "Activity\n\nGet in groups of 2. Each group will have 4-5 bags of M&Ms.\nKeep the contents of each bag separate, and do not eat (yet!)\nOpen up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. Write this down.\nWhat is your best guess (your estimate) for the proportion of all M&Ms that are blue?"
+  },
+  {
+    "objectID": "slides/week-6.2.html#activity-1",
+    "href": "slides/week-6.2.html#activity-1",
+    "title": "Sampling and Uncertainty",
+    "section": "Activity",
+    "text": "Activity\n\n\nDo the same as above for the rest of your bags (you should have 4-5 estimates written down)\nDraw a histogram of your estimates (by hand)\nAdd your estimates to this Google Sheet\nAdd your estimates to the class histogram on the whiteboard"
+  },
+  {
+    "objectID": "slides/week-6.2.html#lets-analyze-the-data",
+    "href": "slides/week-6.2.html#lets-analyze-the-data",
+    "title": "Sampling and Uncertainty",
+    "section": "Let’s Analyze the Data",
+    "text": "Let’s Analyze the Data\n\nWe will use the googlesheets4 package to pull the data into R so be sure to install it.\n\n#install.packages(\"googlesheets4\")\n\nlibrary(tidyverse)\nlibrary(googlesheets4)\n\ngs4_deauth() # to signify no authorization required\n\nmnm_data &lt;- read_sheet(\"https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit#gid=0\")\n\nglimpse(mnm_data)"
+  },
+  {
+    "objectID": "slides/week-6.2.html#calculate-some-summary-stats",
+    "href": "slides/week-6.2.html#calculate-some-summary-stats",
+    "title": "Sampling and Uncertainty",
+    "section": "Calculate Some Summary Stats",
+    "text": "Calculate Some Summary Stats\n\n\nmnm_data |&gt;\n  summarize(\n    mean_blue = mean(proportion_blue),\n    median_blue = median(proportion_blue),\n    sd_blue = sd(proportion_blue)\n  )"
+  },
+  {
+    "objectID": "slides/week-6.2.html#now-lets-make-a-histogram",
+    "href": "slides/week-6.2.html#now-lets-make-a-histogram",
+    "title": "Sampling and Uncertainty",
+    "section": "Now Let’s Make a Histogram",
+    "text": "Now Let’s Make a Histogram\n\n\nggplot(mnm_data, aes(x = proportion_blue)) +\n  geom_histogram(fill = \"steelblue\") +\n  labs(\n    title = \"Percentage of Blue M&Ms\",\n    x = \"Proportion Blue\",\n    y = \"Count\"\n  )"
+  },
+  {
+    "objectID": "slides/week-6.2.html#discuss-with-neighbor",
+    "href": "slides/week-6.2.html#discuss-with-neighbor",
+    "title": "Sampling and Uncertainty",
+    "section": "Discuss with Neighbor",
+    "text": "Discuss with Neighbor\n\n\nWhat is the histogram/distribution showing?\nBased on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)"
+  },
+  {
+    "objectID": "slides/week-6.2.html#what-did-we-just-do",
+    "href": "slides/week-6.2.html#what-did-we-just-do",
+    "title": "Sampling and Uncertainty",
+    "section": "What did we just do?",
+    "text": "What did we just do?\n\nWe wanted to say something about the population of M&Ms\nThe parameter we care about is the proportion of M&Ms that are blue\nIt would be impossible to conduct a census and to calculate the parameter\nWe took a sample from the population and calculated a sample statistic\nstatistical inference: act of making a guess about a population using information from a sample"
+  },
+  {
+    "objectID": "slides/week-6.2.html#what-have-we-just-done",
+    "href": "slides/week-6.2.html#what-have-we-just-done",
+    "title": "Sampling and Uncertainty",
+    "section": "What have we just done?",
+    "text": "What have we just done?\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
+  },
+  {
+    "objectID": "slides/week-6.2.html#target-population",
+    "href": "slides/week-6.2.html#target-population",
+    "title": "Sampling and Uncertainty",
+    "section": "Target Population",
+    "text": "Target Population\nIn data analysis, we are usually interested in saying something about a Target Population.\n\nWhat proportion of adult Russians support the war in Ukraine?\n\nTarget population: adult Russians (age 18+)\n\nHow many US college students check social media during their classes?\n\nTarget population: US college students\n\nWhat percentage of M&Ms are blue?\n\nTarget population: all of the M&Ms"
+  },
+  {
+    "objectID": "slides/week-6.2.html#sample",
+    "href": "slides/week-6.2.html#sample",
+    "title": "Sampling and Uncertainty",
+    "section": "Sample",
+    "text": "Sample\n\nIn many instances, we have a Sample\n\nWe cannot talk to every Russian\nWe cannot talk to all college students\nWe cannot count all of the M&Ms"
+  },
+  {
+    "objectID": "slides/week-6.2.html#parameters-vs-statistics",
+    "href": "slides/week-6.2.html#parameters-vs-statistics",
+    "title": "Sampling and Uncertainty",
+    "section": "Parameters vs Statistics",
+    "text": "Parameters vs Statistics\n\n\nThe parameter is the value of a calculation for the entire target population\nThe statistic is what we calculate on our sample\n\nWe calculate a statistic in order to say something about the parameter"
+  },
+  {
+    "objectID": "slides/week-6.2.html#inference",
+    "href": "slides/week-6.2.html#inference",
+    "title": "Sampling and Uncertainty",
+    "section": "Inference",
+    "text": "Inference\n\n\nInference–The act of “making a guess” about some unknown\nStatistical inference–Making a good guess about a population from a sample\nCausal inference–Did X cause Y? [topic for later classes]"
+  },
+  {
+    "objectID": "slides/week-6.2.html#what-proportion-of-mms-are-blue",
+    "href": "slides/week-6.2.html#what-proportion-of-mms-are-blue",
+    "title": "Sampling and Uncertainty",
+    "section": "What proportion of M&Ms are blue?",
+    "text": "What proportion of M&Ms are blue?\n\n\nM&Ms has a precise distribution of colors that it produces in its factories\nM&Ms are sorted into bags in factories in a fairly random process\nEach bag represents a sample from the full population of M&Ms"
+  },
+  {
+    "objectID": "slides/week-6.2.html#what-did-we-just-do-1",
+    "href": "slides/week-6.2.html#what-did-we-just-do-1",
+    "title": "Sampling and Uncertainty",
+    "section": "What did we just do?",
+    "text": "What did we just do?\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
+  },
+  {
+    "objectID": "slides/week-7.2.html#visualize-the-p-value",
+    "href": "slides/week-7.2.html#visualize-the-p-value",
+    "title": "Hypothesis Testing 2",
+    "section": "Visualize the p-value",
+    "text": "Visualize the p-value\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = teffect, direction = \"greater\")"
+  },
+  {
+    "objectID": "slides/week-7.2.html#section-6",
+    "href": "slides/week-7.2.html#section-6",
+    "title": "Hypothesis Testing 2",
+    "section": "",
+    "text": "Visualize the bootstrap distribution and CI for black applicants.\n\n\n\nCode\nboot_df_black |&gt;\n  visualize() +\n  shade_ci(ci_black, color = \"red\", fill = \"red\") +\n  labs(\n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-7.2.html#section-7",
+    "href": "slides/week-7.2.html#section-7",
+    "title": "Hypothesis Testing 2",
+    "section": "",
+    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(ci_black$lower_ci, ci_white$lower_ci),\n  upper95 = c(ci_black$upper_ci, ci_white$upper_ci)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
   }
 ]
