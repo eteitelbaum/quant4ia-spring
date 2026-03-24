@@ -27,7 +27,7 @@ execute:
 #| echo: true
 
 library(tidyverse)
-library(tidymodels)
+library(broom)
 library(vdemdata)
 ```
 
@@ -103,10 +103,7 @@ ggplot(modelData, aes(x = polarization, y = libdem)) +
 #| label: model1
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(libdem ~ polarization, data = modelData) |> 
-  tidy()
+lm(libdem ~ polarization, data = modelData) |> tidy()
 ```
 <br>
 
@@ -121,10 +118,7 @@ linear_reg() |>
 #| label: model2
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(libdem ~ polarization + log_wealth, data = modelData) |> 
-  tidy()
+lm(libdem ~ polarization + log_wealth, data = modelData) |> tidy()
 ```
 
 ## Model with Two Predictors
@@ -190,10 +184,7 @@ $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents$$
 #| label: model3
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(libdem ~ polarization + log_wealth + oil_rents, data = modelData) |> 
-  tidy()
+lm(libdem ~ polarization + log_wealth + oil_rents, data = modelData) |> tidy()
 ```
 
 ## Model with Three Predictors {.smaller}
@@ -242,11 +233,7 @@ countdown(minutes = 10,
 <br>
 
 ```{r}
-mod1 <- linear_reg() |>
-      set_engine("lm") |>
-      fit(corruption ~ libdem + polarization , data = modelData) |>
-      tidy() 
-mod1
+lm(corruption ~ libdem + polarization, data = modelData) |> tidy()
 ```
 
 ## Model 2 - Adding GDP per capita
@@ -254,11 +241,7 @@ mod1
 <br>
 
 ```{r}
-mod2 <- linear_reg() |>
-      set_engine("lm") |>
-      fit(corruption ~ libdem + polarization + log_wealth, data = modelData) |>
-      tidy() 
-mod2
+lm(corruption ~ libdem + polarization + log_wealth, data = modelData) |> tidy()
 ```
 
 # Categorical Variables
@@ -294,10 +277,7 @@ ggplot(modelData, aes(x = log_wealth, y = libdem, color=factor(judicial_review))
 #| label: judicial_review_model
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(libdem ~ factor(judicial_review), data = modelData) |>
-  tidy()
+lm(libdem ~ factor(judicial_review), data = modelData) |> tidy()
 ```
 
 ## Judicial Review and Democracy {.smaller}
@@ -346,10 +326,7 @@ How should we interpret intercept?  How about the coefficient on Latin America?
 #| label: region_model2
 #| echo: true
 
-linear_reg() |>
-  set_engine("lm") |>
-  fit(libdem ~ region, data = modelData) |>
-  tidy()
+lm(libdem ~ region, data = modelData) |> tidy()
 ```
 
 ## Democracy and World Region {.smaller}
@@ -369,10 +346,7 @@ What if you want a different baseline category? How do we interpret now?
 modelData <- modelData |> 
 mutate(newReg = relevel(region, ref=4)) 
 
-linear_reg() |>
-      set_engine("lm") |>
-      fit(libdem ~ newReg, data = modelData) |>
-      tidy()
+lm(libdem ~ newReg, data = modelData) |> tidy()
 ```
 
 ## Your Turn
@@ -456,10 +430,7 @@ modelData |>
 ```{r}
 #| label: corruption_model
 
-linear_reg() |>
-      set_engine("lm") |>
-      fit(corruption ~ regime, data = modelData) |>
-      tidy()
+lm(corruption ~ regime, data = modelData) |> tidy()
 ```
 
 ## Create Your Own Model {.smaller}
