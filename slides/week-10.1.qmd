@@ -126,7 +126,7 @@ lm(libdem ~ polarization + log_wealth, data = modelData) |> summary()
 
 $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc$$ 
 
-$$\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc$$ 
+$$\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc$$ 
 
 
 ## Model with Two Predictors 
@@ -135,7 +135,7 @@ $$\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc$$
 
 $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc$$ 
 
-$$\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc$$ 
+$$\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc$$ 
 
 $a$ is the predicted level of Y when BOTH GDP per capita and polarization are equal to 0
 
@@ -145,7 +145,7 @@ $a$ is the predicted level of Y when BOTH GDP per capita and polarization are eq
 
 $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc$$ 
 
-$$\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc$$ 
+$$\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc$$ 
 
 - $b_1$ is the impact of a 1-unit change in polarization on the predicted level of Y, **holding GDP per capita fixed** (all else equal)
 - The relationship between polarization and democracy, controlling for wealth
@@ -154,7 +154,7 @@ $$\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc$$
 
 $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc$$ 
 
-$$\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc$$ 
+$$\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc$$ 
 
 - $b_2$ is the impact of a 1-unit change in GDP per capita on the predicted level of Y, **holding polarization fixed** (all else equal)
 - The relationship between wealth and democracy, controlling for polarization
@@ -192,10 +192,10 @@ lm(libdem ~ polarization + log_wealth + oil_rents, data = modelData) |> summary(
 
 $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents$$ 
 
-$$\hat{Y_i} = a + -.05*Polarization + .13*GDPpc + .00004*OilRents$$ 
+$$\hat{Y_i} = a + -.06*Polarization + .14*GDPpc + -.00004*OilRents$$ 
 <br>
 
-| $b_3$ is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, **holding polarization and GDP fixed** (all else equal)
+| $b_3$ is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, **holding polarization and GDP fixed** (all else equal) — note the negative sign: higher oil rents are associated with *lower* democracy, controlling for wealth
 
 ## Your Turn! {.smaller}
 
@@ -283,12 +283,12 @@ lm(libdem ~ factor(judicial_review), data = modelData) |> summary()
 
 <br>
 
-$$\widehat{Democracy_{i}} = 0.17 + 0.28*JudicialReview(yes)$$
+$$\widehat{Democracy_{i}} = 0.13 + 0.32*JudicialReview(yes)$$
 
-- **Slope:** countries with judicial review are expected, on average, to be 0.28 units more democratic on the liberal democracy index
+- **Slope:** countries with judicial review are expected, on average, to be 0.32 units more democratic on the liberal democracy index
   - Compares baseline level (Judicial Review = 0) to the other level (Judicial Review = 1)
 - **Intercept:** average democracy score of countries without judicial review
-- Average democracy score of countries with judicial review is 0.17 + 0.28 = 0.45
+- Average democracy score of countries with judicial review is 0.13 + 0.32 = 0.45
 
 ## Dummy Variables
 

@@ -339,20 +339,20 @@ F-statistic: 48.07 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc\]</span></p>
 </section>
 <section id="model-with-two-predictors-2" class="slide level2">
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc\]</span></p>
 <p><span class="math inline">\(a\)</span> is the predicted level of Y when BOTH GDP per capita and polarization are equal to 0</p>
 </section>
 <section id="model-with-two-predictors-3" class="slide level2">
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc\]</span></p>
 <ul>
 <li><span class="math inline">\(b_1\)</span> is the impact of a 1-unit change in polarization on the predicted level of Y, <strong>holding GDP per capita fixed</strong> (all else equal)</li>
 <li>The relationship between polarization and democracy, controlling for wealth</li>
@@ -361,7 +361,7 @@ F-statistic: 48.07 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="model-with-two-predictors-4" class="slide level2">
 <h2>Model with Two Predictors</h2>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.10 + -0.06*Polarization + 0.10*GDPpc\]</span></p>
 <ul>
 <li><span class="math inline">\(b_2\)</span> is the impact of a 1-unit change in GDP per capita on the predicted level of Y, <strong>holding polarization fixed</strong> (all else equal)</li>
 <li>The relationship between wealth and democracy, controlling for polarization</li>
@@ -416,8 +416,8 @@ F-statistic: 53.57 on 3 and 158 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Model with Three Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = a + -.05*Polarization + .13*GDPpc + .00004*OilRents\]</span> <br></p>
-<div class="line-block"><span class="math inline">\(b_3\)</span> is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, <strong>holding polarization and GDP fixed</strong> (all else equal)</div>
+<p><span class="math display">\[\hat{Y_i} = a + -.06*Polarization + .14*GDPpc + -.00004*OilRents\]</span> <br></p>
+<div class="line-block"><span class="math inline">\(b_3\)</span> is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, <strong>holding polarization and GDP fixed</strong> (all else equal) — note the negative sign: higher oil rents are associated with <em>lower</em> democracy, controlling for wealth</div>
 </section>
 <section id="your-turn" class="slide level2 smaller">
 <h2>Your Turn!</h2>
@@ -545,14 +545,14 @@ F-statistic:  37.7 on 1 and 175 DF,  p-value: 5.384e-09</code></pre>
 <section id="judicial-review-and-democracy-3" class="slide level2 smaller">
 <h2>Judicial Review and Democracy</h2>
 <p><br></p>
-<p><span class="math display">\[\widehat{Democracy_{i}} = 0.17 + 0.28*JudicialReview(yes)\]</span></p>
+<p><span class="math display">\[\widehat{Democracy_{i}} = 0.13 + 0.32*JudicialReview(yes)\]</span></p>
 <ul>
-<li><strong>Slope:</strong> countries with judicial review are expected, on average, to be 0.28 units more democratic on the liberal democracy index
+<li><strong>Slope:</strong> countries with judicial review are expected, on average, to be 0.32 units more democratic on the liberal democracy index
 <ul>
 <li>Compares baseline level (Judicial Review = 0) to the other level (Judicial Review = 1)</li>
 </ul></li>
 <li><strong>Intercept:</strong> average democracy score of countries without judicial review</li>
-<li>Average democracy score of countries with judicial review is 0.17 + 0.28 = 0.45</li>
+<li>Average democracy score of countries with judicial review is 0.13 + 0.32 = 0.45</li>
 </ul>
 </section>
 <section id="dummy-variables" class="slide level2">
