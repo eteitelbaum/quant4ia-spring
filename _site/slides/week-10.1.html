@@ -214,8 +214,7 @@
 <p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-3"><a></a><span class="fu">library</span>(vdemdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a></a><span class="fu">library</span>(vdemdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="load-vdem-data" class="slide level2 smaller">
@@ -281,13 +280,26 @@ $ log_wealth      &lt;dbl&gt; 3.461759, 3.105304, 4.588980, 4.658569, 1.867331, 
 <h2>Model with One Predictor</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> polarization, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> polarization, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term         estimate std.error statistic  p.value
-  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)    0.369     0.0189     19.5  9.55e-46
-2 polarization  -0.0927    0.0141     -6.56 5.72e-10</code></pre>
+<pre><code>
+Call:
+lm(formula = libdem ~ polarization, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.57838 -0.17148 -0.02242  0.18960  0.55723 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   0.36919    0.01893  19.501  &lt; 2e-16 ***
+polarization -0.09269    0.01412  -6.564 5.72e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2405 on 175 degrees of freedom
+Multiple R-squared:  0.1976,    Adjusted R-squared:  0.193 
+F-statistic: 43.09 on 1 and 175 DF,  p-value: 5.724e-10</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -298,14 +310,28 @@ Significance?</div>
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  term         estimate std.error statistic  p.value
-  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)    0.0997    0.0446      2.24 2.67e- 2
-2 polarization  -0.0571    0.0139     -4.12 5.90e- 5
-3 log_wealth     0.0997    0.0151      6.62 4.55e-10</code></pre>
+<pre><code>
+Call:
+lm(formula = libdem ~ polarization + log_wealth, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.66293 -0.15068  0.04725  0.18170  0.41785 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   0.09967    0.04458   2.236   0.0267 *  
+polarization -0.05712    0.01386  -4.120 5.90e-05 ***
+log_wealth    0.09972    0.01507   6.619 4.55e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2171 on 170 degrees of freedom
+  (4 observations deleted due to missingness)
+Multiple R-squared:  0.3612,    Adjusted R-squared:  0.3537 
+F-statistic: 48.07 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -359,15 +385,30 @@ Significance?</div>
 <h2>Model with Three Predictors</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth <span class="sc">+</span> oil_rents, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth <span class="sc">+</span> oil_rents, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 5
-  term           estimate  std.error statistic  p.value
-  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)   0.0252    0.0419         0.600 5.49e- 1
-2 polarization -0.0553    0.0128        -4.31  2.83e- 5
-3 log_wealth    0.137     0.0148         9.24  1.56e-16
-4 oil_rents    -0.0000416 0.00000596    -6.98  7.69e-11</code></pre>
+<pre><code>
+Call:
+lm(formula = libdem ~ polarization + log_wealth + oil_rents, 
+    data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.52558 -0.14413  0.03809  0.12850  0.67700 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   2.516e-02  4.190e-02   0.600    0.549    
+polarization -5.531e-02  1.283e-02  -4.312 2.83e-05 ***
+log_wealth    1.372e-01  1.484e-02   9.243  &lt; 2e-16 ***
+oil_rents    -4.158e-05  5.956e-06  -6.980 7.69e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1936 on 158 degrees of freedom
+  (15 observations deleted due to missingness)
+Multiple R-squared:  0.5043,    Adjusted R-squared:  0.4948 
+F-statistic: 53.57 on 3 and 158 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -404,12 +445,25 @@ Significance?</div>
 <p><br></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  term         estimate std.error statistic  p.value
-  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)    0.851     0.0266     32.0  6.68e-75
-2 libdem        -0.776     0.0595    -13.0  1.59e-27
-3 polarization   0.0474    0.0124      3.82 1.85e- 4</code></pre>
+<pre><code>
+Call:
+lm(formula = corruption ~ libdem + polarization, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.59980 -0.11485  0.00776  0.13544  0.36039 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   0.85107    0.02656  32.045  &lt; 2e-16 ***
+libdem       -0.77575    0.05953 -13.031  &lt; 2e-16 ***
+polarization  0.04743    0.01241   3.821 0.000185 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1894 on 174 degrees of freedom
+Multiple R-squared:  0.6209,    Adjusted R-squared:  0.6165 
+F-statistic: 142.5 on 2 and 174 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -418,13 +472,28 @@ Significance?</div>
 <p><br></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 5
-  term         estimate std.error statistic  p.value
-  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)    1.03      0.0347     29.6  9.02e-69
-2 libdem        -0.607     0.0589    -10.3  1.13e-19
-3 polarization   0.0316    0.0112      2.83 5.20e- 3
-4 log_wealth    -0.0862    0.0130     -6.65 3.94e-10</code></pre>
+<pre><code>
+Call:
+lm(formula = corruption ~ libdem + polarization + log_wealth, 
+    data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.49463 -0.09201  0.00035  0.12521  0.32906 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   1.02759    0.03471  29.603  &lt; 2e-16 ***
+libdem       -0.60746    0.05886 -10.320  &lt; 2e-16 ***
+polarization  0.03159    0.01116   2.831   0.0052 ** 
+log_wealth   -0.08620    0.01297  -6.647 3.94e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1666 on 169 degrees of freedom
+  (4 observations deleted due to missingness)
+Multiple R-squared:  0.7097,    Adjusted R-squared:  0.7045 
+F-statistic: 137.7 on 3 and 169 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -450,13 +519,26 @@ Significance?</div>
 <h2>Judicial Review and Democracy</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> <span class="fu">factor</span>(judicial_review), <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> <span class="fu">factor</span>(judicial_review), <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term                     estimate std.error statistic       p.value
-  &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
-1 (Intercept)                 0.129    0.0487      2.65 0.00884      
-2 factor(judicial_review)1    0.323    0.0526      6.14 0.00000000538</code></pre>
+<pre><code>
+Call:
+lm(formula = libdem ~ factor(judicial_review), data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.41867 -0.18967 -0.03267  0.19133  0.70804 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)               0.12896    0.04871   2.648  0.00884 ** 
+factor(judicial_review)1  0.32271    0.05256   6.140 5.38e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2435 on 175 degrees of freedom
+Multiple R-squared:  0.1772,    Adjusted R-squared:  0.1725 
+F-statistic:  37.7 on 1 and 175 DF,  p-value: 5.384e-09</code></pre>
 </div>
 </div>
 </section>
@@ -505,17 +587,30 @@ Significance?</div>
 <p>How should we interpret intercept? How about the coefficient on Latin America?</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> region, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> region, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  term                                   estimate std.error statistic  p.value
-  &lt;chr&gt;                                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)                              0.434     0.0361     12.0  1.58e-24
-2 regionLatin America                      0.0650    0.0535      1.21 2.26e- 1
-3 regionMENA                              -0.237     0.0571     -4.15 5.14e- 5
-4 regionSSAfrica                          -0.140     0.0457     -3.08 2.45e- 3
-5 regionWestern Europe and North America   0.373     0.0541      6.89 1.01e-10
-6 regionAsia and Pacific                  -0.135     0.0520     -2.59 1.03e- 2</code></pre>
+<pre><code>
+Call:
+lm(formula = libdem ~ region, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.45808 -0.13136 -0.01907  0.11464  0.49405 
+
+Coefficients:
+                                       Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                             0.43407    0.03610  12.024  &lt; 2e-16 ***
+regionLatin America                     0.06501    0.05354   1.214  0.22634    
+regionMENA                             -0.23712    0.05708  -4.154 5.14e-05 ***
+regionSSAfrica                         -0.14043    0.04566  -3.075  0.00245 ** 
+regionWestern Europe and North America  0.37327    0.05415   6.893 1.01e-10 ***
+regionAsia and Pacific                 -0.13471    0.05196  -2.593  0.01034 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1977 on 171 degrees of freedom
+Multiple R-squared:  0.4701,    Adjusted R-squared:  0.4546 
+F-statistic: 30.34 on 5 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -529,17 +624,37 @@ Significance?</div>
 <span id="cb18-2"><a></a>modelData <span class="ot">&lt;-</span> modelData <span class="sc">|&gt;</span> </span>
 <span id="cb18-3"><a></a><span class="fu">mutate</span>(<span class="at">newReg =</span> <span class="fu">relevel</span>(region, <span class="at">ref=</span><span class="dv">4</span>)) </span>
 <span id="cb18-4"><a></a></span>
-<span id="cb18-5"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> newReg, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-5"><a></a><span class="fu">lm</span>(libdem <span class="sc">~</span> newReg, <span class="at">data =</span> modelData) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  term                                   estimate std.error statistic  p.value
-  &lt;chr&gt;                                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)                             0.294      0.0280    10.5   3.19e-20
-2 newRegEastern Europe                    0.140      0.0457     3.08  2.45e- 3
-3 newRegLatin America                     0.205      0.0484     4.24  3.62e- 5
-4 newRegMENA                             -0.0967     0.0523    -1.85  6.63e- 2
-5 newRegWestern Europe and North America  0.514      0.0491    10.5   4.11e-20
-6 newRegAsia and Pacific                  0.00572    0.0467     0.123 9.03e- 1</code></pre>
+<pre><code>
+Call:
+lm(formula = libdem ~ newReg, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.45808 -0.13136 -0.01907  0.11464  0.49405 
+
+Coefficients:
+                                        Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                             0.293640   0.027962  10.501  &lt; 2e-16
+newRegEastern Europe                    0.140427   0.045662   3.075  0.00245
+newRegLatin America                     0.205440   0.048432   4.242 3.62e-05
+newRegMENA                             -0.096690   0.052312  -1.848  0.06628
+newRegWestern Europe and North America  0.513693   0.049100  10.462  &lt; 2e-16
+newRegAsia and Pacific                  0.005717   0.046670   0.123  0.90265
+                                          
+(Intercept)                            ***
+newRegEastern Europe                   ** 
+newRegLatin America                    ***
+newRegMENA                             .  
+newRegWestern Europe and North America ***
+newRegAsia and Pacific                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1977 on 171 degrees of freedom
+Multiple R-squared:  0.4701,    Adjusted R-squared:  0.4546 
+F-statistic: 30.34 on 5 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -597,13 +712,26 @@ Significance?</div>
 <p><br></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 5
-  term                      estimate std.error statistic  p.value
-  &lt;chr&gt;                        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)                 0.593     0.0399     14.9  9.72e-33
-2 regimeElectoral Autocracy   0.153     0.0476      3.22 1.54e- 3
-3 regimeElectoral Democracy  -0.0567    0.0487     -1.17 2.46e- 1
-4 regimeLiberal Democracy    -0.464     0.0504     -9.22 1.00e-16</code></pre>
+<pre><code>
+Call:
+lm(formula = corruption ~ regime, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.73671 -0.09871  0.01406  0.13629  0.50264 
+
+Coefficients:
+                          Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                0.59264    0.03987  14.866  &lt; 2e-16 ***
+regimeElectoral Autocracy  0.15307    0.04757   3.218  0.00154 ** 
+regimeElectoral Democracy -0.05670    0.04867  -1.165  0.24560    
+regimeLiberal Democracy   -0.46428    0.05035  -9.221  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1993 on 173 degrees of freedom
+Multiple R-squared:  0.5825,    Adjusted R-squared:  0.5753 
+F-statistic: 80.46 on 3 and 173 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>

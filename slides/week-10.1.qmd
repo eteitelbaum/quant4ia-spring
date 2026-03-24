@@ -27,7 +27,6 @@ execute:
 #| echo: true
 
 library(tidyverse)
-library(broom)
 library(vdemdata)
 ```
 
@@ -103,7 +102,7 @@ ggplot(modelData, aes(x = polarization, y = libdem)) +
 #| label: model1
 #| echo: true
 
-lm(libdem ~ polarization, data = modelData) |> tidy()
+lm(libdem ~ polarization, data = modelData) |> summary()
 ```
 <br>
 
@@ -118,7 +117,7 @@ lm(libdem ~ polarization, data = modelData) |> tidy()
 #| label: model2
 #| echo: true
 
-lm(libdem ~ polarization + log_wealth, data = modelData) |> tidy()
+lm(libdem ~ polarization + log_wealth, data = modelData) |> summary()
 ```
 
 ## Model with Two Predictors
@@ -184,7 +183,7 @@ $$\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents$$
 #| label: model3
 #| echo: true
 
-lm(libdem ~ polarization + log_wealth + oil_rents, data = modelData) |> tidy()
+lm(libdem ~ polarization + log_wealth + oil_rents, data = modelData) |> summary()
 ```
 
 ## Model with Three Predictors {.smaller}
@@ -233,7 +232,7 @@ countdown(minutes = 10,
 <br>
 
 ```{r}
-lm(corruption ~ libdem + polarization, data = modelData) |> tidy()
+lm(corruption ~ libdem + polarization, data = modelData) |> summary()
 ```
 
 ## Model 2 - Adding GDP per capita
@@ -241,7 +240,7 @@ lm(corruption ~ libdem + polarization, data = modelData) |> tidy()
 <br>
 
 ```{r}
-lm(corruption ~ libdem + polarization + log_wealth, data = modelData) |> tidy()
+lm(corruption ~ libdem + polarization + log_wealth, data = modelData) |> summary()
 ```
 
 # Categorical Variables
@@ -277,7 +276,7 @@ ggplot(modelData, aes(x = log_wealth, y = libdem, color=factor(judicial_review))
 #| label: judicial_review_model
 #| echo: true
 
-lm(libdem ~ factor(judicial_review), data = modelData) |> tidy()
+lm(libdem ~ factor(judicial_review), data = modelData) |> summary()
 ```
 
 ## Judicial Review and Democracy {.smaller}
@@ -326,7 +325,7 @@ How should we interpret intercept?  How about the coefficient on Latin America?
 #| label: region_model2
 #| echo: true
 
-lm(libdem ~ region, data = modelData) |> tidy()
+lm(libdem ~ region, data = modelData) |> summary()
 ```
 
 ## Democracy and World Region {.smaller}
@@ -346,7 +345,7 @@ What if you want a different baseline category? How do we interpret now?
 modelData <- modelData |> 
 mutate(newReg = relevel(region, ref=4)) 
 
-lm(libdem ~ newReg, data = modelData) |> tidy()
+lm(libdem ~ newReg, data = modelData) |> summary()
 ```
 
 ## Your Turn
@@ -430,7 +429,7 @@ modelData |>
 ```{r}
 #| label: corruption_model
 
-lm(corruption ~ regime, data = modelData) |> tidy()
+lm(corruption ~ regime, data = modelData) |> summary()
 ```
 
 ## Create Your Own Model {.smaller}
