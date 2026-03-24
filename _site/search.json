@@ -4481,9 +4481,9 @@
   {
     "objectID": "slides/week-10.2.html#your-turn",
     "href": "slides/week-10.2.html#your-turn",
-    "title": "Multiple Regression",
+    "title": "Outliers and Model Assumptions",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nIn the last session, you examined levels of democracy and corruption\nNow, let’s fit a multiple regression model predicting corruption with two predictors: democracy (libdem) and polarization (polarization)\nThen, interpret the coefficients\nEstimate a second multiple regression model that adds in GDP per capita (lg_gdppc)\nInterpret the coefficients\nWhat happens to the coefficients of the other variables when we add GDP per capita to the model?\n\nWhy do you think this happens?\n\nTry adding in additional predictors if there is time\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\n\nRun the model using polarization as the predictor instead of wealth\nUse augment() to identify influential observations in this new model\nWhat countries stand out? Are they the same as in the GDP model?"
   },
   {
     "objectID": "slides/week-10.2.html#model-1",
@@ -4558,16 +4558,16 @@
   {
     "objectID": "slides/week-10.2.html#your-turn-1",
     "href": "slides/week-10.2.html#your-turn-1",
-    "title": "Multiple Regression",
-    "section": "Your Turn",
-    "text": "Your Turn\n\nWhich types of regime have more corruption?\n\nV-Dem also includes a categorial regime variable: Closed autocracy (0), Electoral Autocracy (1), Electoral Democracy (2), Liberal Democracy (3)"
+    "title": "Outliers and Model Assumptions",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nGo back to the polarization model you built earlier\nTry removing the influential points and compare to the original model\nNow try winsorizing polarization at the 95th percentile\nWhich approach changes the results more?"
   },
   {
     "objectID": "slides/week-10.2.html#your-turn-2",
     "href": "slides/week-10.2.html#your-turn-2",
-    "title": "Multiple Regression",
-    "section": "Your Turn",
-    "text": "Your Turn\n\nWhich types of regime have more corruption?\n\nFirst, let’s make this an easier factor variable to work with.\n\n# Make nicer regime factor variable\nmodelData &lt;- modelData |&gt; \n  mutate(regime = factor(regime,\n                         labels = c(\"Closed Autocracy\",\n                                   \"Electoral Autocracy\",\n                                  \"Electoral Democracy\",\n                                  \"Liberal Democracy\")))\nlevels(modelData$regime)\n\n[1] \"Closed Autocracy\"    \"Electoral Autocracy\" \"Electoral Democracy\"\n[4] \"Liberal Democracy\""
+    "title": "Outliers and Model Assumptions",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nRun check_model() on a model from your own project\nWhich LINE assumptions look satisfied? Which look violated?\nTry a log transformation on a skewed predictor — does it improve the diagnostics?"
   },
   {
     "objectID": "slides/week-10.2.html#your-turn-3",
@@ -6844,5 +6844,187 @@
     "title": "Multiple Regression",
     "section": "Create Your Own Model",
     "text": "Create Your Own Model\n\n\nWhat is a theory that you would like to test with V-Dem data?\nWhat is the dependent variable?\nWhat are the independent variables?\nMap out steps to wrangle the data and fit a regression model\nWhat do you expect to find?\nNow go ahead and wrangle the data\nFit the model\nInterpret the coefficients and their significance\nDid the results match your expectations?"
+  },
+  {
+    "objectID": "slides/week-10.2.html#what-are-outliers",
+    "href": "slides/week-10.2.html#what-are-outliers",
+    "title": "Outliers and Model Assumptions",
+    "section": "What Are Outliers?",
+    "text": "What Are Outliers?\n\n\nObservations that don’t fit the general pattern of the data\nNot always errors — often substantively interesting cases\nIn our GDP-democracy example: oil-rich authoritarian states"
+  },
+  {
+    "objectID": "slides/week-10.2.html#three-types-of-outliers",
+    "href": "slides/week-10.2.html#three-types-of-outliers",
+    "title": "Outliers and Model Assumptions",
+    "section": "Three Types of Outliers",
+    "text": "Three Types of Outliers\n\n\nLeverage points: extreme values on the x-axis\n\nUnusual predictor values; potential to distort the model\n\nInfluential points: significantly change the regression line when removed\n\nCombine extreme predictors and large residuals\n\nResidual outliers: points far from the regression line\n\nPoorly fit by the model, regardless of their x-value"
+  },
+  {
+    "objectID": "slides/week-10.2.html#revisiting-our-gdp-democracy-data",
+    "href": "slides/week-10.2.html#revisiting-our-gdp-democracy-data",
+    "title": "Outliers and Model Assumptions",
+    "section": "Revisiting Our GDP-Democracy Data",
+    "text": "Revisiting Our GDP-Democracy Data"
+  },
+  {
+    "objectID": "slides/week-10.2.html#identifying-outliers-iqr-method",
+    "href": "slides/week-10.2.html#identifying-outliers-iqr-method",
+    "title": "Outliers and Model Assumptions",
+    "section": "Identifying Outliers: IQR Method",
+    "text": "Identifying Outliers: IQR Method\n\n\nCode\nlibrary(patchwork)\n\np1 &lt;- ggplot(model_data, aes(y = lib_dem)) +\n  geom_boxplot() +\n  labs(y = \"Liberal Democracy Score\", title = \"Democracy\") +\n  theme_minimal()\n\np2 &lt;- ggplot(model_data, aes(y = wealth)) +\n  geom_boxplot() +\n  scale_y_continuous(labels = scales::dollar_format()) +\n  labs(y = \"GDP per Capita\", title = \"GDP (Raw)\") +\n  theme_minimal()\n\np1 | p2"
+  },
+  {
+    "objectID": "slides/week-10.2.html#flagging-gdp-outliers",
+    "href": "slides/week-10.2.html#flagging-gdp-outliers",
+    "title": "Outliers and Model Assumptions",
+    "section": "Flagging GDP Outliers",
+    "text": "Flagging GDP Outliers\n\n\nmodel_data &lt;- model_data |&gt;\n  mutate(gdp_outlier = wealth %in% boxplot.stats(wealth)$out)\n\nmodel_data |&gt;\n  filter(gdp_outlier) |&gt;\n  arrange(desc(wealth)) |&gt;\n  select(country, wealth, lib_dem)\n\n                   country wealth lib_dem\n1               Luxembourg 92.389   0.798\n2                    Qatar 80.190   0.084\n3                  Ireland 75.467   0.825\n4                Singapore 72.025   0.333\n5     United Arab Emirates 64.628   0.092\n6 United States of America 60.641   0.737"
+  },
+  {
+    "objectID": "slides/week-10.2.html#regression-diagnostics",
+    "href": "slides/week-10.2.html#regression-diagnostics",
+    "title": "Outliers and Model Assumptions",
+    "section": "Regression Diagnostics",
+    "text": "Regression Diagnostics\n\nThe broom::augment() function adds diagnostic columns to our data:\n\n\n\nColumn\nWhat it measures\n\n\n\n\n.hat\nLeverage — how extreme the predictor values are\n\n\n.std.resid\nStandardized residuals — how far from the line\n\n\n.cooksd\nCook’s distance — overall influence on the model"
+  },
+  {
+    "objectID": "slides/week-10.2.html#flagging-influential-points",
+    "href": "slides/week-10.2.html#flagging-influential-points",
+    "title": "Outliers and Model Assumptions",
+    "section": "Flagging Influential Points",
+    "text": "Flagging Influential Points\n\n\ndemocracy_model &lt;- lm(lib_dem ~ log(wealth), data = model_data)\n\nmodel_diagnostics &lt;- augment(democracy_model, data = model_data) |&gt;\n  mutate(\n    high_leverage  = .hat &gt; 2 * mean(.hat),\n    high_residual  = abs(.std.resid) &gt; 2,\n    high_influence = .cooksd &gt; 4 / nrow(model_data)\n  )\n\nmodel_diagnostics |&gt;\n  filter(high_leverage | high_residual | high_influence) |&gt;\n  select(country, wealth, lib_dem, high_leverage, high_residual, high_influence)\n\n# A tibble: 16 × 6\n   country             wealth lib_dem high_leverage high_residual high_influence\n   &lt;chr&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;         &lt;lgl&gt;         &lt;lgl&gt;         \n 1 Venezuela            1.19    0.059 TRUE          FALSE         FALSE         \n 2 Niger                1.19    0.399 TRUE          FALSE         FALSE         \n 3 Burundi              0.735   0.054 TRUE          FALSE         FALSE         \n 4 Central African Re…  0.827   0.22  TRUE          FALSE         FALSE         \n 5 Ireland             75.5     0.825 TRUE          FALSE         FALSE         \n 6 Liberia              1.19    0.412 TRUE          FALSE         FALSE         \n 7 Malawi               1.31    0.412 TRUE          FALSE         FALSE         \n 8 Qatar               80.2     0.084 TRUE          TRUE          TRUE          \n 9 Democratic Republi…  0.913   0.145 TRUE          FALSE         FALSE         \n10 Eritrea             21.1     0.009 FALSE         TRUE          FALSE         \n11 Madagascar           1.31    0.258 TRUE          FALSE         FALSE         \n12 Turkmenistan        25.0     0.037 FALSE         TRUE          FALSE         \n13 Bahrain             30.0     0.052 FALSE         TRUE          TRUE          \n14 Luxembourg          92.4     0.798 TRUE          FALSE         FALSE         \n15 Saudi Arabia        33.3     0.047 FALSE         TRUE          TRUE          \n16 United Arab Emirat… 64.6     0.092 FALSE         TRUE          TRUE"
+  },
+  {
+    "objectID": "slides/week-10.2.html#four-main-strategies",
+    "href": "slides/week-10.2.html#four-main-strategies",
+    "title": "Outliers and Model Assumptions",
+    "section": "Four Main Strategies",
+    "text": "Four Main Strategies\n\n\nLeave them in — outliers may be substantively important\nRemove them — check how much they change your results\nTransform the data — e.g., log transformation compresses extreme values\nWinsorize — cap extreme values at a percentile rather than removing them"
+  },
+  {
+    "objectID": "slides/week-10.2.html#strategy-1-removing-outliers",
+    "href": "slides/week-10.2.html#strategy-1-removing-outliers",
+    "title": "Outliers and Model Assumptions",
+    "section": "Strategy 1: Removing Outliers",
+    "text": "Strategy 1: Removing Outliers\n\nCompare models with and without influential points:\n\n# Original model\nmodel_full &lt;- lm(lib_dem ~ log(wealth), data = model_data)\n\n# Model without influential points\nmodel_data_clean &lt;- model_diagnostics |&gt;\n  filter(!high_leverage & !high_residual & !high_influence)\n\nmodel_clean &lt;- lm(lib_dem ~ log(wealth), data = model_data_clean)\n\n# Compare coefficients\ntibble(\n  model = c(\"Full\", \"No outliers\"),\n  intercept = c(coef(model_full)[1], coef(model_clean)[1]),\n  slope = c(coef(model_full)[2], coef(model_clean)[2]),\n  r_squared = c(glance(model_full)$r.squared, glance(model_clean)$r.squared)\n)\n\n# A tibble: 2 × 4\n  model       intercept slope r_squared\n  &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;\n1 Full           0.131  0.120     0.280\n2 No outliers    0.0693 0.152     0.372"
+  },
+  {
+    "objectID": "slides/week-10.2.html#strategy-2-log-transformation",
+    "href": "slides/week-10.2.html#strategy-2-log-transformation",
+    "title": "Outliers and Model Assumptions",
+    "section": "Strategy 2: Log Transformation",
+    "text": "Strategy 2: Log Transformation"
+  },
+  {
+    "objectID": "slides/week-10.2.html#strategy-3-winsorizing",
+    "href": "slides/week-10.2.html#strategy-3-winsorizing",
+    "title": "Outliers and Model Assumptions",
+    "section": "Strategy 3: Winsorizing",
+    "text": "Strategy 3: Winsorizing\nWinsorizing caps extreme values at a specified percentile instead of removing them:\n\n\nCode\nlibrary(datawizard)\n\nmodel_data_win &lt;- model_data |&gt;\n  mutate(wealth_win95 = winsorize(wealth, threshold = 0.05))\n\np1 &lt;- ggplot(model_data, aes(x = wealth)) +\n  geom_histogram(bins = 30, fill = \"darkblue\", alpha = 0.7) +\n  scale_x_continuous(labels = scales::label_dollar(suffix = \"k\")) +\n  labs(title = \"Original\", x = \"GDP per Capita\") +\n  theme_minimal()\n\np2 &lt;- ggplot(model_data_win, aes(x = wealth_win95)) +\n  geom_histogram(bins = 30, fill = \"darkred\", alpha = 0.7) +\n  scale_x_continuous(labels = scales::label_dollar(suffix = \"k\")) +\n  labs(title = \"Winsorized at 95th pct\", x = \"GDP per Capita\") +\n  theme_minimal()\n\np1 | p2"
+  },
+  {
+    "objectID": "slides/week-10.2.html#strategy-4-robust-regression",
+    "href": "slides/week-10.2.html#strategy-4-robust-regression",
+    "title": "Outliers and Model Assumptions",
+    "section": "Strategy 4: Robust Regression",
+    "text": "Strategy 4: Robust Regression\n\nMASS::rlm() is less sensitive to outliers than OLS:\n\nlibrary(MASS)\n\nrobust_model &lt;- rlm(lib_dem ~ log(wealth), data = model_data)\n\nsummary(robust_model)\n\n\nCall: rlm(formula = lib_dem ~ log(wealth), data = model_data)\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.60880 -0.15368  0.03422  0.17024  0.37024 \n\nCoefficients:\n            Value  Std. Error t value\n(Intercept) 0.1178 0.0385     3.0619 \nlog(wealth) 0.1311 0.0149     8.8195 \n\nResidual standard error: 0.2429 on 172 degrees of freedom"
+  },
+  {
+    "objectID": "slides/week-10.2.html#how-to-choose",
+    "href": "slides/week-10.2.html#how-to-choose",
+    "title": "Outliers and Model Assumptions",
+    "section": "How to Choose?",
+    "text": "How to Choose?\n\n\n\n\nSituation\nStrategy\n\n\n\n\nData entry error or wrong population\nRemove\n\n\nNaturally skewed variable\nLog transform\n\n\nWant to keep all obs., reduce tail influence\nWinsorize\n\n\nOutliers are legitimate but numerous\nRobust regression\n\n\nOutliers are theoretically interesting\nLeave in; discuss\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nAlways report your decision and run a sensitivity analysis to show how results change."
+  },
+  {
+    "objectID": "slides/week-10.2.html#why-check-assumptions",
+    "href": "slides/week-10.2.html#why-check-assumptions",
+    "title": "Outliers and Model Assumptions",
+    "section": "Why Check Assumptions?",
+    "text": "Why Check Assumptions?\n\n\nLinear regression makes several assumptions about your data\nViolating them can lead to biased coefficients or wrong standard errors\nChecking assumptions helps you know when to trust your results"
+  },
+  {
+    "objectID": "slides/week-10.2.html#the-line-conditions",
+    "href": "slides/week-10.2.html#the-line-conditions",
+    "title": "Outliers and Model Assumptions",
+    "section": "The LINE Conditions",
+    "text": "The LINE Conditions\n\n\n\n\n\n\n\n\n\nLetter\nAssumption\nWhat it means\n\n\n\n\nL\nLinearity\nRelationship between X and Y is linear\n\n\nI\nIndependence\nObservations are independent of each other\n\n\nN\nNormality\nResiduals are approximately normally distributed\n\n\nE\nEqual variance\nResiduals have constant variance (homoscedasticity)"
+  },
+  {
+    "objectID": "slides/week-10.2.html#setup-for-diagnostics",
+    "href": "slides/week-10.2.html#setup-for-diagnostics",
+    "title": "Outliers and Model Assumptions",
+    "section": "Setup for Diagnostics",
+    "text": "Setup for Diagnostics\n\n\nlibrary(vdemlite)\n\nmodel_data2 &lt;- fetchdem(\n  indicators = c(\"v2x_libdem\", \"e_gdppc\", \"v2cacamps\",\n                 \"v2x_gender\", \"v2x_corr\", \"e_regionpol_6C\"),\n  start_year = 2006, end_year = 2006\n) |&gt;\n  rename(country = country_name, lib_dem = v2x_libdem,\n         wealth = e_gdppc, polarization = v2cacamps,\n         women_emp = v2x_gender, corruption = v2x_corr,\n         region = e_regionpol_6C) |&gt;\n  mutate(region = factor(region,\n    labels = c(\"Eastern Europe\", \"Latin America\", \"MENA\",\n               \"SS Africa\", \"The West\", \"Asia & Pacific\")))\n\ndemocracy_model2 &lt;- lm(lib_dem ~ log(wealth) + polarization +\n                         corruption + women_emp + region,\n                       data = model_data2)"
+  },
+  {
+    "objectID": "slides/week-10.2.html#exploratory-data-analysis-first",
+    "href": "slides/week-10.2.html#exploratory-data-analysis-first",
+    "title": "Outliers and Model Assumptions",
+    "section": "Exploratory Data Analysis First",
+    "text": "Exploratory Data Analysis First"
+  },
+  {
+    "objectID": "slides/week-10.2.html#checking-linearity-residuals-vs.-fitted",
+    "href": "slides/week-10.2.html#checking-linearity-residuals-vs.-fitted",
+    "title": "Outliers and Model Assumptions",
+    "section": "Checking Linearity: Residuals vs. Fitted",
+    "text": "Checking Linearity: Residuals vs. Fitted"
+  },
+  {
+    "objectID": "slides/week-10.2.html#checking-normality-q-q-plot",
+    "href": "slides/week-10.2.html#checking-normality-q-q-plot",
+    "title": "Outliers and Model Assumptions",
+    "section": "Checking Normality: Q-Q Plot",
+    "text": "Checking Normality: Q-Q Plot"
+  },
+  {
+    "objectID": "slides/week-10.2.html#checking-equal-variance-scale-location",
+    "href": "slides/week-10.2.html#checking-equal-variance-scale-location",
+    "title": "Outliers and Model Assumptions",
+    "section": "Checking Equal Variance: Scale-Location",
+    "text": "Checking Equal Variance: Scale-Location"
+  },
+  {
+    "objectID": "slides/week-10.2.html#automated-diagnostics-with-performance",
+    "href": "slides/week-10.2.html#automated-diagnostics-with-performance",
+    "title": "Outliers and Model Assumptions",
+    "section": "Automated Diagnostics with performance",
+    "text": "Automated Diagnostics with performance\n\nYou can automate all the diagnostics we just discussed with a single line of code using the performance package:\n\nlibrary(performance)\n\ncheck_model(democracy_model2)"
+  },
+  {
+    "objectID": "slides/week-10.2.html#fixing-violations-transformations",
+    "href": "slides/week-10.2.html#fixing-violations-transformations",
+    "title": "Outliers and Model Assumptions",
+    "section": "Fixing Violations: Transformations",
+    "text": "Fixing Violations: Transformations\n\nIf you detect assumption violations:\n\nLog transform skewed predictors → compresses extremes, improves linearity\nPolynomial terms → capture curved relationships: I(x^2)\nRobust standard errors → correct inference under heteroscedasticity"
+  },
+  {
+    "objectID": "slides/week-10.2.html#example-addressing-non-linearity",
+    "href": "slides/week-10.2.html#example-addressing-non-linearity",
+    "title": "Outliers and Model Assumptions",
+    "section": "Example: Addressing Non-Linearity",
+    "text": "Example: Addressing Non-Linearity\n\nAdding a polynomial term for women_emp to capture a curved relationship:\n\ndemocracy_model3 &lt;- lm(\n  lib_dem ~ log(wealth) + polarization + corruption +\n    log(women_emp) + I(log(women_emp)^2) + region,\n  data = model_data2\n)\n\ncheck_model(democracy_model3)"
+  },
+  {
+    "objectID": "slides/week-10.2.html#automated-diagnostics",
+    "href": "slides/week-10.2.html#automated-diagnostics",
+    "title": "Outliers and Model Assumptions",
+    "section": "Automated Diagnostics",
+    "text": "Automated Diagnostics\n\n\nCode\nlibrary(performance)\n\ncheck_model(democracy_model2)"
+  },
+  {
+    "objectID": "slides/week-10.2.html#automated-diagnostics-output",
+    "href": "slides/week-10.2.html#automated-diagnostics-output",
+    "title": "Outliers and Model Assumptions",
+    "section": "Automated Diagnostics: Output",
+    "text": "Automated Diagnostics: Output"
+  },
+  {
+    "objectID": "slides/week-10.2.html#example-addressing-non-linearity-output",
+    "href": "slides/week-10.2.html#example-addressing-non-linearity-output",
+    "title": "Outliers and Model Assumptions",
+    "section": "Example: Addressing Non-Linearity (Output)",
+    "text": "Example: Addressing Non-Linearity (Output)"
   }
 ]

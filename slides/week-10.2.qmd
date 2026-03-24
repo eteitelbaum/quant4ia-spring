@@ -1,0 +1,538 @@
+---
+title: Outliers and Model Assumptions
+date: today
+date-format: long
+footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"
+logo: images/iaff6501-logo.png
+format:
+  revealjs:
+    theme: [simple, custom.scss]
+    transition: fade
+    slide-number: true
+    #multiplex: true
+    chalkboard: true
+execute:
+  echo: false
+  message: false
+  warning: false
+  freeze: auto
+---
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(vdemlite)
+library(broom)
+
+model_data <- fetchdem(
+  indicators = c("v2x_libdem", "e_gdppc", "v2cacamps"),
+  start_year = 2019,
+  end_year = 2019
+) |>
+  rename(
+    country = country_name,
+    lib_dem = v2x_libdem,
+    wealth = e_gdppc,
+    polarization = v2cacamps
+  ) |>
+  filter(!is.na(lib_dem), !is.na(wealth))
+```
+
+# Dealing with Outliers
+
+## What Are Outliers?
+
+<br>
+
+- Observations that don't fit the general pattern of the data
+- Not always errors — often **substantively interesting cases**
+- In our GDP-democracy example: oil-rich authoritarian states
+
+## Three Types of Outliers {.smaller}
+
+<br>
+
+- **Leverage points**: extreme values on the x-axis
+  - Unusual predictor values; *potential* to distort the model
+- **Influential points**: significantly change the regression line when removed
+  - Combine extreme predictors *and* large residuals
+- **Residual outliers**: points far from the regression line
+  - Poorly fit by the model, regardless of their x-value
+
+## Revisiting Our GDP-Democracy Data
+
+```{r}
+#| label: scatter-plot
+
+library(ggrepel)
+
+model_data_labeled <- model_data |>
+  mutate(
+    label = case_when(
+      wealth > 50 | (wealth > 20 & lib_dem < 0.25) ~ country,
+      TRUE ~ NA_character_
+    )
+  )
+
+ggplot(model_data_labeled, aes(x = wealth, y = lib_dem)) +
+  geom_point(alpha = 0.7) +
+  geom_text_repel(
+    aes(label = label),
+    size = 3,
+    max.overlaps = 20,
+    seed = 42
+  ) +
+  scale_x_log10(labels = scales::label_dollar(suffix = "k")) +
+  labs(x = "GDP per Capita (log scale)",
+       y = "Liberal Democracy Score",
+       title = "Wealth and Democracy, 2019") +
+  theme_minimal()
+```
+
+## Identifying Outliers: IQR Method
+
+```{r}
+#| label: boxplots
+#| echo: true
+#| code-fold: true
+
+library(patchwork)
+
+p1 <- ggplot(model_data, aes(y = lib_dem)) +
+  geom_boxplot() +
+  labs(y = "Liberal Democracy Score", title = "Democracy") +
+  theme_minimal()
+
+p2 <- ggplot(model_data, aes(y = wealth)) +
+  geom_boxplot() +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(y = "GDP per Capita", title = "GDP (Raw)") +
+  theme_minimal()
+
+p1 | p2
+```
+
+## Flagging GDP Outliers {.smaller}
+
+<br>
+
+```{r}
+#| label: flag-outliers
+#| echo: true
+
+model_data <- model_data |>
+  mutate(gdp_outlier = wealth %in% boxplot.stats(wealth)$out)
+
+model_data |>
+  filter(gdp_outlier) |>
+  arrange(desc(wealth)) |>
+  select(country, wealth, lib_dem)
+```
+
+## Regression Diagnostics
+
+<br>
+
+The `broom::augment()` function adds diagnostic columns to our data:
+
+| Column | What it measures |
+|--------|-----------------|
+| `.hat` | **Leverage** — how extreme the predictor values are |
+| `.std.resid` | **Standardized residuals** — how far from the line |
+| `.cooksd` | **Cook's distance** — overall influence on the model |
+
+## Flagging Influential Points {.smaller}
+
+<br>
+
+```{r}
+#| label: diagnostics
+#| echo: true
+
+democracy_model <- lm(lib_dem ~ log(wealth), data = model_data)
+
+model_diagnostics <- augment(democracy_model, data = model_data) |>
+  mutate(
+    high_leverage  = .hat > 2 * mean(.hat),
+    high_residual  = abs(.std.resid) > 2,
+    high_influence = .cooksd > 4 / nrow(model_data)
+  )
+
+model_diagnostics |>
+  filter(high_leverage | high_residual | high_influence) |>
+  select(country, wealth, lib_dem, high_leverage, high_residual, high_influence)
+```
+
+## Your Turn! {.smaller}
+
+<br>
+
+- Run the model using `polarization` as the predictor instead of `wealth`
+- Use `augment()` to identify influential observations in this new model
+- What countries stand out? Are they the same as in the GDP model?
+
+```{r}
+#| label: timer1
+
+library(countdown)
+countdown(minutes = 10, id = "timer1", right = "10%", bottom = "5%")
+```
+
+# Outlier Strategies
+
+## Four Main Strategies
+
+<br>
+
+::: {.incremental}
+1. **Leave them in** — outliers may be substantively important
+2. **Remove them** — check how much they change your results
+3. **Transform the data** — e.g., log transformation compresses extreme values
+4. **Winsorize** — cap extreme values at a percentile rather than removing them
+:::
+
+## Strategy 1: Removing Outliers {.smaller}
+
+<br>
+
+Compare models with and without influential points:
+
+```{r}
+#| label: remove-outliers
+#| echo: true
+
+# Original model
+model_full <- lm(lib_dem ~ log(wealth), data = model_data)
+
+# Model without influential points
+model_data_clean <- model_diagnostics |>
+  filter(!high_leverage & !high_residual & !high_influence)
+
+model_clean <- lm(lib_dem ~ log(wealth), data = model_data_clean)
+
+# Compare coefficients
+tibble(
+  model = c("Full", "No outliers"),
+  intercept = c(coef(model_full)[1], coef(model_clean)[1]),
+  slope = c(coef(model_full)[2], coef(model_clean)[2]),
+  r_squared = c(glance(model_full)$r.squared, glance(model_clean)$r.squared)
+)
+```
+
+## Strategy 2: Log Transformation
+
+<br>
+
+```{r}
+#| label: log-comparison
+
+model_no_log  <- lm(lib_dem ~ wealth,       data = model_data)
+model_with_log <- lm(lib_dem ~ log(wealth), data = model_data)
+
+p1 <- ggplot(model_data, aes(x = wealth, y = lib_dem)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_continuous(labels = scales::dollar_format()) +
+  labs(title = "Raw GDP — outliers distort the line",
+       x = "GDP per Capita", y = "Liberal Democracy") +
+  theme_minimal()
+
+p2 <- ggplot(model_data, aes(x = log(wealth), y = lib_dem)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Log GDP — much better fit",
+       x = "Log GDP per Capita", y = "Liberal Democracy") +
+  theme_minimal()
+
+p1 | p2
+```
+
+## Strategy 3: Winsorizing {.smaller}
+
+**Winsorizing** caps extreme values at a specified percentile instead of removing them:
+
+```{r}
+#| label: winsorize
+#| echo: true
+#| code-fold: true
+
+library(datawizard)
+
+model_data_win <- model_data |>
+  mutate(wealth_win95 = winsorize(wealth, threshold = 0.05))
+
+p1 <- ggplot(model_data, aes(x = wealth)) +
+  geom_histogram(bins = 30, fill = "darkblue", alpha = 0.7) +
+  scale_x_continuous(labels = scales::label_dollar(suffix = "k")) +
+  labs(title = "Original", x = "GDP per Capita") +
+  theme_minimal()
+
+p2 <- ggplot(model_data_win, aes(x = wealth_win95)) +
+  geom_histogram(bins = 30, fill = "darkred", alpha = 0.7) +
+  scale_x_continuous(labels = scales::label_dollar(suffix = "k")) +
+  labs(title = "Winsorized at 95th pct", x = "GDP per Capita") +
+  theme_minimal()
+
+p1 | p2
+```
+
+## Strategy 4: Robust Regression {.smaller}
+
+<br>
+
+`MASS::rlm()` is less sensitive to outliers than OLS:
+
+```{r}
+#| label: robust-regression
+#| echo: true
+
+library(MASS)
+
+robust_model <- rlm(lib_dem ~ log(wealth), data = model_data)
+
+summary(robust_model)
+```
+
+## How to Choose? {.smaller}
+
+<br>
+
+| Situation | Strategy |
+|-----------|----------|
+| Data entry error or wrong population | Remove |
+| Naturally skewed variable | Log transform |
+| Want to keep all obs., reduce tail influence | Winsorize |
+| Outliers are legitimate but numerous | Robust regression |
+| Outliers are theoretically interesting | Leave in; discuss |
+
+<br>
+
+::: {.callout-note}
+Always report your decision and run a **sensitivity analysis** to show how results change.
+:::
+
+## Your Turn! {.smaller}
+
+<br>
+
+- Go back to the polarization model you built earlier
+- Try removing the influential points and compare to the original model
+- Now try winsorizing polarization at the 95th percentile
+- Which approach changes the results more?
+
+```{r}
+#| label: timer2
+
+countdown(minutes = 10, id = "timer2", right = "10%", bottom = "5%")
+```
+
+# Checking Model Assumptions (Optional)
+
+## Why Check Assumptions?
+
+<br>
+
+::: {.incremental}
+- Linear regression makes several assumptions about your data
+- Violating them can lead to **biased coefficients** or **wrong standard errors**
+- Checking assumptions helps you know *when to trust your results*
+:::
+
+## The LINE Conditions {.smaller}
+
+<br>
+
+| Letter | Assumption | What it means |
+|--------|-----------|---------------|
+| **L** | Linearity | Relationship between X and Y is linear |
+| **I** | Independence | Observations are independent of each other |
+| **N** | Normality | **Residuals** are approximately normally distributed |
+| **E** | Equal variance | Residuals have constant variance (**homoscedasticity**) |
+
+## Setup for Diagnostics
+
+<br>
+
+```{r}
+#| label: setup-diagnostics
+#| echo: true
+
+library(vdemlite)
+
+model_data2 <- fetchdem(
+  indicators = c("v2x_libdem", "e_gdppc", "v2cacamps",
+                 "v2x_gender", "v2x_corr", "e_regionpol_6C"),
+  start_year = 2006, end_year = 2006
+) |>
+  rename(country = country_name, lib_dem = v2x_libdem,
+         wealth = e_gdppc, polarization = v2cacamps,
+         women_emp = v2x_gender, corruption = v2x_corr,
+         region = e_regionpol_6C) |>
+  mutate(region = factor(region,
+    labels = c("Eastern Europe", "Latin America", "MENA",
+               "SS Africa", "The West", "Asia & Pacific")))
+
+democracy_model2 <- lm(lib_dem ~ log(wealth) + polarization +
+                         corruption + women_emp + region,
+                       data = model_data2)
+```
+
+## Exploratory Data Analysis First
+
+```{r}
+#| label: ggpairs
+
+library(GGally)
+
+model_data2 |>
+  dplyr::select(lib_dem, wealth, polarization, corruption, women_emp) |>
+  ggpairs(progress = FALSE)
+```
+
+## Checking Linearity: Residuals vs. Fitted
+
+```{r}
+#| label: resid-vs-fitted
+
+diag_data <- model_data2 |>
+  drop_na() |>
+  mutate(
+    fitted    = fitted(democracy_model2),
+    residuals = residuals(democracy_model2)
+  )
+
+ggplot(diag_data, aes(x = fitted, y = residuals)) +
+  geom_point(alpha = 0.6) +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+  geom_smooth(se = FALSE, color = "blue") +
+  labs(x = "Fitted Values", y = "Residuals",
+       title = "Residuals vs. Fitted — check for patterns") +
+  theme_minimal()
+```
+
+## Checking Normality: Q-Q Plot
+
+```{r}
+#| label: qq-plot
+
+qq_data <- diag_data |>
+  arrange(residuals) |>
+  mutate(theoretical = qnorm(ppoints(length(residuals))))
+
+ggplot(qq_data, aes(x = theoretical, y = sort(residuals))) +
+  geom_point() +
+  geom_abline(slope = sd(diag_data$residuals),
+              intercept = mean(diag_data$residuals),
+              color = "red") +
+  labs(title = "Normal Q-Q Plot — points should follow the line",
+       x = "Theoretical Quantiles", y = "Sample Quantiles") +
+  theme_minimal()
+```
+
+## Checking Equal Variance: Scale-Location
+
+```{r}
+#| label: scale-location
+
+diag_data |>
+  mutate(sqrt_abs_resid = sqrt(abs(residuals))) |>
+  ggplot(aes(x = fitted, y = sqrt_abs_resid)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(se = FALSE, color = "blue") +
+  labs(x = "Fitted Values", y = "√|Residuals|",
+       title = "Scale-Location — horizontal line = equal variance") +
+  theme_minimal()
+```
+
+## Automated Diagnostics with `performance`
+
+<br>
+
+You can automate all the diagnostics we just discussed with a single line of code using the `performance` package:
+
+```{r}
+#| label: check-model-code
+#| echo: true
+#| eval: false
+
+library(performance)
+
+check_model(democracy_model2)
+```
+
+##
+
+```{r}
+#| label: check-model-plot
+#| fig-height: 7
+#| fig-width: 11
+#| out-width: "100%"
+
+library(performance)
+
+check_model(democracy_model2)
+```
+
+## Fixing Violations: Transformations {.smaller}
+
+<br>
+
+If you detect assumption violations:
+
+::: {.incremental}
+- **Log transform** skewed predictors → compresses extremes, improves linearity
+- **Polynomial terms** → capture curved relationships: `I(x^2)`
+- **Robust standard errors** → correct inference under heteroscedasticity
+:::
+
+## Example: Addressing Non-Linearity
+
+<br>
+
+Adding a polynomial term for `women_emp` to capture a curved relationship:
+
+```{r}
+#| label: improved-model-code
+#| echo: true
+#| eval: false
+
+democracy_model3 <- lm(
+  lib_dem ~ log(wealth) + polarization + corruption +
+    log(women_emp) + I(log(women_emp)^2) + region,
+  data = model_data2
+)
+
+check_model(democracy_model3)
+```
+
+##
+
+```{r}
+#| label: improved-model-plot
+#| fig-height: 7
+#| fig-width: 11
+#| out-width: "100%"
+
+democracy_model3 <- lm(
+  lib_dem ~ log(wealth) + polarization + corruption +
+    log(women_emp) + I(log(women_emp)^2) + region,
+  data = model_data2
+)
+
+check_model(democracy_model3)
+```
+
+## Your Turn! {.smaller}
+
+<br>
+
+- Run `check_model()` on a model from your own project
+- Which LINE assumptions look satisfied? Which look violated?
+- Try a log transformation on a skewed predictor — does it improve the diagnostics?
+
+```{r}
+#| label: timer3
+
+countdown(minutes = 10, id = "timer3", right = "10%", bottom = "5%")
+```
