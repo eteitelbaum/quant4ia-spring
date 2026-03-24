@@ -97,7 +97,7 @@ library(marginaleffects)
 # seledct some countries for a given year
 selected_countries <- conflict_df |>
   filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
 # extract the model
@@ -108,7 +108,7 @@ marg_effects <- predictions(conflict_fit, newdata = selected_countries)
 
 # tidy the results
 tidy(marg_effects) |>
-  select(estimate, p.value, conf.low, conf.high, statename)
+  select(estimate, p.value, conf.low, conf.high, gw_name)
 ```
 
 ## Your Turn! 

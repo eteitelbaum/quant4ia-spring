@@ -10,8 +10,8 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-02-09">
-  <title>IAFF 6501--Spring 2024 Schedule – Modeling</title>
+  <meta name="dcterms.date" content="2026-03-24">
+  <title>IAFF 6501--Spring 2024 Schedule – Linear Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -190,9 +190,11 @@
       margin-right: 0; 
     }
   </style>
-<meta property="og:title" content="Modeling – IAFF 6501–Spring 2024 Schedule">
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+<meta property="og:title" content="Linear Regression – IAFF 6501–Spring 2024 Schedule">
 <meta property="og:site_name" content="IAFF 6501--Spring 2024 Schedule">
-<meta name="twitter:title" content="Modeling – IAFF 6501–Spring 2024 Schedule">
+<meta name="twitter:title" content="Linear Regression – IAFF 6501–Spring 2024 Schedule">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
@@ -200,258 +202,266 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Modeling</h1>
+  <h1 class="title">Linear Regression</h1>
 
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">February 9, 2026</p>
+  <p class="date">March 24, 2026</p>
 </section>
-<section id="modeling" class="slide level2">
-<h2>Modeling</h2>
-<ul>
-<li class="fragment">Use models to explain the relationship between variables and to make predictions</li>
-<li class="fragment">Explaining relationships [usually interested in causal relationships, but not always]
-<ul>
-<li class="fragment">Does oil wealth impact regime type?</li>
-</ul></li>
-<li class="fragment">Predictive modeling
-<ul>
-<li class="fragment">Where is violence most likely to happen in [country X] during their next election?</li>
-<li class="fragment">Is this email spam?</li>
-</ul></li>
-</ul>
+<section id="linear-model-with-single-predictor" class="slide level2">
+<h2>Linear Model with Single Predictor</h2>
+<p><br></p>
+<p>Goal: Estimate Democracy score (<span class="math inline">\(\hat{Y_{i}}\)</span>) of a country given level of GDP per capita (<span class="math inline">\(X_{i}\)</span>).</p>
+<p><br></p>
+<p>Or: Estimate relationship between GDP per capita and democracy.</p>
 </section>
-<section id="modeling-1" class="slide level2">
-<h2>Modeling</h2>
+<section id="linear-model-with-single-predictor-1" class="slide level2">
+<h2>Linear Model with Single Predictor</h2>
 
-<img data-src="week-9.2_files/figure-revealjs/linear-model-1.png" width="960" class="r-stretch"></section>
-<section id="modeling-2" class="slide level2">
-<h2>Modeling</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/nonlinear-model-1.png" width="960" class="r-stretch"></section>
+<img data-src="week-9.2_files/figure-revealjs/model-data-1.png" width="960" class="r-stretch"></section>
 <section>
-<section id="example-gdp-per-capita-and-democracy" class="title-slide slide level1 center">
-<h1>Example: GDP per capita and Democracy</h1>
+<section id="estimate-model" class="title-slide slide level1 center">
+<h1>Estimate Model</h1>
 
-</section>
-<section id="pull-in-the-vdem-data" class="slide level2">
-<h2>Pull in the VDEM Data</h2>
-<p><br></p>
-<p>What is this code doing?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(vdemdata)</span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a>modelData <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb1-5"><a></a>  <span class="fu">select</span>(</span>
-<span id="cb1-6"><a></a>    <span class="at">country =</span> country_name, </span>
-<span id="cb1-7"><a></a>    <span class="at">lib_dem =</span> v2x_libdem, </span>
-<span id="cb1-8"><a></a>    <span class="at">wealth =</span> e_gdppc) <span class="sc">|&gt;</span></span>
-<span id="cb1-9"><a></a>  <span class="fu">mutate</span>(<span class="at">log_wealth =</span> <span class="fu">log</span>(wealth))</span>
-<span id="cb1-10"><a></a></span>
-<span id="cb1-11"><a></a><span class="fu">glimpse</span>(modelData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 179
-Columns: 4
-$ country    &lt;chr&gt; "Mexico", "Suriname", "Sweden", "Switzerland", "Ghana", "So…
-$ lib_dem    &lt;dbl&gt; 0.433, 0.593, 0.875, 0.870, 0.614, 0.601, 0.754, 0.267, 0.1…
-$ wealth     &lt;dbl&gt; 16.814, 11.752, 48.804, 56.110, 5.608, 11.345, 39.061, 5.69…
-$ log_wealth &lt;dbl&gt; 2.8222119, 2.4640234, 3.8878123, 4.0273140, 1.7241941, 2.42…</code></pre>
-</div>
-</div>
-</section>
-<section id="plot-the-relationship" class="slide level2">
-<h2>Plot the Relationship</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/plot-wealth-dem-1-1.png" width="960" class="r-stretch"></section>
-<section id="plot-the-relationship-1" class="slide level2">
-<h2>Plot the Relationship</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/plot-wealth-dem-2-1.png" width="960" class="r-stretch"></section>
-<section id="plot-the-relationship-2" class="slide level2">
-<h2>Plot the Relationship</h2>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">ggplot</span>(modelData, <span class="fu">aes</span>(<span class="at">x =</span> wealth, <span class="at">y =</span> lib_dem)) <span class="sc">+</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"#E48957"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GPD per capita"</span>, <span class="at">y =</span> <span class="st">"Liberal Democracy Index"</span>) <span class="sc">+</span></span>
-<span id="cb3-5"><a></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="using-the-scales-package" class="slide level2">
-<h2>Using the Scales Package</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/plot-wealth-dem-4-1.png" width="960" class="r-stretch"></section>
-<section id="using-the-scales-package-1" class="slide level2">
-<h2>Using the Scales Package</h2>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4" data-code-line-numbers="1,4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">ggplot</span>(modelData, <span class="fu">aes</span>(<span class="at">x =</span> wealth, <span class="at">y =</span> lib_dem)) <span class="sc">+</span></span>
-<span id="cb4-2"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-3"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"#E48957"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">label_dollar</span>(<span class="at">suffix =</span> <span class="st">"k"</span>)) <span class="sc">+</span></span>
-<span id="cb4-5"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-6"><a></a>    <span class="at">title =</span> <span class="st">"Wealth and Democracy, 2019"</span>,</span>
-<span id="cb4-7"><a></a>    <span class="at">x =</span> <span class="st">"GPD per capita"</span>, </span>
-<span id="cb4-8"><a></a>    <span class="at">y =</span> <span class="st">"Liberal Democracy Index"</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="models-as-functions" class="slide level2">
-<h2>Models as Functions</h2>
-<ul>
-<li class="fragment">We can represent relationships between variables using <strong>functions</strong></li>
-<li class="fragment">A function is a mathematical concept: the relationship between an output and one or more inputs
-<ul>
-<li class="fragment">Plug in the inputs and receive back the output</li>
-</ul></li>
-<li class="fragment">Example: The formula <span class="math inline">\(y = 3x + 7\)</span> is a function with input <span class="math inline">\(x\)</span> and output <span class="math inline">\(y\)</span>.
-<ul>
-<li class="fragment">If <span class="math inline">\(x\)</span> is <span class="math inline">\(5\)</span>, <span class="math inline">\(y\)</span> is <span class="math inline">\(22\)</span>,</li>
-<li class="fragment"><span class="math inline">\(y = 3 \times 5 + 7 = 22\)</span></li>
-</ul></li>
-</ul>
-</section>
-<section id="quant-lingo" class="slide level2 smaller">
-<h2>Quant Lingo</h2>
-<p><br></p>
-<ul>
-<li class="fragment"><strong>Response variable:</strong> Variable whose behavior or variation you are trying to understand, on the y-axis in the plot
-<ul>
-<li class="fragment"><strong>Dependent</strong> variable</li>
-<li class="fragment"><strong>Outcome</strong> variable</li>
-<li class="fragment"><strong>Y</strong> variable</li>
-</ul></li>
-<li class="fragment"><strong>Explanatory variables:</strong> Other variables that you want to use to explain the variation in the response, on the x-axis in the plot
-<ul>
-<li class="fragment"><strong>Independent</strong> variables</li>
-<li class="fragment"><strong>Predictors</strong></li>
-</ul></li>
-</ul>
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
 <p><br></p>
-<p>Linear model with one explanatory variable…</p>
+<p>Fit model using base R <code>lm()</code> with <strong>formula syntax</strong></p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>mod_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(lib_dem <span class="sc">~</span> log_wealth, <span class="at">data =</span> modelData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<p><br></p>
+<p>View results with <code>summary()</code></p>
+<p><br></p>
+<p><span class="math display">\[\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">summary</span>(mod_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = lib_dem ~ log_wealth, data = modelData)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.58804 -0.15009  0.03924  0.18502  0.40243 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 0.008895   0.047694   0.186    0.852    
+log_wealth  0.129689   0.014524   8.929 6.35e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2178 on 172 degrees of freedom
+  (5 observations deleted due to missingness)
+Multiple R-squared:  0.3167,    Adjusted R-squared:  0.3128 
+F-statistic: 79.73 on 1 and 172 DF,  p-value: 6.353e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretation" class="slide level2">
+<h2>Interpretation?</h2>
+<p><br></p>
+<p><span class="math display">\[\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\]</span></p>
+</section>
+<section id="question" class="slide level2">
+<h2>Question</h2>
+<p><br></p>
+<p>How do we get the “best” values for the slope and intercept?</p>
+</section>
+<section id="how-would-you-draw-the-best-line" class="slide level2">
+<h2>How would you draw the “best” line?</h2>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line-1.png" width="960" class="r-stretch"></section>
+<section id="how-would-you-draw-the-best-line-1" class="slide level2">
+<h2>How would you draw the “best” line?</h2>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line2-1.png" width="960" class="r-stretch"></section>
+<section id="least-squares-regression" class="slide level2">
+<h2>Least squares regression</h2>
+<p><br></p>
 <ul>
-<li class="fragment"><span class="math inline">\(Y = a + bX\)</span></li>
-<li class="fragment"><span class="math inline">\(Y\)</span> is the outcome variable</li>
-<li class="fragment"><span class="math inline">\(X\)</span> is the explanatory variable</li>
-<li class="fragment"><span class="math inline">\(a\)</span> is the intercept: the predicted value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(X\)</span> is equal to 0</li>
-<li class="fragment"><span class="math inline">\(b\)</span> is the slope of the line [remember rise over run!]</li>
+<li>Remember the residual is the difference between the actual value and the predicted value</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>The regression line minimizes the sum of squared residuals.</li>
+</ul>
+</div>
+</section>
+<section id="least-squares-regression-1" class="slide level2">
+<h2>Least squares regression</h2>
+<p><br></p>
+<ul>
+<li><p>Residual for each point is: <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span></p></li>
+<li><p>Least squares regression line minimizes <span class="math inline">\(\sum_{i = 1}^n e_i^2\)</span>.</p></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Why do we square the residual?</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><p>Why not take absolute value?</p>
+<ul>
+<li>Principle: larger penalty for residuals further away</li>
+<li>Math: makes the math easier and some nice properties (not our concern here…)</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="least-squares-regression-2" class="slide level2">
+<h2>Least squares regression</h2>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line3-1.png" width="960" class="r-stretch"></section>
+<section id="very-simple-example" class="slide level2">
+<h2>Very Simple Example</h2>
+<p>What should the slope and intercept be?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line4-1.png" width="960" class="r-stretch"></section>
+<section id="example" class="slide level2">
+<h2>Example</h2>
+<p><span class="math inline">\(\hat{Y} = 0 + 1*X\)</span></p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line5-1.png" width="960" class="r-stretch"></section>
+<section id="example-1" class="slide level2">
+<h2>Example</h2>
+<p>What is the sum of squared residuals?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line6-1.png" width="960" class="r-stretch"></section>
+<section id="example-2" class="slide level2">
+<h2>Example</h2>
+<p>What is sum of squared residuals for <span class="math inline">\(y = 0 + 0*X\)</span>?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line7-1.png" width="960" class="r-stretch"></section>
+<section id="example-3" class="slide level2">
+<h2>Example</h2>
+<p>What is sum of squared residuals for <span class="math inline">\(y = 0 + 0*X\)</span>?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line8-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>(<span class="dv">1-0</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2-0</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3-0</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14</code></pre>
+</div>
+</div>
+</section>
+<section id="example-4" class="slide level2">
+<h2>Example</h2>
+<p>What is sum of squared residuals for <span class="math inline">\(y = 0 + 2*X\)</span>?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line10-1.png" width="960" class="r-stretch"></section>
+<section id="example-5" class="slide level2">
+<h2>Example</h2>
+<p>What is sum of squared residuals for <span class="math inline">\(y = 0 + 2*X\)</span>?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line11-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>(<span class="dv">1-2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2-4</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3-6</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14</code></pre>
+</div>
+</div>
+</section>
+<section id="one-more" class="slide level2">
+<h2>One more…</h2>
+<p>What is sum of squared residuals for <span class="math inline">\(y = 0 + -1*X\)</span>?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line13-1.png" width="960" class="r-stretch"></section>
+<section id="one-more-1" class="slide level2">
+<h2>One more…</h2>
+<p>What is sum of squared residuals for <span class="math inline">\(y = 0 + -1*X\)</span>?</p>
+
+<img data-src="week-9.2_files/figure-revealjs/best-line14-1.png" width="960" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>(<span class="dv">1</span><span class="sc">+</span><span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">2</span><span class="sc">+</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (<span class="dv">3</span><span class="sc">+</span><span class="dv">3</span>)<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56</code></pre>
+</div>
+</div>
+</section>
+<section id="cost-function" class="slide level2">
+<h2>Cost Function</h2>
+<p>Sum of Squared Residuals as function of possible values of <span class="math inline">\(b\)</span></p>
+
+<img data-src="week-9.2_files/figure-revealjs/cost-function-1.png" width="960" class="r-stretch"></section>
+<section id="least-squares-regression-3" class="slide level2">
+<h2>Least Squares Regression</h2>
+<p><br></p>
+<ul>
+<li><p>When we estimate a least squares regression, it is looking for the line that minimizes sum of squared residuals</p></li>
+<li><p>In the simple example, I set <span class="math inline">\(a=0\)</span> to make it easier. More complicated when searching for combination of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> that minimize, but same basic idea</p></li>
 </ul>
 </section>
-<section id="quant-lingo-1" class="slide level2 smaller">
-<h2>Quant Lingo</h2>
+<section id="least-squares-regression-4" class="slide level2">
+<h2>Least Squares Regression</h2>
 <p><br></p>
 <ul>
-<li class="fragment"><strong>Predicted value:</strong> Output of the <strong>model function</strong>
+<li><p>There is a way to solve for this analytically for linear regression (i.e., by doing math…)</p>
+<p>– They made us do this in grad school…</p></li>
+</ul>
+<div class="fragment">
 <ul>
-<li class="fragment">The model function gives the typical (expected) value of the response variable <em>conditioning</em> on the explanatory variables</li>
-<li class="fragment">We often call this <span class="math inline">\(\hat{Y}\)</span> to differentiate the predicted value from an observed value of Y in the data</li>
-</ul></li>
-<li class="fragment"><strong>Residuals:</strong> A measure of how far each case is from its predicted value (based on a particular model)
+<li>In machine learning, people also use gradient descent algorithm in which the computer searches over possible combinations of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> until it settles on the lowest point.</li>
+</ul>
+</div>
+</section>
+<section id="least-squares-regression-5" class="slide level2">
+<h2>Least Squares Regression</h2>
+
+<img data-src="week-9.2_files/figure-revealjs/ssr-viz-1.png" width="960" class="r-stretch"></section>
+<section id="least-squares-regression-6" class="slide level2">
+<h2>Least Squares Regression</h2>
+
+<img data-src="week-9.2_files/figure-revealjs/regression-line-1.png" width="960" class="r-stretch"></section>
+<section id="your-turn" class="slide level2 smaller">
+<h2>Your Turn</h2>
+<p><br></p>
+<p>Are democracies less corrupt?</p>
+<p><br></p>
 <ul>
-<li class="fragment">Residual = Observed value (<span class="math inline">\(Y\)</span>) - Predicted value (<span class="math inline">\(\hat{Y}\)</span>)</li>
-<li class="fragment">How far above/below the expected value each case is</li>
-</ul></li>
+<li><p>V-Dem includes a Political Corruption Index, which aggregates corruption in a number of spheres (see codebook for details).</p></li>
+<li><p>The variable name is: <em>v2x_corr</em> : lower values mean less corruption</p></li>
+<li><p>See started code <a href="https://www.dropbox.com/scl/fo/8xpsrz27m0on1mc2pf5ya/h?rlkey=716y4lvy6uisq0gortq1as0sp&amp;dl=0">HERE</a></p></li>
 </ul>
 </section>
-<section id="residuals" class="slide level2">
-<h2>Residuals</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/unnamed-chunk-10-1.png" style="width:60.0%" class="r-stretch"></section>
-<section id="linear-model" class="slide level2">
-<h2>Linear Model</h2>
-<p><span class="math inline">\(\hat{Y} = a  + b \times X\)</span></p>
-<p><span class="math inline">\(\hat{Y} = 0.13  + 0.12 \times X\)</span></p>
-
-<img data-src="week-9.2_files/figure-revealjs/unnamed-chunk-11-1.png" style="width:100.0%" class="r-stretch"></section>
-<section id="linear-model-interpretation" class="slide level2">
-<h2>Linear Model: Interpretation</h2>
+<section id="your-turn-1" class="slide level2 smaller">
+<h2>Your Turn</h2>
 <p><br></p>
-<div class="line-block"><span class="math inline">\(\hat{Y} = a  + b \times X\)</span><br>
-<span class="math inline">\(\hat{Y} = 0.13  + 0.12 \times X\)</span></div>
-<p>What is the interpretation of our estimate of <span class="math inline">\(a\)</span>?</p>
-<div class="fragment">
+<p><strong>Are democracies less corrupt?</strong></p>
 <p><br></p>
-<div class="line-block"><span class="math inline">\(\hat{Y} = 0.13  + 0.12 \times 0\)</span><br>
-<span class="math inline">\(\hat{Y} = 0.13\)</span></div>
-<p><span class="math inline">\(a\)</span> is our predicted level of democracy when GDP per capita is 0.</p>
+<div class="smaller">
+<ul>
+<li>Filter the V-Dem data to only include the year 2019</li>
+<li>Make a scatterplot to visualize the relationship between democracy (X) and corruption (Y) (use the <em>v2x_libdem</em> variable for democracy)</li>
+<li>Fit a linear model</li>
+<li>Interpret results for the slope and intercept</li>
+<li>For a country with the average (mean) level of democracy, what is the predicted level of corruption?</li>
+</ul>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer1" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:10%;bottom:5%;--countdown-color-border:#fff;--countdown-color-text:#fff;--countdown-color-running-background:#42affa;--countdown-color-running-text:black;--countdown-color-finished-background:#E5D19D;--countdown-color-finished-text:#00264A;"></countdown-timer>
+</div>
 </div>
 </section>
-<section id="linear-model-interpretation-1" class="slide level2">
-<h2>Linear Model: Interpretation</h2>
-<p><br></p>
-<div class="line-block"><span class="math inline">\(\hat{Y} = a  + b \times X\)</span><br>
-<span class="math inline">\(\hat{Y} = 0.13  + 0.12 \times X\)</span></div>
-<p>What is interpretation of our estimate of <span class="math inline">\(b\)</span>?</p>
-<div class="fragment">
-<p><br></p>
-<div class="line-block"><span class="math inline">\(\hat{Y} = a  + \frac{Rise}{Run} \times X\)</span><br>
-<span class="math inline">\(\hat{Y} = a  + \frac{Change Y}{Change X} \times X\)</span></div>
-</div>
-</section>
-<section id="linear-model-interpretation-2" class="slide level2 smaller">
-<h2>Linear Model: Interpretation</h2>
-<p><br></p>
-<div class="line-block"><span class="math inline">\(b = \frac{Change Y}{Change X}\)</span><br>
-<span class="math inline">\(0.12 = \frac{Change Y}{Change X}\)</span><br>
-<span class="math inline">\({Change Y} = 0.12 * {ChangeX}\)</span></div>
-<div class="fragment">
-<p><br></p>
-<div class="line-block">When <span class="math inline">\(ChangeX = 1\)</span>:<br>
-<span class="math inline">\({Change Y = 0.12}\)</span></div>
-</div>
-<div class="fragment">
-<p><br></p>
-<div class="line-block"><span class="math inline">\(b\)</span> is the predicted change in <span class="math inline">\(Y\)</span> <strong>associated with</strong> a ONE unit change in X.</div>
-</div>
-</section>
-<section id="linear-model-interpretation-3" class="slide level2">
-<h2>Linear Model: Interpretation</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
-<section id="linear-model-interpretation-4" class="slide level2">
-<h2>Linear Model: Interpretation</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
-<section id="linear-model-interpretation-5" class="slide level2">
-<h2>Linear Model: Interpretation</h2>
-
-<img data-src="week-9.2_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
-<section id="linear-model-interpretation-6" class="slide level2">
-<h2>Linear Model: Interpretation</h2>
-<p><br></p>
-<p>Is this the <strong>causal</strong> effect of GDP per capita on liberal democracy?</p>
-<div class="fragment">
-<p><br></p>
-<p>No! It is only the association…</p>
-</div>
-<div class="fragment">
-<p><br></p>
-<p>To identify causality we need other methods (beyond the scope of this course).</p>
-</div>
-</section>
-<section id="your-task" class="slide level2">
-<h2>Your Task</h2>
-<p><br></p>
-<p>An economist is interested in the relationship between years of education and hourly wages. They estimate a linear model with estimates of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as follows:</p>
-<p><br></p>
-<p><span class="math inline">\(\hat{Y} = 9 + 1.60*{YrsEdu}\)</span></p>
-<p><br></p>
-<div class="line-block">1. Interpret <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span><br>
-2. What is the predicted hourly wage for those with 10 years of education?</div>
-</section>
-<section id="next-step" class="slide level2">
-<h2>Next step</h2>
+<section id="create-your-own-model" class="slide level2 smaller">
+<h2>Create Your Own Model</h2>
 <p><br></p>
 <ul>
-<li>Linear model with one predictor: <span class="math inline">\(Y = a + bX\)</span></li>
-<li>For any given data…</li>
-<li>How do we figure out what the best values are for <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>??</li>
+<li>What is a theory that you would like to test with V-Dem data?</li>
+<li>What is the dependent variable?</li>
+<li>What is the independent variable?</li>
+<li>Map out steps to wrangle the data and fit a regression model</li>
+<li>What do you expect to find?</li>
+<li>Now go ahead and wrangle the data</li>
+<li>Fit the model</li>
+<li>Interpret the coefficients and their significance</li>
+<li>Did the results match your expectations?</li>
 </ul>
 
 

@@ -1,0 +1,424 @@
+---
+title: Modeling
+date: today
+date-format: long
+footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"
+logo: images/iaff6501-logo.png
+format:
+  revealjs:
+    theme: [simple, custom.scss]
+    transition: fade
+    slide-number: true
+    #multiplex: true
+    chalkboard: true
+execute:
+  echo: false
+  message: false
+  warning: false
+  freeze: auto
+---
+
+
+```{r} 
+#| label: packages
+
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(tidymodels)
+
+set.seed(1234)
+```
+
+
+## Modeling 
+
+::: {.incremental}
+- Use models to explain the relationship between variables and to make predictions
+- Explaining relationships [usually interested in causal relationships, but not always]
+    - Does oil wealth impact regime type?
+- Predictive modeling
+    - Where is violence most likely to happen in [country X] during their next election?
+    - Is this email spam?
+:::
+    
+## Modeling
+
+```{r}
+#| label: linear-model
+
+df1 <- tibble(x = 1:100, y = x + rnorm(100, mean = 0, sd = 5))
+
+ggplot(df1, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(title = "Linear", x = NULL, y = NULL) +
+  theme_bw()
+```
+
+## Modeling
+
+
+```{r}
+#| label: nonlinear-model
+
+df2 <- tibble(x = seq(-6, 5.9, 0.1), y = (1 / (1+exp(-2*x))) + rnorm(120, mean = 0, sd = 0.1))
+
+ggplot(df2, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "loess", color = "#8E2C90", se = FALSE) +
+  labs(title = "Non-linear", x = NULL, y = NULL) +
+  theme_bw()
+```
+
+# Example: GDP per capita and Democracy
+
+## Pull in the VDEM Data
+
+<br>
+
+What is this code doing?
+
+```{r}
+#| label: wrangle-vdem
+#| echo: true
+
+library(vdemdata)
+
+modelData <- vdem |>
+  filter(year == 2019) |> 
+  select(
+    country = country_name, 
+    lib_dem = v2x_libdem, 
+    wealth = e_gdppc) |>
+  mutate(log_wealth = log(wealth))
+
+glimpse(modelData)
+```
+
+## Plot the Relationship
+
+```{r}
+#| label: plot-wealth-dem-1
+
+ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
+  geom_point() +
+#  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(
+    title = "Wealth and Democracy, 2019",
+    x = "GPD per capita", 
+    y = "Liberal Democracy Index") +
+  theme_bw()
+```
+
+## Plot the Relationship
+
+```{r}
+#| label: plot-wealth-dem-2
+
+ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(
+    title = "Wealth and Democracy, 2019",
+    x = "GPD per capita", 
+    y = "Liberal Democracy Index") +
+  theme_bw()
+```
+
+## Plot the Relationship
+
+<br>
+
+```{r}
+#| label: plot-wealth-dem-3
+#| echo: true
+#| eval: false
+
+ggplot(modelData, aes(x = wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  theme_bw()
+```
+
+## Using the Scales Package
+
+
+```{r}
+#| label: plot-wealth-dem-4
+
+ggplot(modelData, aes(x = wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  scale_x_log10(label = scales::label_dollar(suffix = "k")) +
+  labs(
+    title = "Wealth and Democracy, 2019",
+    x = "GPD per capita", 
+    y = "Liberal Democracy Index") +
+  theme_bw()
+```
+
+## Using the Scales Package
+
+<br>
+
+```{r}
+#| label: plot-wealth-dem-5
+#| code-line-numbers: "1,4"
+#| echo: true
+#| eval: false
+
+ggplot(modelData, aes(x = wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  scale_x_log10(label = scales::label_dollar(suffix = "k")) +
+  labs(
+    title = "Wealth and Democracy, 2019",
+    x = "GPD per capita", 
+    y = "Liberal Democracy Index") +
+  theme_bw()
+```
+
+## Models as Functions
+
+::: {.incremental}
+- We can represent relationships between variables using **functions**
+- A function is a mathematical concept: the relationship between an output and one or more inputs
+  - Plug in the inputs and receive back the output
+- Example: The formula $y = 3x + 7$ is a function with input $x$ and output $y$. 
+    - If $x$ is $5$, $y$ is $22$, 
+    - $y = 3 \times 5 + 7 = 22$
+:::
+
+## Quant Lingo {.smaller}
+
+<br>
+
+::: {.incremental}
+- **Response variable:** Variable whose behavior or variation you are trying to understand, on the y-axis in the plot
+    - **Dependent** variable
+    - **Outcome** variable
+    - **Y** variable
+- **Explanatory variables:** Other variables that you want to use to explain the variation in the response, on the x-axis in the plot
+    - **Independent** variables
+    - **Predictors**
+:::
+
+## 
+
+<br>
+
+Linear model with one explanatory variable...
+
+::: {.incremental}
+- $Y = a + bX$
+- $Y$ is the outcome variable
+- $X$ is the explanatory variable
+- $a$ is the intercept: the predicted value of $Y$ when $X$ is equal to 0
+- $b$ is the slope of the line [remember rise over run!]
+:::
+
+## Quant Lingo {.smaller}
+
+<br>
+
+::: {.incremental}
+- **Predicted value:** Output of the **model function**
+   - The model function gives the typical (expected) value of the response variable *conditioning* on the explanatory variables
+   - We often call this $\hat{Y}$ to differentiate the predicted value from an observed value of Y in the data
+- **Residuals:** A measure of how far each case is from its predicted value (based on a particular model)
+  - Residual = Observed value ($Y$) - Predicted value ($\hat{Y}$)
+  - How far above/below the expected value each case is
+:::
+
+## Residuals
+
+```{r , echo = FALSE, warning = FALSE, out.width = "60%"}
+
+mod_fit <- linear_reg() |>
+  set_engine("lm") |>
+  fit(lib_dem ~ log_wealth, data = modelData)
+
+fit_tidy <- tidy(mod_fit$fit) 
+fit_aug  <- augment(mod_fit$fit) |>
+  mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
+
+a <- round(fit_tidy$estimate[1], 2)
+b <- round(fit_tidy$estimate[2], 2)
+
+ggplot(data = fit_aug) +
+  geom_point(aes(x = log_wealth, y = lib_dem, color = res_cat)) +
+  geom_line(aes(x = log_wealth, y = .fitted), size = 0.75, color = "#8E2C90") + 
+  labs(
+    title = "GDP per Capita and Democracy",
+    x = "GDP per Capita",
+    y = "Libearl Democracy Index"
+  ) +
+  guides(color = "none") +
+  scale_color_manual(values = c("#260b27", "darkorange")) +
+  theme_bw()
+#+
+#  geom_text(aes(x = 0, y = 150), label = "Positive residual", color = "#e6b0e7", hjust = 0, size = 8) +
+ # geom_text(aes(x = 150, y = 25), label = "Negative residual", color = "#260b27", hjust = 0, size = 8)
+
+```
+
+
+## Linear Model
+
+$\hat{Y} = a  + b \times X$
+
+$\hat{Y} = `r a`  + `r b` \times X$
+
+```{r echo=FALSE, out.width = "100%"}
+ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  theme_bw()
+#+
+ # theme(
+  #  axis.text  = element_blank(),
+   # axis.ticks = element_blank()
+   # )
+```
+
+## Linear Model: Interpretation
+
+<br>
+
+| $\hat{Y} = a  + b \times X$
+| $\hat{Y} = `r a`  + `r b` \times X$
+
+What is the interpretation of our estimate of $a$?
+
+. . .
+
+<br>
+
+| $\hat{Y} = `r a`  + `r b` \times 0$
+| $\hat{Y} = `r a`$
+
+$a$ is our predicted level of democracy when GDP per capita is 0.
+
+
+## Linear Model: Interpretation 
+<br>
+
+
+| $\hat{Y} = a  + b \times X$
+| $\hat{Y} = `r a`  + `r b` \times X$
+
+What is interpretation of our estimate of $b$?
+
+. . . 
+
+<br>
+
+| $\hat{Y} = a  + \frac{Rise}{Run} \times X$
+| $\hat{Y} = a  + \frac{Change Y}{Change X} \times X$
+
+## Linear Model: Interpretation {.smaller}
+
+<br>
+
+| $b = \frac{Change Y}{Change X}$
+| $`r b` = \frac{Change Y}{Change X}$
+| ${Change Y} = `r b` * {ChangeX}$
+
+. . .
+
+<br>
+
+| When $ChangeX = 1$:
+| ${Change Y = `r b`}$
+
+. . .
+
+<br>
+
+| $b$ is the predicted change in $Y$ **associated with** a ONE unit change in X.
+
+## Linear Model: Interpretation
+
+
+```{r echo=FALSE}
+ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  theme_bw()
+```
+
+## Linear Model: Interpretation
+
+
+```{r echo=FALSE}
+ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  geom_segment(aes(x = 2, xend= 3, y=.37, yend=.37), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
+  theme_bw()
+  
+#Ŷ =0.13+0.12×X
+```
+
+## Linear Model: Interpretation
+
+
+```{r echo=FALSE}
+ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  geom_segment(aes(x = 2, xend= 3, y=.37, yend=.37), colour="darkblue", linewidth=1.5) +
+  geom_segment(aes(x = 3, xend= 3, y=.37, yend=.49), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
+  geom_text(x=3.2, y=.43, label="0.12", color="darkblue", size=4) +
+  theme_bw()
+  
+#Ŷ =0.13+0.12×X
+```
+
+
+## Linear Model: Interpretation
+
+<br>
+
+Is this the **causal** effect of GDP per capita on liberal democracy?
+
+. . .
+
+<br>
+
+No! It is only the association...
+
+. . .
+
+<br>
+
+To identify causality we need other methods (beyond the scope of this course).
+
+## Your Task
+
+<br> 
+
+An economist is interested in the relationship between years of education and hourly wages.  They estimate a linear model with estimates of $a$ and $b$ as follows:
+
+<br>
+
+$\hat{Y} = 9 + 1.60*{YrsEdu}$
+
+<br>
+
+| 1. Interpret $a$ and $b$
+| 2. What is the predicted hourly wage for those with 10 years of education?
+
+## Next step
+
+<br>
+
+- Linear model with one predictor: $Y = a + bX$
+- For any given data...
+- How do we figure out what the best values are for $a$ and $b$??
