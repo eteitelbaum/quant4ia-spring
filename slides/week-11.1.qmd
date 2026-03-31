@@ -65,7 +65,7 @@ Each Bernoulli trial can have a separate probability of success
 
 <br>
 
-$$ y_i ∼ Bern(p) $$
+$$ y_i \sim Bern(p_i) $$
 
 ## Modeling
 
