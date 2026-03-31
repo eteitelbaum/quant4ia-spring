@@ -3720,7 +3720,7 @@
     "href": "slides/week-11.1.html#modeling-1",
     "title": "Logistic Regression: Motivation and Model",
     "section": "Modeling",
-    "text": "Modeling\n\nEach Bernoulli trial can have a separate probability of success\n\n\\[ y_i ∼ Bern(p) \\]"
+    "text": "Modeling\n\n\nClassically, a Bernoulli trial assumes the same \\(p\\) every time (like flipping the same coin repeatedly). But in regression, each trial has its own probability of success,\\(p_i\\):\n\n\n\\[y_i \\sim Bern(p_i)\\]\n\n\n\\(p_i\\) varies across country-years depending on their characteristics (wealth, democracy, terrain…)"
   },
   {
     "objectID": "slides/week-11.1.html#modeling-2",
@@ -6823,5 +6823,12 @@
       "Course Modules",
       "Module 7.1"
     ]
+  },
+  {
+    "objectID": "slides/week-11.1.html#a-worked-example",
+    "href": "slides/week-11.1.html#a-worked-example",
+    "title": "Logistic Regression: Motivation and Model",
+    "section": "A Worked Example",
+    "text": "A Worked Example\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16 - 0.33 \\times \\text{logGDPpc}\\]\n\n\n\n\n\n\n\n\n\n\nCountry\nlogGDPpc\nLinear predictor \\(\\eta\\)\nOdds\nProbability \\(p\\)\n\n\n\n\nPoor\n6\n\\(-3.14\\)\n\\(0.043\\)\n\\(0.041\\)\n\n\nMiddle\n8\n\\(-3.80\\)\n\\(0.022\\)\n\\(0.022\\)\n\n\nRich\n10\n\\(-4.46\\)\n\\(0.012\\)\n\\(0.011\\)\n\n\n\n\n\nThe linear predictor \\(\\eta\\) is unbounded — it can be any value\nThe logit link keeps the predicted probability between 0 and 1\nConflict onset is rare — small probabilities make sense"
   }
 ]

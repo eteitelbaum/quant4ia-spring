@@ -61,11 +61,17 @@ library(peacesciencer)
 
 <br>
 
-Each Bernoulli trial can have a separate probability of success
+::: {.fragment}
+Classically, a Bernoulli trial assumes the same $p$ every time (like flipping the same coin repeatedly). But in regression, each trial has its **own** probability of success,$p_i$:
+:::
 
-<br>
+::: {.fragment}
+$$y_i \sim Bern(p_i)$$
+:::
 
-$$ y_i \sim Bern(p_i) $$
+::: {.fragment}
+$p_i$ varies across country-years depending on their characteristics (wealth, democracy, terrain...)
+:::
 
 ## Modeling
 
@@ -140,6 +146,22 @@ ggplot(d, aes(x = p, y = logit_p)) +
 - Now take inverse logit to get $p$
 
 $$p_i = \frac{\exp(\beta_0+\beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}{1+\exp(\beta_0+\beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}$$
+
+## A Worked Example {.smaller}
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{logGDPpc}$$
+
+| Country | logGDPpc | Linear predictor $\eta$ | Odds | Probability $p$ |
+|---------|----------|------------------------|------|-----------------|
+| Poor    | 6        | $-3.14$                | $0.043$ | $0.041$      |
+| Middle  | 8        | $-3.80$                | $0.022$ | $0.022$      |
+| Rich    | 10       | $-4.46$                | $0.012$ | $0.011$      |
+
+<br>
+
+- The linear predictor $\eta$ is unbounded — it can be any value
+- The logit link keeps the predicted probability between 0 and 1
+- Conflict onset is rare — small probabilities make sense
 
 # Analyzing Conflict Onset
 

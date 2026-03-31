@@ -249,9 +249,15 @@
 <section id="modeling-1" class="slide level2">
 <h2>Modeling</h2>
 <p><br></p>
-<p>Each Bernoulli trial can have a separate probability of success</p>
-<p><br></p>
-<p><span class="math display">\[ y_i ∼ Bern(p) \]</span></p>
+<div class="fragment">
+<p>Classically, a Bernoulli trial assumes the same <span class="math inline">\(p\)</span> every time (like flipping the same coin repeatedly). But in regression, each trial has its <strong>own</strong> probability of success,<span class="math inline">\(p_i\)</span>:</p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[y_i \sim Bern(p_i)\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(p_i\)</span> varies across country-years depending on their characteristics (wealth, democracy, terrain…)</p>
+</div>
 </section>
 <section id="modeling-2" class="slide level2">
 <h2>Modeling</h2>
@@ -310,6 +316,57 @@
 <li>Now take inverse logit to get <span class="math inline">\(p\)</span></li>
 </ul>
 <p><span class="math display">\[p_i = \frac{\exp(\beta_0+\beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}{1+\exp(\beta_0+\beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}\]</span></p>
+</section>
+<section id="a-worked-example" class="slide level2 smaller">
+<h2>A Worked Example</h2>
+<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{logGDPpc}\]</span></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 36%">
+<col style="width: 9%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Country</th>
+<th>logGDPpc</th>
+<th>Linear predictor <span class="math inline">\(\eta\)</span></th>
+<th>Odds</th>
+<th>Probability <span class="math inline">\(p\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Poor</td>
+<td>6</td>
+<td><span class="math inline">\(-3.14\)</span></td>
+<td><span class="math inline">\(0.043\)</span></td>
+<td><span class="math inline">\(0.041\)</span></td>
+</tr>
+<tr class="even">
+<td>Middle</td>
+<td>8</td>
+<td><span class="math inline">\(-3.80\)</span></td>
+<td><span class="math inline">\(0.022\)</span></td>
+<td><span class="math inline">\(0.022\)</span></td>
+</tr>
+<tr class="odd">
+<td>Rich</td>
+<td>10</td>
+<td><span class="math inline">\(-4.46\)</span></td>
+<td><span class="math inline">\(0.012\)</span></td>
+<td><span class="math inline">\(0.011\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ul>
+<li>The linear predictor <span class="math inline">\(\eta\)</span> is unbounded — it can be any value</li>
+<li>The logit link keeps the predicted probability between 0 and 1</li>
+<li>Conflict onset is rare — small probabilities make sense</li>
+</ul>
 </section></section>
 <section>
 <section id="analyzing-conflict-onset" class="title-slide slide level1 center">
