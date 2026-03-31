@@ -26,12 +26,6 @@ library(peacesciencer)
 
 # Binary Outcomes
 
-## Link to Code
-
-<br>
-
-Please find the code [here](https://www.dropbox.com/scl/fo/g4tdpdwcij78nyydvr4bp/h?rlkey=hctskhle6222csnwre5ir9gz3&dl=0)
-
 ## Binary Outcomes
 
 <br>
