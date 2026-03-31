@@ -1,6 +1,5 @@
 ---
-title: Logistic Regression
-subtitle: Classification
+title: "Logistic Regression: Motivation and Model"
 date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"
@@ -22,7 +21,6 @@ execute:
 
 ```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(tidymodels)
 library(peacesciencer)
 ```
 
@@ -169,7 +167,6 @@ $$p_i = \frac{\exp(\beta_0+\beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}{1+\exp(\
 #| echo: true
 
 library(peacesciencer)
-library(tidymodels)
 
 conflict_df <- create_stateyears(system = 'gw') |>
   filter(year %in% c(1946:1999)) |>
@@ -187,10 +184,8 @@ glimpse(conflict_df)
 <br>
 
 - Implementation is not very different from a linear model
-- We just need to update our code to run a GLM
-    - specify the model with `logistic_reg()`
-    - use `"glm"` instead of `"lm"` as the engine     
-    - define `family = "binomial"` for the link function to be used in the model
+- Instead of `lm()`, we use `glm()` with `family = "binomial"`
+- The `family` argument specifies the logit link function automatically
 
 ## Bivariate Logistic Regression
 
@@ -200,63 +195,30 @@ glimpse(conflict_df)
 #| label: bivariate_model
 #| echo: true
 
-conflict_model <- logistic_reg() |>
-  set_engine("glm") |>
-  fit(factor(ucdponset) ~ wbgdppc2011est,
-                  data= conflict_df,
-                  family = "binomial")
+conflict_model <- glm(ucdponset ~ wbgdppc2011est,
+                      data = conflict_df,
+                      family = "binomial")
 
-tidy(conflict_model)
+summary(conflict_model)
 ```
 
-## Interpreting the Results
+## Your Turn!
 
 <br>
 
+- Run a bivariate logistic regression using `ucdponset` as the outcome variable
+- Try a different predictor (e.g., `v2x_polyarchy`, `ethfrac`, `rugged`)
+- Examine the model output with `summary()`
+- What direction is the effect? Is it significant?
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
-
-## Interpreting the Results
-
-<br> 
-
-- For a quick interpretation of the coefficients, we can exponentiate them
-- The exponentiated coefficient is the odds ratio
-- For each one-unit increase in the independent variable, the odds of the outcome occurring increase (or decrease) by a factor of the exponentiated coefficient
-
-## Interpreting the Results {.smaller}
-
-<br>
-
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
-
-<br>
-
-For each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.718, assuming other variables in the model are held constant. 
-
-<br>
-
-This means that an increase in GDP per capita is associated with a **decrease** in the odds of the outcome occurring. The odds of the outcome decrease by about 28.2% for each unit increase in GDP per capita (on average).
-
-## Your Turn! {.smaller}
-
-<br>
-
-- Run a bivariate logistic regression using ucdp onset as the outcome variable
-- First replicate the results using GDP per capita as the predictor
-- Now try a different predictor
-- Interpret the results
-  - What is the average effect of the predictor on conflict onset? 
-  - How do you interpret that effect in terms of the odds of conflict onset?
-  
 ```{r}
 #| label: time1
 
 library(countdown)
 
-countdown(minutes = 10, 
-          id = "timer1", 
-          bottom = "5%", 
+countdown(minutes = 10,
+          id = "timer1",
+          bottom = "5%",
           right = "10%",
           color_border = "#fff",
           color_text = "#fff",
@@ -264,97 +226,5 @@ countdown(minutes = 10,
           color_running_text = "black",
           color_finished_background = "#E5D19D",
           color_finished_text = "#00264A")
-```
-
-## Calculating Predicted Probabilities {.scrollable}
-
-<br>
-
-Probability of conflict onset for a country with a log per capita GDP of 9 (about $8,000):
-
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times 9$$
-$$\log\left(\frac{p}{1-p}\right) = -4.13$$
-
-$$\frac{p}{1-p} = \exp(-4.13)$$
-
-$$\frac{p}{1-p} = 0.016$$
-
-$$p = 0.016 \times (1 - p)$$
-$$p = 0.016 - 0.016p$$ 
-
-$$1.016p = 0.016$$
-$$p = 0.016 / 1.016$$
-$$p = 0.0158$$
-
-## Using `marginaleffects` 
-
-```{r}
-#| label: marginal_effects
-#| echo: true
-#| eval: false
-
-# load the marginaleffects library
-library(marginaleffects)
-
-# select some countries for a given year
-selected_countries <- conflict_df |>
-  filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
-    year == 1999)
-
-# extract the model
-conflict_fit <- conflict_model$fit
-
-# calculate margins for the subset
-marg_effects <- predictions(conflict_fit, newdata = selected_countries)
-
-# tidy the results
-tidy(marg_effects) |>
-  select(estimate, p.value, conf.low, conf.high, statename)
-```
-
-## Using `marginaleffects`
-
-<br>
-
-```{r}
-#| label: marginal_effects2
-
-# load the 
-library(marginaleffects)
-
-# seledct some countries for a given year
-selected_countries <- conflict_df |>
-  filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
-    year == 1999)
-
-# extract the model
-conflict_fit <- conflict_model$fit
-
-# calculate margins for the subset
-marg_effects <- predictions(conflict_fit, newdata = selected_countries)
-
-# tidy the results
-tidy(marg_effects) |>
-  select(estimate, p.value, conf.low, conf.high, statename)
-```
-
-
-## Your Turn!
-
-<br>
-
-- Select your favorite three countries and a recent year
-- Calculate the predicted proability of conflict onset for that year using the marginal effects package
-- If you have time, try to do the calcualation by hand as well
-
-```{r}
-#| label: time2
-
-countdown(minutes = 10, 
-          id = "timer2", 
-          bottom = "10%", 
-          right = "10%")
 ```
 

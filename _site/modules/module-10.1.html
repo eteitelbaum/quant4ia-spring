@@ -776,11 +776,11 @@ Prework
 <pre><code>Rows: 177
 Columns: 9
 $ country         &lt;chr&gt; "Mexico", "Suriname", "Sweden", "Switzerland", "Ghana"…
-$ lib_dem         &lt;dbl&gt; 0.479, 0.658, 0.877, 0.843, 0.639, 0.648, 0.777, 0.017…
+$ lib_dem         &lt;dbl&gt; 0.478, 0.649, 0.879, 0.841, 0.634, 0.661, 0.773, 0.018…
 $ wealth          &lt;dbl&gt; 31.873, 22.316, 98.394, 105.485, 6.471, 23.398, 84.983…
 $ oil_rents       &lt;dbl&gt; 694.847, 639.506, 0.000, 0.000, 6.380, 10.060, 2.635, …
-$ polarization    &lt;dbl&gt; 0.072, -1.803, -2.284, -1.770, -0.472, 0.026, -2.250, …
-$ corruption      &lt;dbl&gt; 0.607, 0.205, 0.004, 0.022, 0.631, 0.436, 0.109, 0.887…
+$ polarization    &lt;dbl&gt; 0.035, -1.815, -2.283, -1.767, -0.500, 0.006, -2.269, …
+$ corruption      &lt;dbl&gt; 0.609, 0.199, 0.004, 0.023, 0.625, 0.444, 0.108, 0.878…
 $ judicial_review &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, …
 $ region          &lt;dbl&gt; 2, 2, 5, 5, 4, 4, 6, 6, 1, 1, 3, 3, 2, 1, 2, 5, 5, 2, …
 $ regime          &lt;dbl&gt; 2, 2, 3, 3, 3, 3, 3, 0, 1, 2, 1, 1, 2, 3, 2, 3, 3, 2, …</code></pre>
@@ -801,11 +801,11 @@ $ regime          &lt;dbl&gt; 2, 2, 3, 3, 3, 3, 3, 0, 1, 2, 1, 1, 2, 3, 2, 3, 3,
 <pre><code>Rows: 177
 Columns: 9
 $ country         &lt;chr&gt; "Mexico", "Suriname", "Sweden", "Switzerland", "Ghana"…
-$ lib_dem         &lt;dbl&gt; 0.479, 0.658, 0.877, 0.843, 0.639, 0.648, 0.777, 0.017…
+$ lib_dem         &lt;dbl&gt; 0.478, 0.649, 0.879, 0.841, 0.634, 0.661, 0.773, 0.018…
 $ wealth          &lt;dbl&gt; 31.873, 22.316, 98.394, 105.485, 6.471, 23.398, 84.983…
 $ oil_rents       &lt;dbl&gt; 694.847, 639.506, 0.000, 0.000, 6.380, 10.060, 2.635, …
-$ polarization    &lt;dbl&gt; 0.072, -1.803, -2.284, -1.770, -0.472, 0.026, -2.250, …
-$ corruption      &lt;dbl&gt; 0.607, 0.205, 0.004, 0.022, 0.631, 0.436, 0.109, 0.887…
+$ polarization    &lt;dbl&gt; 0.035, -1.815, -2.283, -1.767, -0.500, 0.006, -2.269, …
+$ corruption      &lt;dbl&gt; 0.609, 0.199, 0.004, 0.023, 0.625, 0.444, 0.108, 0.878…
 $ judicial_review &lt;fct&gt; Yes, Yes, Yes, Yes, Yes, Yes, Yes, No, Yes, Yes, Yes, …
 $ region          &lt;dbl&gt; 2, 2, 5, 5, 4, 4, 6, 6, 1, 1, 3, 3, 2, 1, 2, 5, 5, 2, …
 $ regime          &lt;dbl&gt; 2, 2, 3, 3, 3, 3, 3, 0, 1, 2, 1, 1, 2, 3, 2, 3, 3, 2, …</code></pre>
@@ -849,18 +849,18 @@ lm(formula = lib_dem ~ judicial_review, data = model_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.41867 -0.18967 -0.03267  0.19133  0.70804 
+-0.41164 -0.20464 -0.03186  0.20436  0.72214 
 
 Coefficients:
                    Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)         0.12896    0.04871   2.648  0.00884 ** 
-judicial_reviewYes  0.32271    0.05256   6.140 5.38e-09 ***
+(Intercept)         0.11986    0.05380   2.228   0.0272 *  
+judicial_reviewYes  0.32378    0.05731   5.650  6.4e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.2435 on 175 degrees of freedom
-Multiple R-squared:  0.1772,    Adjusted R-squared:  0.1725 
-F-statistic:  37.7 on 1 and 175 DF,  p-value: 5.384e-09</code></pre>
+Residual standard error: 0.2466 on 175 degrees of freedom
+Multiple R-squared:  0.1543,    Adjusted R-squared:  0.1494 
+F-statistic: 31.92 on 1 and 175 DF,  p-value: 6.403e-08</code></pre>
 </div>
 </div>
 <p>The output shows us the coefficients for the model. The intercept represents the average democracy level for countries without judicial review (the <strong>reference category</strong>), and the coefficient for <code>judicial_reviewYes</code> represents the difference in average democracy level between countries with judicial review and those without.</p>
@@ -901,11 +901,11 @@ Understanding Reference Categories
 <pre><code>Rows: 177
 Columns: 9
 $ country         &lt;chr&gt; "Mexico", "Suriname", "Sweden", "Switzerland", "Ghana"…
-$ lib_dem         &lt;dbl&gt; 0.479, 0.658, 0.877, 0.843, 0.639, 0.648, 0.777, 0.017…
+$ lib_dem         &lt;dbl&gt; 0.478, 0.649, 0.879, 0.841, 0.634, 0.661, 0.773, 0.018…
 $ wealth          &lt;dbl&gt; 31.873, 22.316, 98.394, 105.485, 6.471, 23.398, 84.983…
 $ oil_rents       &lt;dbl&gt; 694.847, 639.506, 0.000, 0.000, 6.380, 10.060, 2.635, …
-$ polarization    &lt;dbl&gt; 0.072, -1.803, -2.284, -1.770, -0.472, 0.026, -2.250, …
-$ corruption      &lt;dbl&gt; 0.607, 0.205, 0.004, 0.022, 0.631, 0.436, 0.109, 0.887…
+$ polarization    &lt;dbl&gt; 0.035, -1.815, -2.283, -1.767, -0.500, 0.006, -2.269, …
+$ corruption      &lt;dbl&gt; 0.609, 0.199, 0.004, 0.023, 0.625, 0.444, 0.108, 0.878…
 $ judicial_review &lt;fct&gt; Yes, Yes, Yes, Yes, Yes, Yes, Yes, No, Yes, Yes, Yes, …
 $ region          &lt;fct&gt; Latin America, Latin America, Western Europe &amp; North A…
 $ regime          &lt;dbl&gt; 2, 2, 3, 3, 3, 3, 3, 0, 1, 2, 1, 1, 2, 3, 2, 3, 3, 2, …</code></pre>
@@ -933,22 +933,22 @@ lm(formula = lib_dem ~ region, data = model_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.45808 -0.13136 -0.01907  0.11464  0.49405 
+-0.45848 -0.13314 -0.02148  0.11452  0.49130 
 
 Coefficients:
                                      Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                           0.43407    0.03610  12.024  &lt; 2e-16 ***
-regionLatin America                   0.06501    0.05354   1.214  0.22634    
-regionMENA                           -0.23712    0.05708  -4.154 5.14e-05 ***
-regionSub-Saharan Africa             -0.14043    0.04566  -3.075  0.00245 ** 
-regionWestern Europe &amp; North America  0.37327    0.05415   6.893 1.01e-10 ***
-regionAsia &amp; Pacific                 -0.13471    0.05196  -2.593  0.01034 *  
+(Intercept)                           0.43287    0.03598  12.030  &lt; 2e-16 ***
+regionLatin America                   0.06661    0.05337   1.248  0.21367    
+regionMENA                           -0.23717    0.05689  -4.169 4.86e-05 ***
+regionSub-Saharan Africa             -0.14065    0.04551  -3.090  0.00233 ** 
+regionWestern Europe &amp; North America  0.37343    0.05397   6.919 8.73e-11 ***
+regionAsia &amp; Pacific                 -0.13372    0.05179  -2.582  0.01065 *  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.1977 on 171 degrees of freedom
-Multiple R-squared:  0.4701,    Adjusted R-squared:  0.4546 
-F-statistic: 30.34 on 5 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.1971 on 171 degrees of freedom
+Multiple R-squared:  0.472, Adjusted R-squared:  0.4566 
+F-statistic: 30.57 on 5 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>The equation for this model looks like this:</p>
@@ -979,22 +979,22 @@ lm(formula = lib_dem ~ region2, data = model_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.45808 -0.13136 -0.01907  0.11464  0.49405 
+-0.45848 -0.13314 -0.02148  0.11452  0.49130 
 
 Coefficients:
                                        Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                            0.293640   0.027962  10.501  &lt; 2e-16 ***
-region2Eastern Europe                  0.140427   0.045662   3.075  0.00245 ** 
-region2Latin America                   0.205440   0.048432   4.242 3.62e-05 ***
-region2MENA                           -0.096690   0.052312  -1.848  0.06628 .  
-region2Western Europe &amp; North America  0.513693   0.049100  10.462  &lt; 2e-16 ***
-region2Asia &amp; Pacific                  0.005717   0.046670   0.123  0.90265    
+(Intercept)                            0.292220   0.027871  10.485  &lt; 2e-16 ***
+region2Eastern Europe                  0.140647   0.045513   3.090  0.00233 ** 
+region2Latin America                   0.207260   0.048273   4.293 2.94e-05 ***
+region2MENA                           -0.096520   0.052141  -1.851  0.06588 .  
+region2Western Europe &amp; North America  0.514072   0.048939  10.504  &lt; 2e-16 ***
+region2Asia &amp; Pacific                  0.006923   0.046517   0.149  0.88187    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.1977 on 171 degrees of freedom
-Multiple R-squared:  0.4701,    Adjusted R-squared:  0.4546 
-F-statistic: 30.34 on 5 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.1971 on 171 degrees of freedom
+Multiple R-squared:  0.472, Adjusted R-squared:  0.4566 
+F-statistic: 30.57 on 5 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1033,20 +1033,20 @@ lm(formula = lib_dem ~ polarization + log(wealth), data = model_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.66293 -0.15068  0.04725  0.18170  0.41785 
+-0.66770 -0.15112  0.04516  0.17776  0.42283 
 
 Coefficients:
              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   0.09967    0.04458   2.236   0.0267 *  
-polarization -0.05712    0.01386  -4.120 5.90e-05 ***
-log(wealth)   0.09972    0.01507   6.619 4.55e-10 ***
+(Intercept)   0.09668    0.04423   2.186   0.0302 *  
+polarization -0.05779    0.01372  -4.213 4.08e-05 ***
+log(wealth)   0.09998    0.01495   6.687 3.14e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.2171 on 170 degrees of freedom
+Residual standard error: 0.216 on 170 degrees of freedom
   (4 observations deleted due to missingness)
-Multiple R-squared:  0.3612,    Adjusted R-squared:  0.3537 
-F-statistic: 48.07 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
+Multiple R-squared:  0.3656,    Adjusted R-squared:  0.3582 
+F-statistic: 48.99 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>The model equation with multiple predictors becomes:</p>
@@ -1066,21 +1066,21 @@ lm(formula = lib_dem ~ polarization + log(wealth) + oil_rents,
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.52558 -0.14413  0.03809  0.12850  0.67700 
+-0.53085 -0.14849  0.03728  0.12810  0.67727 
 
 Coefficients:
                Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   2.516e-02  4.190e-02   0.600    0.549    
-polarization -5.531e-02  1.283e-02  -4.312 2.83e-05 ***
-log(wealth)   1.372e-01  1.484e-02   9.243  &lt; 2e-16 ***
-oil_rents    -4.158e-05  5.956e-06  -6.980 7.69e-11 ***
+(Intercept)   2.320e-02  4.151e-02   0.559    0.577    
+polarization -5.660e-02  1.270e-02  -4.458 1.56e-05 ***
+log(wealth)   1.371e-01  1.471e-02   9.315  &lt; 2e-16 ***
+oil_rents    -4.169e-05  5.915e-06  -7.048 5.32e-11 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.1936 on 158 degrees of freedom
+Residual standard error: 0.1922 on 158 degrees of freedom
   (15 observations deleted due to missingness)
-Multiple R-squared:  0.5043,    Adjusted R-squared:  0.4948 
-F-statistic: 53.57 on 3 and 158 DF,  p-value: &lt; 2.2e-16</code></pre>
+Multiple R-squared:  0.5099,    Adjusted R-squared:  0.5006 
+F-statistic: 54.79 on 3 and 158 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>The model equation now becomes:</p>
@@ -1114,26 +1114,26 @@ lm(formula = lib_dem ~ polarization + log(wealth) + oil_rents +
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.46015 -0.09635 -0.00940  0.10693  0.38539 
+-0.46386 -0.09370 -0.00829  0.10904  0.38536 
 
 Coefficients:
                                        Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                           2.594e-02  7.082e-02   0.366 0.714627    
-polarization                         -3.920e-02  1.162e-02  -3.375 0.000936 ***
-log(wealth)                           1.249e-01  2.006e-02   6.224 4.43e-09 ***
-oil_rents                            -2.941e-05  6.032e-06  -4.875 2.70e-06 ***
-regionLatin America                   8.940e-02  4.710e-02   1.898 0.059569 .  
-regionMENA                           -1.682e-01  5.514e-02  -3.051 0.002687 ** 
-regionSub-Saharan Africa              6.684e-02  5.166e-02   1.294 0.197672    
-regionWestern Europe &amp; North America  2.009e-01  5.529e-02   3.633 0.000383 ***
-regionAsia &amp; Pacific                 -5.752e-02  4.946e-02  -1.163 0.246661    
+(Intercept)                           2.439e-02  7.019e-02   0.347 0.728747    
+polarization                         -4.049e-02  1.146e-02  -3.534 0.000542 ***
+log(wealth)                           1.246e-01  1.989e-02   6.264 3.62e-09 ***
+oil_rents                            -2.946e-05  5.977e-06  -4.930 2.12e-06 ***
+regionLatin America                   9.075e-02  4.668e-02   1.944 0.053714 .  
+regionMENA                           -1.681e-01  5.462e-02  -3.078 0.002467 ** 
+regionSub-Saharan Africa              6.648e-02  5.117e-02   1.299 0.195791    
+regionWestern Europe &amp; North America  2.008e-01  5.477e-02   3.665 0.000340 ***
+regionAsia &amp; Pacific                 -5.647e-02  4.902e-02  -1.152 0.251158    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.1702 on 153 degrees of freedom
+Residual standard error: 0.1686 on 153 degrees of freedom
   (15 observations deleted due to missingness)
-Multiple R-squared:  0.6291,    Adjusted R-squared:  0.6097 
-F-statistic: 32.43 on 8 and 153 DF,  p-value: &lt; 2.2e-16</code></pre>
+Multiple R-squared:  0.6346,    Adjusted R-squared:  0.6155 
+F-statistic: 33.22 on 8 and 153 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>This model allows us to explore how democracy varies by region while controlling for wealth, polarization, and oil rents.The regional coefficients now represent regional differences in democracy among countries with the same wealth level, polarization and oil rents. This is a much more precise comparison than simply comparing regional averages, because it accounts for the fact that regions differ systematically in their wealth levels.</p>
@@ -1156,7 +1156,7 @@ F-statistic: 32.43 on 8 and 153 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">m3_mixed_model</span>, newdata <span class="op">=</span> <span class="va">new_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        1 
-0.3568916 </code></pre>
+0.3554821 </code></pre>
 </div>
 </div>
 <p>So in other words, with these inputs, the model predicts a democracy score of approximately 0.46 for this hypothetical country. This prediction reflects what the model expects, given the relationships it has learned from the original data. It doesn’t guarantee what will happen in the real world, but it gives us a principled estimate based on the variables we think matter.</p>

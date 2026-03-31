@@ -1,0 +1,188 @@
+---
+title: "Logistic Regression: Interpreting Results"
+date: today
+date-format: long
+footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"
+logo: images/iaff6501-logo.png
+format:
+  revealjs:
+    theme: [simple, custom.scss]
+    transition: fade
+    slide-number: true
+    #multiplex: true
+    chalkboard: true
+execute:
+  echo: false
+  message: false
+  warning: false
+  freeze: auto
+---
+
+```{r setup, echo = FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(peacesciencer)
+
+conflict_df <- create_stateyears(system = 'gw') |>
+  filter(year %in% c(1946:1999)) |>
+  add_ucdp_acd(type=c("intrastate"), only_wars = FALSE) |>
+  add_democracy() |>
+  add_creg_fractionalization() |>
+  add_sdp_gdp() |>
+  add_rugged_terrain()
+
+conflict_model <- glm(ucdponset ~ wbgdppc2011est,
+                      data = conflict_df,
+                      family = "binomial")
+```
+
+# Interpreting Logistic Regression Results
+
+## The Model Equation
+
+<br>
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
+
+## What Are Log-Odds?
+
+<br>
+
+::: {.incremental}
+- Logistic regression coefficients are on the **log-odds** scale
+- The direction of the effect is easy to read (positive = more likely, negative = less likely)
+- But the magnitude is hard to interpret directly
+- We need to transform the coefficients into something more intuitive
+:::
+
+## Odds Ratios
+
+<br>
+
+- For a more intuitive interpretation, we can **exponentiate** the coefficients
+- The exponentiated coefficient is the **odds ratio**
+- For each one-unit increase in the predictor, the odds of the outcome are **multiplied** by the odds ratio
+
+## Interpreting the Odds Ratio {.smaller}
+
+<br>
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
+
+<br>
+
+For each one unit increase in log GDP per capita, the odds of conflict onset are multiplied by approximately 0.718, assuming other variables are held constant.
+
+<br>
+
+This means that an increase in GDP per capita is associated with a **decrease** in the odds of conflict onset. The odds decrease by about 28.2% for each unit increase in log GDP per capita.
+
+## Calculating Odds Ratios in R
+
+<br>
+
+```{r}
+#| label: odds_ratios
+#| echo: true
+
+library(broom)
+
+tidy(conflict_model, exponentiate = TRUE) |>
+  select(term, estimate, p.value)
+```
+
+## Your Turn! {.smaller}
+
+<br>
+
+- Run a bivariate logistic regression with a different predictor (e.g., `v2x_polyarchy`, `ethfrac`)
+- Use `tidy(..., exponentiate = TRUE)` to get the odds ratios
+- Interpret the results:
+  - Is the effect positive or negative?
+  - How much do the odds of conflict onset change per unit increase?
+
+```{r}
+#| label: time1
+
+library(countdown)
+
+countdown(minutes = 10,
+          id = "timer1",
+          bottom = "5%",
+          right = "10%",
+          color_border = "#fff",
+          color_text = "#fff",
+          color_running_background = "#42affa",
+          color_running_text = "black",
+          color_finished_background = "#E5D19D",
+          color_finished_text = "#00264A")
+```
+
+# Predicted Probabilities
+
+## Calculating Predicted Probabilities {.scrollable}
+
+<br>
+
+Probability of conflict onset for a country with log GDP per capita of 9 (about $8,000):
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times 9 = -4.13$$
+
+$$\frac{p}{1-p} = \exp(-4.13) = 0.016$$
+
+$$p = \frac{0.016}{1 + 0.016} = 0.0158$$
+
+## Using `marginaleffects`
+
+```{r}
+#| label: marginal_effects
+#| echo: true
+#| eval: false
+
+library(marginaleffects)
+
+# select some countries for a given year
+selected_countries <- conflict_df |>
+  filter(
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
+    year == 1999)
+
+# calculate predicted probabilities
+marg_effects <- predictions(conflict_model, newdata = selected_countries)
+
+tidy(marg_effects) |>
+  select(estimate, p.value, conf.low, conf.high, gw_name)
+```
+
+## Using `marginaleffects`
+
+<br>
+
+```{r}
+#| label: marginal_effects2
+
+library(marginaleffects)
+
+prediction_data <- data.frame(wbgdppc2011est = c(6, 7, 8, 9, 10))
+pred_results <- predictions(conflict_model, newdata = prediction_data)
+
+tidy(pred_results) |>
+  select(wbgdppc2011est, estimate, conf.low, conf.high) |>
+  mutate(GDP_approx = paste0("~$", round(exp(wbgdppc2011est))))
+```
+
+## Your Turn!
+
+<br>
+
+- Select your favorite three countries and a recent year
+- Calculate the predicted probability of conflict onset using the `marginaleffects` package
+- If you have time, try to verify one calculation by hand
+
+```{r}
+#| label: time2
+
+countdown(minutes = 10,
+          id = "timer2",
+          bottom = "10%",
+          right = "10%")
+```

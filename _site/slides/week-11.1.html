@@ -10,8 +10,8 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-03-24">
-  <title>IAFF 6501--Spring 2024 Schedule – Logistic Regression</title>
+  <meta name="dcterms.date" content="2026-03-31">
+  <title>IAFF 6501--Spring 2024 Schedule – Logistic Regression: Motivation and Model</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -190,13 +190,11 @@
       margin-right: 0; 
     }
   </style>
-  <link href="../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
-  <script src="../site_libs/countdown-0.4.0/countdown.js"></script>
-<meta property="og:title" content="Logistic Regression – IAFF 6501–Spring 2024 Schedule">
-<meta property="og:description" content="Classification">
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
+<meta property="og:title" content="Logistic Regression: Motivation and Model – IAFF 6501–Spring 2024 Schedule">
 <meta property="og:site_name" content="IAFF 6501--Spring 2024 Schedule">
-<meta name="twitter:title" content="Logistic Regression – IAFF 6501–Spring 2024 Schedule">
-<meta name="twitter:description" content="Classification">
+<meta name="twitter:title" content="Logistic Regression: Motivation and Model – IAFF 6501–Spring 2024 Schedule">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
@@ -204,13 +202,12 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Logistic Regression</h1>
-  <p class="subtitle">Classification</p>
+  <h1 class="title">Logistic Regression: Motivation and Model</h1>
 
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">March 24, 2026</p>
+  <p class="date">March 31, 2026</p>
 </section>
 <section>
 <section id="binary-outcomes" class="title-slide slide level1 center">
@@ -342,30 +339,31 @@
 <p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(peacesciencer)</span>
-<span id="cb1-2"><a></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb1-3"><a></a></span>
-<span id="cb1-4"><a></a>conflict_df <span class="ot">&lt;-</span> <span class="fu">create_stateyears</span>(<span class="at">system =</span> <span class="st">'gw'</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-5"><a></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1946</span><span class="sc">:</span><span class="dv">1999</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a></a>  <span class="fu">add_ucdp_acd</span>(<span class="at">type=</span><span class="fu">c</span>(<span class="st">"intrastate"</span>), <span class="at">only_wars =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a></a>  <span class="fu">add_democracy</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-8"><a></a>  <span class="fu">add_creg_fractionalization</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-9"><a></a>  <span class="fu">add_sdp_gdp</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-10"><a></a>  <span class="fu">add_rugged_terrain</span>()</span>
-<span id="cb1-11"><a></a></span>
-<span id="cb1-12"><a></a><span class="fu">glimpse</span>(conflict_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>conflict_df <span class="ot">&lt;-</span> <span class="fu">create_stateyears</span>(<span class="at">system =</span> <span class="st">'gw'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1946</span><span class="sc">:</span><span class="dv">1999</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a></a>  <span class="fu">add_ucdp_acd</span>(<span class="at">type=</span><span class="fu">c</span>(<span class="st">"intrastate"</span>), <span class="at">only_wars =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a></a>  <span class="fu">add_democracy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a></a>  <span class="fu">add_creg_fractionalization</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a></a>  <span class="fu">add_sdp_gdp</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a></a>  <span class="fu">add_rugged_terrain</span>()</span>
+<span id="cb1-10"><a></a></span>
+<span id="cb1-11"><a></a><span class="fu">glimpse</span>(conflict_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 7,036
-Columns: 20
+<pre><code>Rows: 7,624
+Columns: 22
 $ gwcode         &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…
-$ statename      &lt;chr&gt; "United States of America", "United States of America",…
+$ gw_name        &lt;chr&gt; "United States of America", "United States of America",…
+$ microstate     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 $ year           &lt;dbl&gt; 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1…
 $ ucdpongoing    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 $ ucdponset      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 $ maxintensity   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
 $ conflict_ids   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-$ v2x_polyarchy  &lt;dbl&gt; 0.605, 0.587, 0.599, 0.599, 0.587, 0.602, 0.601, 0.594,…
-$ polity2        &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,…
-$ xm_qudsest     &lt;dbl&gt; 1.259180, 1.259180, 1.252190, 1.252190, 1.270106, 1.259…
+$ euds           &lt;dbl&gt; 1.293985, 1.308359, 1.343539, 1.330836, 1.354015, 1.350…
+$ aeuds          &lt;dbl&gt; 0.4862558, 0.5006298, 0.5358093, 0.5231064, 0.5462858, …
+$ polity2        &lt;dbl&gt; 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9…
+$ v2x_polyarchy  &lt;dbl&gt; 0.603, 0.607, 0.599, 0.580, 0.585, 0.611, 0.611, 0.612,…
 $ ethfrac        &lt;dbl&gt; 0.2226323, 0.2248701, 0.2271561, 0.2294918, 0.2318781, …
 $ ethpol         &lt;dbl&gt; 0.4152487, 0.4186156, 0.4220368, 0.4255134, 0.4290458, …
 $ relfrac        &lt;dbl&gt; 0.4980802, 0.5009111, 0.5037278, 0.5065309, 0.5093204, …
@@ -384,141 +382,54 @@ $ newlmtnest     &lt;dbl&gt; 3.214868, 3.214868, 3.214868, 3.214868, 3.214868, 3
 <p><br></p>
 <ul>
 <li>Implementation is not very different from a linear model</li>
-<li>We just need to update our code to run a GLM
-<ul>
-<li>specify the model with <code>logistic_reg()</code></li>
-<li>use <code>"glm"</code> instead of <code>"lm"</code> as the engine<br>
-</li>
-<li>define <code>family = "binomial"</code> for the link function to be used in the model</li>
-</ul></li>
+<li>Instead of <code>lm()</code>, we use <code>glm()</code> with <code>family = "binomial"</code></li>
+<li>The <code>family</code> argument specifies the logit link function automatically</li>
 </ul>
 </section>
 <section id="bivariate-logistic-regression" class="slide level2">
 <h2>Bivariate Logistic Regression</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>conflict_model <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">fit</span>(<span class="fu">factor</span>(ucdponset) <span class="sc">~</span> wbgdppc2011est,</span>
-<span id="cb3-4"><a></a>                  <span class="at">data=</span> conflict_df,</span>
-<span id="cb3-5"><a></a>                  <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb3-6"><a></a></span>
-<span id="cb3-7"><a></a><span class="fu">tidy</span>(conflict_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>conflict_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(ucdponset <span class="sc">~</span> wbgdppc2011est,</span>
+<span id="cb3-2"><a></a>                      <span class="at">data =</span> conflict_df,</span>
+<span id="cb3-3"><a></a>                      <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb3-4"><a></a></span>
+<span id="cb3-5"><a></a><span class="fu">summary</span>(conflict_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term           estimate std.error statistic  p.value
-  &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)      -1.16     0.426      -2.73 6.37e- 3
-2 wbgdppc2011est   -0.331    0.0526     -6.29 3.20e-10</code></pre>
+<pre><code>
+Call:
+glm(formula = ucdponset ~ wbgdppc2011est, family = "binomial", 
+    data = conflict_df)
+
+Coefficients:
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -1.00735    0.41297  -2.439   0.0147 *  
+wbgdppc2011est -0.35695    0.05089  -7.015 2.31e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1420.5  on 7623  degrees of freedom
+Residual deviance: 1381.9  on 7622  degrees of freedom
+AIC: 1385.9
+
+Number of Fisher Scoring iterations: 7</code></pre>
 </div>
 </div>
 </section>
-<section id="interpreting-the-results" class="slide level2">
-<h2>Interpreting the Results</h2>
-<p><br></p>
-<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}\]</span></p>
-</section>
-<section id="interpreting-the-results-1" class="slide level2">
-<h2>Interpreting the Results</h2>
-<p><br></p>
-<ul>
-<li>For a quick interpretation of the coefficients, we can exponentiate them</li>
-<li>The exponentiated coefficient is the odds ratio</li>
-<li>For each one-unit increase in the independent variable, the odds of the outcome occurring increase (or decrease) by a factor of the exponentiated coefficient</li>
-</ul>
-</section>
-<section id="interpreting-the-results-2" class="slide level2 smaller">
-<h2>Interpreting the Results</h2>
-<p><br></p>
-<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}\]</span></p>
-<p><br></p>
-<p>For each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.718, assuming other variables in the model are held constant.</p>
-<p><br></p>
-<p>This means that an increase in GDP per capita is associated with a <strong>decrease</strong> in the odds of the outcome occurring. The odds of the outcome decrease by about 28.2% for each unit increase in GDP per capita (on average).</p>
-</section>
-<section id="your-turn" class="slide level2 smaller">
+<section id="your-turn" class="slide level2">
 <h2>Your Turn!</h2>
 <p><br></p>
 <ul>
-<li>Run a bivariate logistic regression using ucdp onset as the outcome variable</li>
-<li>First replicate the results using GDP per capita as the predictor</li>
-<li>Now try a different predictor</li>
-<li>Interpret the results
-<ul>
-<li>What is the average effect of the predictor on conflict onset?</li>
-<li>How do you interpret that effect in terms of the odds of conflict onset?</li>
-</ul></li>
+<li>Run a bivariate logistic regression using <code>ucdponset</code> as the outcome variable</li>
+<li>Try a different predictor (e.g., <code>v2x_polyarchy</code>, <code>ethfrac</code>, <code>rugged</code>)</li>
+<li>Examine the model output with <code>summary()</code></li>
+<li>What direction is the effect? Is it significant?</li>
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div class="countdown" id="timer1" data-update-every="1" tabindex="0" style="right:10%;bottom:5%;">
-<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-</div>
-</div>
-</section>
-<section id="calculating-predicted-probabilities" class="slide level2 scrollable">
-<h2>Calculating Predicted Probabilities</h2>
-<p><br></p>
-<p>Probability of conflict onset for a country with a log per capita GDP of 9 (about $8,000):</p>
-<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times 9\]</span> <span class="math display">\[\log\left(\frac{p}{1-p}\right) = -4.13\]</span></p>
-<p><span class="math display">\[\frac{p}{1-p} = \exp(-4.13)\]</span></p>
-<p><span class="math display">\[\frac{p}{1-p} = 0.016\]</span></p>
-<p><span class="math display">\[p = 0.016 \times (1 - p)\]</span> <span class="math display">\[p = 0.016 - 0.016p\]</span></p>
-<p><span class="math display">\[1.016p = 0.016\]</span> <span class="math display">\[p = 0.016 / 1.016\]</span> <span class="math display">\[p = 0.0158\]</span></p>
-</section>
-<section id="using-marginaleffects" class="slide level2">
-<h2>Using <code>marginaleffects</code></h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># load the marginaleffects library</span></span>
-<span id="cb5-2"><a></a><span class="fu">library</span>(marginaleffects)</span>
-<span id="cb5-3"><a></a></span>
-<span id="cb5-4"><a></a><span class="co"># select some countries for a given year</span></span>
-<span id="cb5-5"><a></a>selected_countries <span class="ot">&lt;-</span> conflict_df <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a></a>  <span class="fu">filter</span>(</span>
-<span id="cb5-7"><a></a>    statename <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"United States of America"</span>, <span class="st">"Venezuela"</span>, <span class="st">"Rwanda"</span>),</span>
-<span id="cb5-8"><a></a>    year <span class="sc">==</span> <span class="dv">1999</span>)</span>
-<span id="cb5-9"><a></a></span>
-<span id="cb5-10"><a></a><span class="co"># extract the model</span></span>
-<span id="cb5-11"><a></a>conflict_fit <span class="ot">&lt;-</span> conflict_model<span class="sc">$</span>fit</span>
-<span id="cb5-12"><a></a></span>
-<span id="cb5-13"><a></a><span class="co"># calculate margins for the subset</span></span>
-<span id="cb5-14"><a></a>marg_effects <span class="ot">&lt;-</span> <span class="fu">predictions</span>(conflict_fit, <span class="at">newdata =</span> selected_countries)</span>
-<span id="cb5-15"><a></a></span>
-<span id="cb5-16"><a></a><span class="co"># tidy the results</span></span>
-<span id="cb5-17"><a></a><span class="fu">tidy</span>(marg_effects) <span class="sc">|&gt;</span></span>
-<span id="cb5-18"><a></a>  <span class="fu">select</span>(estimate, p.value, conf.low, conf.high, statename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="using-marginaleffects-1" class="slide level2">
-<h2>Using <code>marginaleffects</code></h2>
-<p><br></p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  estimate   p.value conf.low conf.high statename               
-     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                   
-1  0.00853 4.20e-161  0.00606    0.0120 United States of America
-2  0.0141  0          0.0113     0.0175 Venezuela               
-3  0.0311  1.36e-250  0.0256     0.0377 Rwanda                  </code></pre>
-</div>
-</div>
-</section>
-<section id="your-turn-1" class="slide level2">
-<h2>Your Turn!</h2>
-<p><br></p>
-<ul>
-<li>Select your favorite three countries and a recent year</li>
-<li>Calculate the predicted proability of conflict onset for that year using the marginal effects package</li>
-<li>If you have time, try to do the calcualation by hand as well</li>
-</ul>
-<div class="cell">
-<div class="cell-output-display">
-<div class="countdown" id="timer2" data-update-every="1" tabindex="0" style="right:10%;bottom:10%;">
-<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+<countdown-timer class="countdown" id="timer1" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:10%;bottom:5%;--countdown-color-border:#fff;--countdown-color-text:#fff;--countdown-color-running-background:#42affa;--countdown-color-running-text:black;--countdown-color-finished-background:#E5D19D;--countdown-color-finished-text:#00264A;"></countdown-timer>
 </div>
 </div>
 

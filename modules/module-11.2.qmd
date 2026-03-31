@@ -14,9 +14,8 @@ execute:
 ::: {.callout-tip}
 ## Prework
 
-- Install the `marginaleffects` package if you haven't already (`install.packages("marginaleffects")`) and revew the [documentation](https://marginaleffects.com/)
-- Install the `tidymodels` package if you haven't already (`install.packages("tidymodels")`)
-- Familiarize yourself with the [broom package](https://broom.tidymodels.org/) for cleaning up model output
+- Install the `marginaleffects` package if you haven't already (`install.packages("marginaleffects")`) and review the [documentation](https://marginaleffects.com/)
+- Install the `broom` package if you haven't already (`install.packages("broom")`) and familiarize yourself with the [documentation](https://broom.tidymodels.org/)
 :::
 
 ## Overview
