@@ -23,7 +23,7 @@ execute:
 #| label: setup
 
 library(tidyverse)
-library(tidymodels)
+library(broom)
 library(peacesciencer)
 ```
 
@@ -71,12 +71,10 @@ Example, including multiple predictors associated with conflict:
 #| label: multivariate_model
 #| echo: true
 
-conflict_model <- logistic_reg() |>
-  set_engine("glm") |>
-  fit(factor(ucdponset) ~ ethfrac + relfrac + v2x_polyarchy + 
-                          rugged + wbgdppc2011est + wbpopest,
-                  data= conflict_df,
-                  family = "binomial")
+conflict_model <- glm(ucdponset ~ ethfrac + relfrac + v2x_polyarchy +
+                        rugged + wbgdppc2011est + wbpopest,
+                      data = conflict_df,
+                      family = "binomial")
 
 tidy(conflict_model)
 ```
@@ -100,11 +98,8 @@ selected_countries <- conflict_df |>
     gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
-# extract the model
-conflict_fit <- conflict_model$fit
-
 # calculate margins for the subset
-marg_effects <- predictions(conflict_fit, newdata = selected_countries)
+marg_effects <- predictions(conflict_model, newdata = selected_countries)
 
 # tidy the results
 tidy(marg_effects) |>

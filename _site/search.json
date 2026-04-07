@@ -1573,14 +1573,14 @@
     "href": "slides/week-12.2.html#section-1",
     "title": "Regression Tables",
     "section": "",
-    "text": "Example, including multiple predictors associated with conflict:\n\nconflict_model &lt;- logistic_reg() |&gt;\n  set_engine(\"glm\") |&gt;\n  fit(factor(ucdponset) ~ ethfrac + relfrac + v2x_polyarchy + \n                          rugged + wbgdppc2011est + wbpopest,\n                  data= conflict_df,\n                  family = \"binomial\")\n\ntidy(conflict_model)\n\n# A tibble: 7 × 5\n  term           estimate std.error statistic   p.value\n  &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)     -5.38      1.41      -3.81  0.000138 \n2 ethfrac          0.709     0.372      1.91  0.0566   \n3 relfrac         -0.288     0.409     -0.702 0.482    \n4 v2x_polyarchy   -0.652     0.513     -1.27  0.204    \n5 rugged           0.0836    0.0756     1.11  0.269    \n6 wbgdppc2011est  -0.392     0.120     -3.26  0.00110  \n7 wbpopest         0.285     0.0677     4.20  0.0000263"
+    "text": "Example, including multiple predictors associated with conflict:\n\nconflict_model &lt;- glm(ucdponset ~ ethfrac + relfrac + v2x_polyarchy +\n                        rugged + wbgdppc2011est + wbpopest,\n                      data = conflict_df,\n                      family = \"binomial\")\n\ntidy(conflict_model)\n\n# A tibble: 7 × 5\n  term           estimate std.error statistic   p.value\n  &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)     -5.38      1.41      -3.81  0.000138 \n2 ethfrac          0.709     0.372      1.91  0.0566   \n3 relfrac         -0.288     0.409     -0.702 0.482    \n4 v2x_polyarchy   -0.652     0.513     -1.27  0.204    \n5 rugged           0.0836    0.0756     1.11  0.269    \n6 wbgdppc2011est  -0.392     0.120     -3.26  0.00110  \n7 wbpopest         0.285     0.0677     4.20  0.0000263"
   },
   {
     "objectID": "slides/week-12.2.html#predicted-probabilities",
     "href": "slides/week-12.2.html#predicted-probabilities",
     "title": "Regression Tables",
     "section": "Predicted Probabilities",
-    "text": "Predicted Probabilities\n\n\n\nShow the code\n# load the \nlibrary(marginaleffects)\n\n# seledct some countries for a given year\nselected_countries &lt;- conflict_df |&gt;\n  filter(\n    gw_name %in% c(\"United States of America\", \"Venezuela\", \"Rwanda\"),\n    year == 1999)\n\n# extract the model\nconflict_fit &lt;- conflict_model$fit\n\n# calculate margins for the subset\nmarg_effects &lt;- predictions(conflict_fit, newdata = selected_countries)\n\n# tidy the results\ntidy(marg_effects) |&gt;\n  select(estimate, p.value, conf.low, conf.high, gw_name)\n\n\n# A tibble: 3 × 5\n  estimate  p.value conf.low conf.high gw_name                 \n     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                   \n1   0.0115 1.63e-28  0.00527    0.0250 United States of America\n2   0.0136 1.88e-79  0.00876    0.0211 Venezuela               \n3   0.0331 3.17e-38  0.0201     0.0541 Rwanda"
+    "text": "Predicted Probabilities\n\n\n\nShow the code\n# load the \nlibrary(marginaleffects)\n\n# seledct some countries for a given year\nselected_countries &lt;- conflict_df |&gt;\n  filter(\n    gw_name %in% c(\"United States of America\", \"Venezuela\", \"Rwanda\"),\n    year == 1999)\n\n# calculate margins for the subset\nmarg_effects &lt;- predictions(conflict_model, newdata = selected_countries)\n\n# tidy the results\ntidy(marg_effects) |&gt;\n  select(estimate, p.value, conf.low, conf.high, gw_name)\n\n\n# A tibble: 3 × 5\n  estimate  p.value conf.low conf.high gw_name                 \n     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                   \n1   0.0115 1.63e-28  0.00527    0.0250 United States of America\n2   0.0136 1.88e-79  0.00876    0.0211 Venezuela               \n3   0.0331 3.17e-38  0.0201     0.0541 Rwanda"
   },
   {
     "objectID": "slides/week-12.2.html#your-turn",
@@ -4805,14 +4805,14 @@
     "href": "slides/week-12.1.html#peacesciencer-package",
     "title": "DIY Conflict Model",
     "section": "peacesciencer package",
-    "text": "peacesciencer package\n\nlibrary(peacesciencer)\n\nconflict_df &lt;- create_stateyears(system = 'gw') |&gt;\n  filter(year %in% c(1946:1999)) |&gt;\n  add_ucdp_acd(type=c(\"intrastate\"), only_wars = FALSE) |&gt;\n  add_democracy() |&gt;\n  add_creg_fractionalization() |&gt;\n  add_sdp_gdp() |&gt;\n  add_rugged_terrain()\n\nglimpse(conflict_df)\n\nRows: 7,036\nColumns: 20\n$ gwcode         &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…\n$ statename      &lt;chr&gt; \"United States of America\", \"United States of America\",…\n$ year           &lt;dbl&gt; 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1…\n$ ucdpongoing    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…\n$ ucdponset      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…\n$ maxintensity   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ conflict_ids   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ v2x_polyarchy  &lt;dbl&gt; 0.605, 0.587, 0.599, 0.599, 0.587, 0.602, 0.601, 0.594,…\n$ polity2        &lt;dbl&gt; 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,…\n$ xm_qudsest     &lt;dbl&gt; 1.259180, 1.259180, 1.252190, 1.252190, 1.270106, 1.259…\n$ ethfrac        &lt;dbl&gt; 0.2226323, 0.2248701, 0.2271561, 0.2294918, 0.2318781, …\n$ ethpol         &lt;dbl&gt; 0.4152487, 0.4186156, 0.4220368, 0.4255134, 0.4290458, …\n$ relfrac        &lt;dbl&gt; 0.4980802, 0.5009111, 0.5037278, 0.5065309, 0.5093204, …\n$ relpol         &lt;dbl&gt; 0.7769888, 0.7770017, 0.7770303, 0.7770729, 0.7771274, …\n$ wbgdp2011est   &lt;dbl&gt; 28.539, 28.519, 28.545, 28.534, 28.572, 28.635, 28.669,…\n$ wbpopest       &lt;dbl&gt; 18.744, 18.756, 18.781, 18.804, 18.821, 18.832, 18.848,…\n$ sdpest         &lt;dbl&gt; 28.478, 28.456, 28.483, 28.469, 28.510, 28.576, 28.611,…\n$ wbgdppc2011est &lt;dbl&gt; 9.794, 9.762, 9.764, 9.730, 9.752, 9.803, 9.821, 9.857,…\n$ rugged         &lt;dbl&gt; 1.073, 1.073, 1.073, 1.073, 1.073, 1.073, 1.073, 1.073,…\n$ newlmtnest     &lt;dbl&gt; 3.214868, 3.214868, 3.214868, 3.214868, 3.214868, 3.214…"
+    "text": "peacesciencer package\n\nlibrary(peacesciencer)\n\nconflict_df &lt;- create_stateyears(system = 'gw') |&gt;\n  filter(year %in% c(1946:1999)) |&gt;\n  add_ucdp_acd(type=c(\"intrastate\"), only_wars = FALSE) |&gt;\n  add_democracy() |&gt;\n  add_creg_fractionalization() |&gt;\n  add_sdp_gdp() |&gt;\n  add_rugged_terrain()\n\nglimpse(conflict_df)\n\nRows: 7,624\nColumns: 22\n$ gwcode         &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2…\n$ gw_name        &lt;chr&gt; \"United States of America\", \"United States of America\",…\n$ microstate     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…\n$ year           &lt;dbl&gt; 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1…\n$ ucdpongoing    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…\n$ ucdponset      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…\n$ maxintensity   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ conflict_ids   &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ euds           &lt;dbl&gt; 1.293985, 1.308359, 1.343539, 1.330836, 1.354015, 1.350…\n$ aeuds          &lt;dbl&gt; 0.4862558, 0.5006298, 0.5358093, 0.5231064, 0.5462858, …\n$ polity2        &lt;dbl&gt; 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9…\n$ v2x_polyarchy  &lt;dbl&gt; 0.603, 0.607, 0.599, 0.580, 0.585, 0.611, 0.611, 0.612,…\n$ ethfrac        &lt;dbl&gt; 0.2226323, 0.2248701, 0.2271561, 0.2294918, 0.2318781, …\n$ ethpol         &lt;dbl&gt; 0.4152487, 0.4186156, 0.4220368, 0.4255134, 0.4290458, …\n$ relfrac        &lt;dbl&gt; 0.4980802, 0.5009111, 0.5037278, 0.5065309, 0.5093204, …\n$ relpol         &lt;dbl&gt; 0.7769888, 0.7770017, 0.7770303, 0.7770729, 0.7771274, …\n$ wbgdp2011est   &lt;dbl&gt; 28.539, 28.519, 28.545, 28.534, 28.572, 28.635, 28.669,…\n$ wbpopest       &lt;dbl&gt; 18.744, 18.756, 18.781, 18.804, 18.821, 18.832, 18.848,…\n$ sdpest         &lt;dbl&gt; 28.478, 28.456, 28.483, 28.469, 28.510, 28.576, 28.611,…\n$ wbgdppc2011est &lt;dbl&gt; 9.794, 9.762, 9.764, 9.730, 9.752, 9.803, 9.821, 9.857,…\n$ rugged         &lt;dbl&gt; 1.073, 1.073, 1.073, 1.073, 1.073, 1.073, 1.073, 1.073,…\n$ newlmtnest     &lt;dbl&gt; 3.214868, 3.214868, 3.214868, 3.214868, 3.214868, 3.214…"
   },
   {
     "objectID": "slides/week-12.1.html#your-turn",
     "href": "slides/week-12.1.html#your-turn",
     "title": "DIY Conflict Model",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nInstall/load the peacesciencer package\nVisit the package website\nCreate a conflict dataset based on the Gleditsch-Ward system of state-years\nFilter the dataset to include only years between 1946 and 1999\nAdd UCDP/PRIO Armed Conflict Dataset (ACD) data on intrastate wars\nAdd sets of variables and glimpse() the dataset after each set\n\nDemocracy variables\nFractionalization variables\nGDP variables\nRugged terrain variables\n\nOthers?\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\nInstall/load the peacesciencer package\nVisit the package website\nCreate a conflict dataset based on the Gleditsch-Ward system of state-years\nFilter the dataset to include only years between 1946 and 1999\nAdd UCDP/PRIO Armed Conflict Dataset (ACD) data on intrastate wars\nAdd sets of variables and glimpse() the dataset after each set\n\nDemocracy variables\nFractionalization variables\nGDP variables\nRugged terrain variables\n\nOthers?"
   },
   {
     "objectID": "slides/week-12.1.html#replicate-fearon-and-laitin-2003",
@@ -4826,14 +4826,14 @@
     "href": "slides/week-12.1.html#section",
     "title": "DIY Conflict Model",
     "section": "",
-    "text": "One way to do it:\n\nconflict_model &lt;- glm(ucdponset ~ ethfrac + relfrac + v2x_polyarchy + rugged +\n                        wbgdppc2011est + wbpopest,\n                  data = conflict_df,\n                  family = \"binomial\")\n\nsummary(conflict_model)\n\n\nCall:\nglm(formula = ucdponset ~ ethfrac + relfrac + v2x_polyarchy + \n    rugged + wbgdppc2011est + wbpopest, family = \"binomial\", \n    data = conflict_df)\n\nCoefficients:\n               Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)    -5.69260    1.40788  -4.043 5.27e-05 ***\nethfrac         0.80005    0.38072   2.101  0.03560 *  \nrelfrac        -0.39138    0.41673  -0.939  0.34764    \nv2x_polyarchy  -0.60161    0.50879  -1.182  0.23704    \nrugged          0.06413    0.07603   0.843  0.39897    \nwbgdppc2011est -0.37188    0.12059  -3.084  0.00204 ** \nwbpopest        0.29318    0.06735   4.353 1.34e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 1182.5  on 6150  degrees of freedom\nResidual deviance: 1126.7  on 6144  degrees of freedom\n  (885 observations deleted due to missingness)\nAIC: 1140.7\n\nNumber of Fisher Scoring iterations: 7"
+    "text": "One way to do it:\n\nconflict_model &lt;- glm(ucdponset ~ ethfrac + relfrac + v2x_polyarchy + rugged +\n                        wbgdppc2011est + wbpopest,\n                  data = conflict_df,\n                  family = \"binomial\")\n\nsummary(conflict_model)\n\n\nCall:\nglm(formula = ucdponset ~ ethfrac + relfrac + v2x_polyarchy + \n    rugged + wbgdppc2011est + wbpopest, family = \"binomial\", \n    data = conflict_df)\n\nCoefficients:\n               Estimate Std. Error z value Pr(&gt;|z|)    \n(Intercept)    -5.37638    1.41017  -3.813 0.000138 ***\nethfrac         0.70870    0.37172   1.907 0.056582 .  \nrelfrac        -0.28760    0.40945  -0.702 0.482425    \nv2x_polyarchy  -0.65166    0.51253  -1.271 0.203563    \nrugged          0.08359    0.07564   1.105 0.269145    \nwbgdppc2011est -0.39172    0.12001  -3.264 0.001099 ** \nwbpopest        0.28469    0.06774   4.203 2.63e-05 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 1205.0  on 6128  degrees of freedom\nResidual deviance: 1147.9  on 6122  degrees of freedom\n  (1495 observations deleted due to missingness)\nAIC: 1161.9\n\nNumber of Fisher Scoring iterations: 7"
   },
   {
     "objectID": "slides/week-12.1.html#your-turn-1",
     "href": "slides/week-12.1.html#your-turn-1",
     "title": "DIY Conflict Model",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nApproximate the Fearon and Laitin (2003) model\nUse the glm() function to run the model\nAdd measures of ethnicity, democracy, terrain, population and wealth\nTry replacing the original measures with different ones of the same concept\n\nWhat happens?\n\nWhat else could you add?\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\nApproximate the Fearon and Laitin (2003) model\nUse the glm() function to run the model\nAdd measures of ethnicity, democracy, terrain, population and wealth\nTry replacing the original measures with different ones of the same concept\n\nWhat happens?\n\nWhat else could you add?"
   },
   {
     "objectID": "slides/week-12.1.html#section-1",
@@ -4861,7 +4861,7 @@
     "href": "slides/week-12.1.html#your-turn-2",
     "title": "DIY Conflict Model",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nCreate a coefficient map for your model\nUse modelplot to visualize your model\nDon’t forget to add the title and caption\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\n\nCreate a coefficient map for your model\nUse modelplot to visualize your model\nDon’t forget to add the title and caption"
   },
   {
     "objectID": "slides/week-12.1.html#exponentiate-the-coefficients",
@@ -4882,28 +4882,28 @@
     "href": "slides/week-12.1.html#your-turn-3",
     "title": "DIY Conflict Model",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nExponentiate the coefficients in your model\nDo this by setting exponentiate = TRUE in modelplot\nInterpret the results\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\nExponentiate the coefficients in your model\nDo this by setting exponentiate = TRUE in modelplot\nInterpret the results"
   },
   {
     "objectID": "slides/week-12.1.html#using-marginaleffects",
     "href": "slides/week-12.1.html#using-marginaleffects",
     "title": "DIY Conflict Model",
     "section": "Using marginaleffects",
-    "text": "Using marginaleffects\n\n# load the marginaleffects library\nlibrary(marginaleffects)\n\n# select some countries for a given year\nselected_countries &lt;- conflict_df |&gt;\n  filter(\n    statename %in% c(\"United States of America\", \"Venezuela\", \"Rwanda\"),\n    year == 1999)\n\n# calculate margins for the subset\nmarg_effects &lt;- predictions(conflict_model, newdata = selected_countries)\n\n# tidy the results\ntidy(marg_effects) |&gt;\n  select(estimate, p.value, conf.low, conf.high, statename)"
+    "text": "Using marginaleffects\n\n# load the marginaleffects library\nlibrary(marginaleffects)\n\n# select some countries for a given year\nselected_countries &lt;- conflict_df |&gt;\n  filter(\n    gw_name %in% c(\"United States of America\", \"Venezuela\", \"Rwanda\"),\n    year == 1999)\n\n# calculate margins for the subset\nmarg_effects &lt;- predictions(conflict_model, newdata = selected_countries)\n\n# tidy the results\ntidy(marg_effects) |&gt;\n  select(estimate, p.value, conf.low, conf.high, gw_name)"
   },
   {
     "objectID": "slides/week-12.1.html#using-marginaleffects-1",
     "href": "slides/week-12.1.html#using-marginaleffects-1",
     "title": "DIY Conflict Model",
     "section": "Using marginaleffects",
-    "text": "Using marginaleffects\n\n\n\n# A tibble: 3 × 5\n  estimate  p.value conf.low conf.high statename               \n     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                   \n1   0.0123 2.23e-28  0.00567    0.0264 United States of America\n2   0.0140 2.25e-70  0.00879    0.0222 Venezuela               \n3   0.0286 8.46e-39  0.0170     0.0477 Rwanda"
+    "text": "Using marginaleffects\n\n\n\n# A tibble: 3 × 5\n  estimate  p.value conf.low conf.high gw_name                 \n     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;                   \n1   0.0115 1.63e-28  0.00527    0.0250 United States of America\n2   0.0136 1.88e-79  0.00876    0.0211 Venezuela               \n3   0.0331 3.17e-38  0.0201     0.0541 Rwanda"
   },
   {
     "objectID": "slides/week-12.1.html#your-turn-4",
     "href": "slides/week-12.1.html#your-turn-4",
     "title": "DIY Conflict Model",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nUse marginaleffects to calculate the predicted probabilities for a few countries\nInterpret the results\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\n\nUse marginaleffects to calculate the predicted probabilities for a few countries\nInterpret the results"
   },
   {
     "objectID": "slides/week-12.1.html#run-multiple-models",
@@ -4931,14 +4931,14 @@
     "href": "slides/week-12.1.html#display-the-models-1",
     "title": "DIY Conflict Model",
     "section": "Display the Models",
-    "text": "Display the Models\n\n\n\n\n\n\nTable 1: Predictors of Conflict Onset\n\n\n\nEthnicity\nDemocracy\nTerrain\nFull Model\n\n\n\n\nEthnic Frac\n0.744*\n\n\n0.800*\n\n\n\n(0.367)\n\n\n(0.381)\n\n\nReligions Frac\n-0.481\n\n\n-0.391\n\n\n\n(0.411)\n\n\n(0.417)\n\n\nPolyarchy\n\n-0.228\n\n-0.602\n\n\n\n\n(0.436)\n\n(0.509)\n\n\nTerrain\n\n\n0.031\n0.064\n\n\n\n\n\n(0.076)\n(0.076)\n\n\nPer capita GDP\n-0.474***\n-0.512***\n-0.543***\n-0.372**\n\n\n\n(0.104)\n(0.108)\n(0.092)\n(0.121)\n\n\nPopulation\n0.282***\n0.297***\n0.299***\n0.293***\n\n\n\n(0.067)\n(0.051)\n(0.050)\n(0.067)\n\n\nIntercept\n-4.703***\n-4.407***\n-4.296***\n-5.693***\n\n\n\n(1.327)\n(1.205)\n(1.143)\n(1.408)\n\n\nNum.Obs.\n6364\n6772\n6840\n6151\n\n\n\n+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n\n\nSee appendix for data sources."
+    "text": "Display the Models\n\n\n\n\n\n\nTable 1: Predictors of Conflict Onset\n\n\n\nEthnicity\nDemocracy\nTerrain\nFull Model\n\n\n\n\nEthnic Frac\n0.733*\n\n\n0.709+\n\n\n\n(0.365)\n\n\n(0.372)\n\n\nReligions Frac\n-0.429\n\n\n-0.288\n\n\n\n(0.409)\n\n\n(0.409)\n\n\nPolyarchy\n\n-0.801*\n\n-0.652\n\n\n\n\n(0.390)\n\n(0.513)\n\n\nTerrain\n\n\n0.035\n0.084\n\n\n\n\n\n(0.075)\n(0.076)\n\n\nPer capita GDP\n-0.485***\n-0.275***\n-0.553***\n-0.392**\n\n\n\n(0.104)\n(0.059)\n(0.092)\n(0.120)\n\n\nPopulation\n0.278***\n0.300***\n0.296***\n0.285***\n\n\n\n(0.067)\n(0.051)\n(0.050)\n(0.068)\n\n\nIntercept\n-4.571***\n-6.184***\n-4.166***\n-5.376***\n\n\n\n(1.323)\n(0.967)\n(1.140)\n(1.410)\n\n\nNum.Obs.\n6364\n6955\n6840\n6129\n\n\n\n+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n\n\nSee appendix for data sources."
   },
   {
     "objectID": "slides/week-12.1.html#your-turn-5",
     "href": "slides/week-12.1.html#your-turn-5",
     "title": "DIY Conflict Model",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nRun multiple models\nDisplay the results in a regression table\nTry rerunning with exponentiate = TRUE\nTry getting predicted probabilities with marginaleffects\n\n\n\n\n−+\n10:00"
+    "text": "Your Turn!\n\nRun multiple models\nDisplay the results in a regression table\nTry rerunning with exponentiate = TRUE\nTry getting predicted probabilities with marginaleffects"
   },
   {
     "objectID": "slides/week-14.2.html#what-is-reveal.js",

@@ -22,7 +22,6 @@ execute:
 #| label: packages
 
 library(tidyverse)
-library(tidymodels)
 library(peacesciencer)
 ```
 
@@ -279,7 +278,7 @@ library(marginaleffects)
 # select some countries for a given year
 selected_countries <- conflict_df |>
   filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
 # calculate margins for the subset
@@ -287,7 +286,7 @@ marg_effects <- predictions(conflict_model, newdata = selected_countries)
 
 # tidy the results
 tidy(marg_effects) |>
-  select(estimate, p.value, conf.low, conf.high, statename)
+  select(estimate, p.value, conf.low, conf.high, gw_name)
 ```
 
 ## Using `marginaleffects`
@@ -297,13 +296,13 @@ tidy(marg_effects) |>
 ```{r}
 #| label: marginal_effects2
 
-# load the 
+# load the
 library(marginaleffects)
 
 # seledct some countries for a given year
 selected_countries <- conflict_df |>
   filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
 # calculate margins for the subset
@@ -311,7 +310,7 @@ marg_effects <- predictions(conflict_model, newdata = selected_countries)
 
 # tidy the results
 tidy(marg_effects) |>
-  select(estimate, p.value, conf.low, conf.high, statename)
+  select(estimate, p.value, conf.low, conf.high, gw_name)
 ```
 
 ## Your Turn!
