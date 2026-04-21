@@ -71,5 +71,7 @@ You have two choices for your final product:
 ## Submission Instructions
 
 - Upload your document or presentation to Quarto Pub and submit the link 
+- Upload your zipped project folder to Blackboard
 - If you are doing a presentation, submit the link to your presentation as well as the link to your slide deck.
+- Each member of the group should enter their own submission on Blackboard (it can be the same as other group memebers)
 :::

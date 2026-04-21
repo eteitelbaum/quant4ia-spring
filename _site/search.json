@@ -5663,7 +5663,7 @@
     "href": "project/project-description.html#product",
     "title": "Final Project",
     "section": "Product",
-    "text": "Product\nYou have two choices for your final product:\n\nA 3-5 page single-spaced policy memo that motivates your question, introduces the data, presents your findings and highlights important policy implications (or implications for general knowledge about politics or international affairs). You should render and submit your policy memo in HTML format.\nA 3-5 minute recorded presentation on Zoom, Vimeo or some similar tool with a revealjs slide deck. The presentation should motivate your question, introduces the data, presents your findings and highlights important policy implications (or implications for general knowledge about politics or international affairs).\n\n\n\n\n\n\n\nSubmission Instructions\n\n\n\n\nUpload your document or presentation to Quarto Pub and submit the link\nIf you are doing a presentation, submit the link to your presentation as well as the link to your slide deck.",
+    "text": "Product\nYou have two choices for your final product:\n\nA 3-5 page single-spaced policy memo that motivates your question, introduces the data, presents your findings and highlights important policy implications (or implications for general knowledge about politics or international affairs). You should render and submit your policy memo in HTML format.\nA 3-5 minute recorded presentation on Zoom, Vimeo or some similar tool with a revealjs slide deck. The presentation should motivate your question, introduces the data, presents your findings and highlights important policy implications (or implications for general knowledge about politics or international affairs).\n\n\n\n\n\n\n\nSubmission Instructions\n\n\n\n\nUpload your document or presentation to Quarto Pub and submit the link\nUpload your zipped project folder to Blackboard\nIf you are doing a presentation, submit the link to your presentation as well as the link to your slide deck.\nEach member of the group should enter their own submission on Blackboard (it can be the same as other group memebers)",
     "crumbs": [
       "Final Project",
       "Final Project"
@@ -6830,5 +6830,16 @@
     "title": "Logistic Regression: Motivation and Model",
     "section": "A Worked Example",
     "text": "A Worked Example\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16 - 0.33 \\times \\text{logGDPpc}\\]\n\n\n\n\n\n\n\n\n\n\nCountry\nlogGDPpc\nLinear predictor \\(\\eta\\)\nOdds\nProbability \\(p\\)\n\n\n\n\nPoor\n6\n\\(-3.14\\)\n\\(0.043\\)\n\\(0.041\\)\n\n\nMiddle\n8\n\\(-3.80\\)\n\\(0.022\\)\n\\(0.022\\)\n\n\nRich\n10\n\\(-4.46\\)\n\\(0.012\\)\n\\(0.011\\)\n\n\n\n\n\nThe linear predictor \\(\\eta\\) is unbounded — it can be any value\nThe logit link keeps the predicted probability between 0 and 1\nConflict onset is rare — small probabilities make sense"
+  },
+  {
+    "objectID": "assignments/homework-2.html#footnotes",
+    "href": "assignments/homework-2.html#footnotes",
+    "title": "Assignment 2",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThis is a much much much longer footnote that we need more space for, like a paragraph long footnote or something.↩︎",
+    "crumbs": [
+      "Homework",
+      "Homework 2"
+    ]
   }
 ]
