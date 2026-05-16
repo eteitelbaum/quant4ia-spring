@@ -5,6 +5,10 @@ author: "Your Name"
 format: html
 ---
 
+::: {.callout-note appearance="minimal"}
+[Download the `.qmd` file for this assignment](https://raw.githubusercontent.com/eteitelbaum/quant4ia-spring/main/assignments/homework-3.qmd)
+:::
+
 In this homework assignment, we are going to be exploring the hugely influential article by Fearon and Laitin (2003) on civil war onset. Click [here](https://www-jstor-org.proxygw.wrlc.org/stable/3118222?seq=11) to view the original article and see Table 1 for the model that we will be replicating. 
 
 ## Load the Data

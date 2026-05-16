@@ -1,5 +1,5 @@
 ---
-title: "Assignment 2"
+title: "Homework 2"
 subtitle: "The Impact of Community Driven Development after Conflict"
 editor: source
 output: html
@@ -8,6 +8,10 @@ execute:
   eval: false
 bibliography: references.bib
 ---
+
+::: {.callout-note appearance="minimal"}
+[Download the `.qmd` file for this assignment](https://raw.githubusercontent.com/eteitelbaum/quant4ia-spring/main/assignments/homework-2.qmd)
+:::
 
 ## Overview
 

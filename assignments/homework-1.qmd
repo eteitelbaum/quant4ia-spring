@@ -3,6 +3,10 @@ title: "Homework 1"
 subtitle: "Evaluating Modernization Theory"
 ---
 
+::: {.callout-note appearance="minimal"}
+[Download the `.qmd` file for this assignment](https://raw.githubusercontent.com/eteitelbaum/quant4ia-spring/main/assignments/homework-1.qmd)
+:::
+
 ## Overview
 
 For this assignment, you are going to evaluate modernization theory as laid out in Seymour Martin Lipset's [classic article](https://www-jstor-org.proxygw.wrlc.org/stable/1951731?seq=8) entitled "Some Social Requisites of Democracy: Economic Development and Political Legitimacy." How classic is this article? According to Google Scholar, this piece has been cited more than 11.5 thousand times! 
