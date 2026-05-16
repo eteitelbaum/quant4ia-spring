@@ -1,0 +1,242 @@
+---
+title: "Lab 4"
+subtitle: "Bootstrap Confidence Intervals and a Single-Proportion Test"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+Use a simulation-based workflow (bootstrap CI + hypothesis test) to analyze a governance reform example.
+
+You are encouraged to have the second half of Lesson 6.2 and Lesson 7.1 open while completing this lab.
+
+## Getting Started
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(tidymodels)
+run <- isTRUE(params$completed)
+```
+
+::: {.callout-note}
+If `tidymodels` is not installed locally, run `install.packages("tidymodels")`.
+:::
+
+## The Data
+
+A municipal permit office introduces a transparency reform (posted fee schedules + anonymous reporting) to reduce unofficial payment requests.
+
+In a sample of 50 permit applicants after the reform, 6 reported being asked for an unofficial payment and 44 did not.
+
+```{r}
+#| label: permit-data
+
+permit_office <- tibble(
+  outcome = c(rep("asked_payment", 6), rep("not_asked", 44))
+)
+```
+
+## Part 1: Explore the Sample (25 points)
+
+### Sample summary (10 pts)
+
+Write code to:
+
+- view the first 6 rows
+- count outcomes
+- calculate the observed sample payment-request rate (proportion `asked_payment`)
+
+```{r}
+#| label: inspect-summary
+
+# Write your code here
+
+```
+
+**Question:** What is the observed sample payment-request rate (proportion and percent)?
+
+YOUR ANSWER HERE
+
+### Bar chart + short interpretation (15 pts)
+
+Create a bar chart of `outcome`.
+
+- include a title and axis labels
+- use `theme_minimal()`
+
+```{r}
+#| label: sample-bar-chart
+
+# Write your plot code here
+
+```
+
+**Question:** Based only on this sample, does the reform look promising? Why is this not enough to make a strong causal claim?
+
+YOUR ANSWER HERE
+
+## Part 2: Bootstrap Confidence Interval (45 points)
+
+Estimate a 95% bootstrap confidence interval for the payment-request rate.
+
+### Bootstrap distribution (20 pts)
+
+Fill in the blanks:
+
+```{r}
+#| label: bootstrap-dist
+#| eval: !expr run
+
+set.seed(66)
+
+boot_df <- permit_office |>
+  specify(response = ???, success = ???) |>
+  generate(reps = 5000, type = ???) |>
+  calculate(stat = ???)
+
+boot_df
+```
+
+### CI estimate and plot (15 pts)
+
+Use `get_ci()` and `shade_ci()` to estimate and visualize the 95% CI.
+
+```{r}
+#| label: bootstrap-ci-plot
+#| eval: !expr run
+
+ci_95 <- boot_df |>
+  get_ci(level = 0.95)
+
+boot_df |>
+  visualize() +
+  ??? +
+  labs(
+    title = "Bootstrap Distribution of the Payment-Request Rate",
+    x = "Sample proportion asked for unofficial payment",
+    y = "Count"
+  ) +
+  theme_minimal()
+```
+
+### CI interpretation (10 pts)
+
+Write 2-3 sentences interpreting the 95% confidence interval in context.
+
+YOUR INTERPRETATION HERE
+
+## Part 3: Single-Proportion Hypothesis Test (50 points)
+
+Suppose the office's historical payment-request rate is 20%, and the null hypothesis says the reform had no effect.
+
+### Hypotheses (10 pts)
+
+Question: Is the payment-request rate after the reform **lower** than 20%?
+
+- Null hypothesis ($H_0$):
+- Alternative hypothesis ($H_A$):
+
+YOUR ANSWERS HERE
+
+### Simulate the null distribution (20 pts)
+
+Fill in the blanks for a simulation under $H_0: p = 0.20$.
+
+```{r}
+#| label: null-distribution
+#| eval: !expr run
+
+set.seed(71)
+
+null_dist <- permit_office |>
+  specify(response = ???, success = ???) |>
+  hypothesize(null = "point", p = c("asked_payment" = ???, "not_asked" = ???)) |>
+  generate(reps = 2000, type = ???) |>
+  calculate(stat = ???)
+
+null_dist
+```
+
+### Null distribution plot (5 pts)
+
+Create a histogram of `null_dist` and add a vertical line at the observed sample proportion.
+
+```{r}
+#| label: null-dist-plot
+
+# Write your plot code here
+
+```
+
+### One-sided p-value (10 pts)
+
+Because $H_A$ is "lower than 0.20," calculate the proportion of simulated values less than or equal to the observed sample proportion.
+
+```{r}
+#| label: p-value
+#| eval: !expr run
+
+null_dist |>
+  filter(stat <= ???) |>
+  summarize(p_value = ???)
+```
+
+### Conclusion (5 pts)
+
+Using $\alpha = 0.05$, state whether you reject or do not reject $H_0$, then explain your conclusion in 2-3 sentences.
+
+YOUR CONCLUSION HERE
+
+## Submission (20 points)
+
+1. Replace "YOUR NAME HERE" with your name
+2. Make sure all code chunks run without errors
+3. Render to PDF
+4. Submit the PDF to Blackboard
+
+## Hints (Short Version)
+
+**Observed proportion**
+
+```
+permit_office |>
+  summarize(p_hat = mean(outcome == "asked_payment"))
+```
+
+**Bootstrap workflow**
+
+```
+permit_office |>
+  specify(response = outcome, success = "asked_payment") |>
+  generate(reps = 5000, type = "bootstrap") |>
+  calculate(stat = "prop")
+```
+
+**Null distribution workflow**
+
+```
+permit_office |>
+  specify(response = outcome, success = "asked_payment") |>
+  hypothesize(null = "point", p = c("asked_payment" = 0.20, "not_asked" = 0.80)) |>
+  generate(reps = 2000, type = "draw") |>
+  calculate(stat = "prop")
+```
+
+**Simulation p-value**
+
+```
+null_dist |>
+  filter(stat <= 0.12) |>
+  summarize(p_value = n() / nrow(null_dist))
+```

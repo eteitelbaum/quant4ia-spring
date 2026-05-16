@@ -1,0 +1,277 @@
+---
+title: "Lab 6"
+subtitle: "Multiple Regression and Outliers"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+In this lab you will extend the simple regression skills from Lab 5 to multiple regression, and then practice identifying and handling outliers. You will:
+
+1. Fit a multiple regression model and interpret coefficients while holding other variables constant
+2. Include a categorical predictor and interpret dummy variable coefficients
+3. Identify influential observations using regression diagnostics
+4. Compare model results across different outlier-handling strategies
+
+You are encouraged to have the lecture slides for Weeks 10.1 and 10.2 open while completing this lab.
+
+## Getting Started
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(vdemdata)
+library(broom)
+run <- isTRUE(params$completed)
+```
+
+::: {.callout-note}
+## Installing vdemdata locally
+
+If you are working on your own computer and don't have `vdemdata` installed, you can install it from GitHub. First install the `pak` package, then use it to install `vdemdata`:
+
+```r
+install.packages("pak")
+pak::pak("vdeminstitute/vdemdata")
+```
+:::
+
+## The Data
+
+You will continue working with V-Dem cross-national data for the year 2019. The research question is: **What predicts a country's level of liberal democracy?**
+
+The key variables are:
+
+- `lib_dem` — Liberal Democracy Index (0–1, higher = more democratic)
+- `wealth` — GDP per capita (in thousands of USD)
+- `log_wealth` — log-transformed GDP per capita
+- `polarization` — Political polarization index (higher = more polarized)
+- `region` — World region (6 categories)
+
+## Part 1: Multiple Regression (60 points)
+
+### Step 1: Wrangle the data (10 pts)
+
+Fill in the `???` to filter V-Dem to the year 2019 and select the relevant variables.
+
+```{r}
+#| label: wrangle
+#| eval: !expr run
+
+model_data <- vdem |>
+  filter(year == ???) |>
+  select(
+    country = country_name,
+    lib_dem = v2x_libdem,
+    wealth  = e_gdppc,
+    polarization = v2cacamps,
+    region = e_regionpol_6C
+  ) |>
+  mutate(
+    log_wealth = log(wealth),
+    region = factor(region,
+      labels = c("Eastern Europe", "Latin America", "MENA",
+                 "Sub-Saharan Africa", "Western Europe & N. America",
+                 "Asia and Pacific"))
+  ) |>
+  filter(!is.na(lib_dem), !is.na(wealth))
+
+glimpse(model_data)
+```
+
+**Question:** How many countries are in the dataset after filtering out missing values?
+
+YOUR ANSWER HERE
+
+### Step 2: Fit a model with two predictors (20 pts)
+
+Fit a multiple regression model predicting `lib_dem` from `log_wealth` and `polarization`. Store the result as `model1` and view the output with `summary()`.
+
+```{r}
+#| label: model1
+#| eval: !expr run
+
+model1 <- lm(??? ~ ??? + ???, data = model_data)
+
+summary(model1)
+```
+
+### Step 3: Interpret the coefficients (20 pts)
+
+**Question:** Write out the estimated regression equation using the coefficients from the output (round to two decimal places).
+
+$$\widehat{LibDem}_i = a + b_1 \times LogWealth + b_2 \times Polarization$$
+
+YOUR EQUATION HERE
+
+**Question:** Interpret the coefficient on `log_wealth`. What does "holding polarization constant" mean in plain language?
+
+YOUR ANSWER HERE
+
+**Question:** Interpret the coefficient on `polarization`. Is the direction of the relationship what you would expect? Why or why not?
+
+YOUR ANSWER HERE
+
+### Step 4: Add a categorical predictor (10 pts)
+
+Now add `region` as a third predictor. Store this as `model2` and view the summary.
+
+```{r}
+#| label: model2
+#| eval: !expr run
+
+model2 <- lm(lib_dem ~ log_wealth + polarization + region, data = model_data)
+
+summary(model2)
+```
+
+**Question:** What is the baseline (reference) region in this model? How do you know?
+
+YOUR ANSWER HERE
+
+**Question:** Pick one region coefficient and interpret it in a sentence. What does it tell us about democracy in that region compared to the baseline?
+
+YOUR ANSWER HERE
+
+## Part 2: Outliers and Influential Observations (40 points)
+
+### Step 1: Identify influential points (20 pts)
+
+Use `broom::augment()` to compute regression diagnostics for `model1`. Then flag observations that are high-leverage, high-residual, or highly influential.
+
+```{r}
+#| label: diagnostics
+#| eval: !expr run
+
+model_diagnostics <- augment(model1, data = model_data) |>
+  mutate(
+    high_leverage  = .hat > 2 * mean(.hat),
+    high_residual  = abs(.std.resid) > 2,
+    high_influence = .cooksd > 4 / nrow(model_data)
+  )
+
+model_diagnostics |>
+  filter(high_leverage | high_residual | high_influence) |>
+  select(country, wealth, lib_dem, high_leverage, high_residual, high_influence)
+```
+
+**Question:** How many countries are flagged as influential? Name two that stand out and explain why they might be outliers in this model.
+
+YOUR ANSWER HERE
+
+### Step 2: Compare models with and without influential points (20 pts)
+
+Remove the influential observations and re-fit the model. Compare the coefficients and R-squared between the two versions.
+
+```{r}
+#| label: compare-models
+#| eval: !expr run
+
+model_full <- lm(lib_dem ~ log_wealth + polarization, data = model_data)
+
+model_clean <- model_diagnostics |>
+  filter(!high_leverage & !high_residual & !high_influence) |>
+  lm(lib_dem ~ log_wealth + polarization, data = _)
+
+tibble(
+  model     = c("Full model", "Outliers removed"),
+  intercept = c(coef(model_full)[1],    coef(model_clean)[1]),
+  log_wealth  = c(coef(model_full)[2],  coef(model_clean)[2]),
+  polarization = c(coef(model_full)[3], coef(model_clean)[3]),
+  r_squared = c(glance(model_full)$r.squared, glance(model_clean)$r.squared)
+)
+```
+
+**Question:** How much do the coefficients change after removing influential points? Does this suggest the outliers were having a large or small effect on the results? What does this tell you about the robustness of the findings?
+
+YOUR ANSWER HERE
+
+## Render as PDF and Submit Your Work
+
+1. Replace "YOUR NAME HERE" at the top with your actual name
+2. Make sure all code chunks run without errors
+3. Click "Render" to create your PDF
+4. Submit the PDF to Blackboard
+
+---
+
+## Bonus: Checking Model Assumptions (up to 10 points)
+
+*This section is optional and corresponds to the optional Module 10.3 on model assumptions.*
+
+Use the `performance` package to run automated diagnostics on `model2` (the model with region included).
+
+```{r}
+#| label: check-model
+#| eval: !expr run
+#| message: false
+
+library(performance)
+
+check_model(model2)
+```
+
+**Question:** Look at the **Linearity** panel. Does the smoother line stay close to zero across fitted values, or does it show a curve? What would a curve indicate?
+
+YOUR ANSWER HERE
+
+**Question:** Look at the **Homogeneity of Variance** panel. Does the spread of residuals look roughly constant, or does it fan out? What would a funnel shape indicate?
+
+YOUR ANSWER HERE
+
+**Question:** Look at the **Normality of Residuals** panel. Do the points follow the diagonal line closely? Are there any systematic departures in the tails?
+
+YOUR ANSWER HERE
+
+---
+
+## Hints
+
+*Only look at these if you're stuck!*
+
+**Hint 1 — Fitting a multiple regression model:**
+
+```r
+model1 <- lm(lib_dem ~ log_wealth + polarization, data = model_data)
+summary(model1)
+```
+
+**Hint 2 — Including a factor variable as a predictor:**
+
+```r
+model2 <- lm(lib_dem ~ log_wealth + polarization + region, data = model_data)
+```
+R automatically creates dummy variables for each level of `region`, leaving the first level as the reference category.
+
+**Hint 3 — Running regression diagnostics:**
+
+```r
+model_diagnostics <- augment(model1, data = model_data) |>
+  mutate(
+    high_leverage  = .hat > 2 * mean(.hat),
+    high_residual  = abs(.std.resid) > 2,
+    high_influence = .cooksd > 4 / nrow(model_data)
+  )
+```
+
+**Hint 4 — Removing outliers and re-fitting:**
+
+```r
+model_clean <- model_diagnostics |>
+  filter(!high_leverage & !high_residual & !high_influence) |>
+  lm(lib_dem ~ log_wealth + polarization, data = _)
+```
+
+**Hint 5 — Comparing coefficients with `glance()` and `coef()`:**
+
+`coef(model)` extracts the coefficients as a named vector. `glance(model)$r.squared` extracts R-squared from the `broom` package.

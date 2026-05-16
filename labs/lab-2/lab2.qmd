@@ -1,0 +1,229 @@
+---
+title: "Lab 2"
+subtitle: "Wrangling and Visualizing Democracy Data"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+In this lab, you will practice wrangling data and creating visualizations using the V-Dem democracy dataset. You will:
+
+1.  Load and explore democracy data
+2.  Create a line chart showing trends in democracy over time
+3.  Create a scatter plot examining the relationship between wealth and democracy
+4.  Create a column chart of women's political representation by region
+5.  Write brief interpretations of your visualizations
+6.  Render your document to PDF and submit
+
+You are encouraged to have the lecture materials from Lessons 2.2 and 3.1 open while completing this lab. You should also have the V-Dem codebook available to help you choose variables.
+
+## Getting Started
+
+Load the required packages.
+
+```{r}
+#| label: setup
+#| message: false
+
+library(vdemdata) # load the V-Dem package
+library(tidyverse) # load the tidyverse
+run <- isTRUE(params$completed)
+```
+
+```{r}
+some_of_vdem <- vdem |>
+  filter(year >= 2010) |>
+  select(country_name, year, v2x_polyarchy, v2x_libdem)
+```
+
+::: {.callout-note}
+## Installing vdemdata locally
+
+If you are working on your own computer and don't have `vdemdata` installed, you'll need to install it from GitHub. First install the `pak` package, then use it to install `vdemdata`:
+
+```r
+install.packages("pak")
+pak::pkg_install("vdeminstitute/vdemdata")
+```
+:::
+
+## The Data
+
+Today we'll work with two data sources:
+
+-   The `vdem` dataset from the `vdemdata` package, which contains hundreds of democracy indicators for countries over time
+-   `dem_women.csv`, which contains a subset of V-Dem data along with economic and women's representation variables
+
+## Part 1: Line Chart of Democracy Trends (30 points)
+
+For this part, you will use the V-Dem dataset to visualize how democracy has changed over time in a few countries of your choosing.
+
+### Step 1: Wrangle the Data (15 pts)
+
+First, you need to wrangle the `vdem` data to select only the variables and countries you want. Consult the V-Dem codebook to choose a high-level democracy indicator (such as `v2x_polyarchy`, `v2x_libdem`, `v2x_partipdem`, or another measure that interests you).
+
+Fill in the blanks in the code below:
+
+```{r}
+#| label: dem_waves_setup
+
+dem_waves_ctrs <- vdem |>
+  select(                               # selects columns?
+    country = country_name,
+    year,
+    delibdem = v2x_delibdem             # choose a V-Dem variable and rename it
+  ) |>
+  filter(
+    country %in% c("???",             # select/filter countries to visualize
+                   "???",             # don't forget to put names in ""
+                   "???")
+    )
+```
+
+### Step 2: Create a Line Chart (10 pts)
+
+Using the line chart code from **Lesson 2.2** as a template, create a line chart showing how your chosen democracy indicator has changed over time in your selected countries. Make sure each country is represented by a different colored line.
+
+Think about what needs to go in the `aes()`:
+
+- What variable should go on the x-axis (time)?
+- What variable should go on the y-axis (democracy measure)?
+- What variable should determine the color of the lines?
+
+```{r}
+#| label: line-chart
+
+# Write your line chart code here
+
+```
+
+### Step 3: Interpret Your Chart (5 pts)
+
+Write 2-3 sentences describing what you see. How have democracy levels changed over time in your selected countries? Are there any interesting patterns or divergences?
+
+YOUR INTERPRETATION HERE
+
+## Part 2: Scatter Plot of Wealth and Democracy (35 points)
+
+For this part, you will explore the relationship between economic development (GDP per capita) and democracy (polyarchy) using the `dem_women` dataset.
+
+### Step 1: Load and Wrangle the Data (15 pts)
+
+Load the data and calculate average values for each country across all years. Fill in the blanks:
+
+```{r}
+#| label: wrangle-gdp-polyarchy
+#| eval: !expr run
+
+dem_women <- read_csv("dem_women.csv")
+
+gdp_polyarchy_ctry <- dem_women |>
+  group_by(???, ???) |>              # group by country, keep region
+  summarize(
+    polyarchy = ???(polyarchy, na.rm = TRUE), # summarize by mean (or median)
+    gdp_pc = ???(gdp_pc, na.rm = TRUE)        # summarize by mean (or median)
+  )
+```
+
+### Step 2: Create a Scatter Plot (15 pts)
+
+Using the scatter plot code from **Lesson 3.1** as a template, create a scatter plot with GDP per capita on the x-axis and polyarchy on the y-axis. Consider coloring the points by region to see if there are regional patterns.
+
+```{r}
+#| label: scatter-plot
+
+# Write your scatter plot code here
+
+```
+
+### Step 3: Interpret Your Scatter Plot (5 pts)
+
+Write 2-3 sentences describing what you see. Is there a relationship between wealth and democracy? Do you notice any regional patterns?
+
+YOUR INTERPRETATION HERE
+
+## Part 3: Column Chart of Women's Representation (35 points)
+
+For this part, you will create a column chart showing average women's representation in parliament by region.
+
+### Step 1: Wrangle the Data (15 pts)
+
+Summarize the data to get average women's representation by region. Fill in the blanks:
+
+```{r}
+#| label: wrangle-women-rep
+#| eval: !expr run
+
+women_rep_region <- dem_women |>
+  ???(???) |>                                      # group by region
+  ???(
+    women_rep = ???(women_rep, na.rm = TRUE)       # summarize by mean (or median)
+  )
+```
+
+### Step 2: Create a Column Chart (15 pts)
+
+Using the column chart code from **Lesson 2.1 or 3.1** as a template, create a column chart showing women's representation by region. For a cleaner visualization, try to arrange the columns in descending order by level of women's representation.
+
+*Hint:* To reorder the bars, you can use `reorder(region, -women_rep)` or `fct_reorder(region, women_rep, .desc = TRUE)` in your `aes()` for the x variable.
+
+```{r}
+#| label: column-chart
+
+# Write your column chart code here
+
+```
+
+### Step 3: Interpret Your Chart (5 pts)
+
+Write 2-3 sentences describing what you see. Which region has the highest level of women's representation in parliament? Which has the lowest? Are you surprised by any of the results?
+
+YOUR INTERPRETATION HERE
+
+## Submission (Completion)
+
+1.  Replace "YOUR NAME HERE" at the top with your actual name
+2.  Make sure all your code chunks run without errors
+3.  Click "Render" to create your PDF
+4.  Submit the PDF to Blackboard
+
+## Hints
+
+*Only look at these if you're stuck!*
+
+**Hint 1 - Line chart structure:**
+
+```
+ggplot(data_name, aes(x = year, y = ___, color = ___)) +
+  geom_line() +
+  labs(title = "___", x = "Year", y = "___", color = "___")
+```
+
+**Hint 2 - Scatter plot structure:**
+
+```
+ggplot(data_name, aes(x = ___, y = ___)) +
+  geom_point() +
+  labs(title = "___", x = "___", y = "___")
+```
+
+**Hint 3 - Column chart with reordering:**
+
+```
+ggplot(data_name, aes(x = reorder(region, -women_rep), y = women_rep)) +
+  geom_col() +
+  labs(title = "___", x = "___", y = "___")
+```
+
+**Hint 4 - Common issues:**
+
+- Make sure variable names match *exactly* what you see in the data (R is case-sensitive!)
+- If you get an error about missing values, check that you included `na.rm = TRUE` in your summary functions
+- If your line chart only shows one line, make sure you included `color = country` in your `aes()`

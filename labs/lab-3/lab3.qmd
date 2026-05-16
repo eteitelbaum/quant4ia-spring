@@ -1,0 +1,225 @@
+---
+title: "Lab 3"
+subtitle: "Describing Distributions"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+In this lab, you will practice describing distributions using the V-Dem dataset. You will:
+
+1. Choose one V-Dem variable you are interested in and create a clean variable name for it
+2. Calculate and interpret measures of central tendency (mean and median)
+3. Calculate and interpret measures of spread (range, IQR, and standard deviation)
+4. Visualize the distribution using a histogram/density plot and a box plot
+5. Render your document to PDF and submit
+
+You are encouraged to have Module 6.1 open while completing this lab.
+
+## Getting Started
+
+Load the required packages.
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(vdemdata)
+run <- isTRUE(params$completed)
+```
+
+::: {.callout-note}
+## Installing vdemdata locally
+
+If you are working on your own computer and don't have `vdemdata` installed, you can install it from GitHub. First install the `pak` package, then use it to install `vdemdata`:
+
+```r
+install.packages("pak")
+pak::pak("vdeminstitute/vdemdata")
+```
+:::
+
+::: {.callout-note}
+## Choosing a variable
+
+Pick one V-Dem variable that interests you. You can browse variable definitions in the V-Dem codebook: [V-Dem Codebook](https://v-dem.net/documents/55/codebook.pdf)
+:::
+
+## Part 1: Build Your Data Frame (20 points)
+
+Filter to year 2022, recode region as in class, and select one variable of your choice.
+
+In the code below, replace `your_var_name` with a short name you choose and replace `???` with the V-Dem variable code.
+
+```{r}
+#| label: data-setup
+#| eval: !expr run
+
+vdem2022 <- vdem |>
+  filter(year == 2022) |>
+  select(
+    country = country_name,
+    year,
+    region = e_regionpol_6C,
+    your_var_name = ???
+  ) |>
+  mutate(
+    region = case_match(region,
+      1 ~ "Eastern Europe",
+      2 ~ "Latin America",
+      3 ~ "Middle East",
+      4 ~ "Africa",
+      5 ~ "The West",
+      6 ~ "Asia"
+    )
+  )
+```
+
+**Question:** Which variable did you choose, and what does it measure?
+
+YOUR ANSWER HERE
+
+## Part 2: Measures of Central Tendency (30 points)
+
+Use your chosen variable name in all code below.
+
+### Step 1: Calculate mean and median (15 pts)
+
+```{r}
+#| label: center-summary
+#| eval: !expr run
+
+vdem2022 |>
+  summarize(
+    mean_var = ???,
+    median_var = ???
+  )
+```
+
+### Step 2: Visualize center on the distribution (15 pts)
+
+Create either a histogram or a density plot of your chosen variable, and add vertical lines for both mean and median.
+
+```{r}
+#| label: center-plot
+
+# Write your plot code here
+
+```
+
+**Question:** Is the mean larger than the median, smaller, or about the same? What does that suggest about skew?
+
+YOUR ANSWER HERE
+
+## Part 3: Measures of Dispersion and Box Plot (50 points)
+
+### Step 1: Calculate spread statistics (25 pts)
+
+Calculate the following for your chosen variable:
+
+- minimum and maximum
+- first quartile (Q1) and third quartile (Q3)
+- IQR
+- standard deviation
+
+```{r}
+#| label: spread-summary
+#| eval: !expr run
+
+vdem2022 |>
+  summarize(
+    min_var = ???,
+    max_var = ???,
+    q1_var = ???,
+    q3_var = ???,
+    iqr_var = ???,
+    sd_var = ???
+  )
+```
+
+### Step 2: Create a box plot (15 pts)
+
+Create one overall box plot of your chosen variable.
+
+```{r}
+#| label: overall-boxplot
+
+# Write a single box plot for your variable here
+
+```
+
+### Step 3: Interpret spread and outliers (10 pts)
+
+In 3-4 sentences, describe what you learned from your spread statistics and box plot.
+
+1. Are values tightly clustered or widely dispersed?
+2. Does the box plot suggest potential outliers?
+3. How does this compare to what you saw in your histogram/density plot?
+
+YOUR INTERPRETATION HERE
+
+## Render as PDF and Submit Your Work (20 pts)
+
+1. Replace "YOUR NAME HERE" at the top with your actual name
+2. Make sure all your code chunks run without errors
+3. Click "Render" to create your PDF
+4. Submit the PDF to Blackboard
+
+## Hints
+
+*Only look at these if you're stuck!*
+
+**Hint 1 - Filtering to one year:**
+
+```
+filter(year == 2022)
+```
+
+**Hint 2 - Mean and median (replace `your_var_name`):**
+
+```
+summarize(
+  mean_var = mean(your_var_name, na.rm = TRUE),
+  median_var = median(your_var_name, na.rm = TRUE)
+)
+```
+
+**Hint 3 - Histogram with reference lines (replace `your_var_name`):**
+
+```
+ggplot(vdem2022, aes(x = your_var_name)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  geom_vline(xintercept = mean(vdem2022$your_var_name, na.rm = TRUE), color = "orange") +
+  geom_vline(xintercept = median(vdem2022$your_var_name, na.rm = TRUE), color = "darkgreen", linetype = "dashed") +
+  theme_minimal()
+```
+
+**Hint 4 - Spread statistics (replace `your_var_name`):**
+
+```
+summarize(
+  min_var = min(your_var_name, na.rm = TRUE),
+  max_var = max(your_var_name, na.rm = TRUE),
+  q1_var = quantile(your_var_name, 0.25, na.rm = TRUE),
+  q3_var = quantile(your_var_name, 0.75, na.rm = TRUE),
+  iqr_var = IQR(your_var_name, na.rm = TRUE),
+  sd_var = sd(your_var_name, na.rm = TRUE)
+)
+```
+
+**Hint 5 - Single box plot (replace `your_var_name`):**
+
+```
+ggplot(vdem2022, aes(x = "", y = your_var_name)) +
+  geom_boxplot(fill = "steelblue") +
+  theme_minimal()
+```

@@ -1,0 +1,213 @@
+---
+title: "Lab 7"
+subtitle: "Logistic Regression and Conflict Onset"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+In this lab you will practice fitting and interpreting logistic regression models using data from the peace science literature. You will:
+
+1. Build a conflict dataset using the `peacesciencer` package and understand its structure
+2. Fit a logistic regression model with `glm()`, interpret log-odds and odds ratios, and calculate predicted probabilities
+
+You are encouraged to have the lecture slides for Weeks 11.1 and 11.2 open while completing this lab.
+
+## Getting Started
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(peacesciencer)
+library(marginaleffects)
+library(broom)
+library(tidyverse)
+run <- isTRUE(params$completed)
+```
+
+::: {.callout-note}
+## Installing peacesciencer
+
+If you do not have `peacesciencer` installed, run the following in your console:
+
+```r
+install.packages("peacesciencer")
+```
+
+Similarly for `marginaleffects`:
+
+```r
+install.packages("marginaleffects")
+```
+:::
+
+## The Data
+
+You will work with country-year data on civil conflict from the Uppsala Conflict Data Program (UCDP), combined with economic and political variables from several standard datasets. The research question is: **Does national wealth reduce the likelihood of civil conflict onset?**
+
+The key variables are:
+
+- `ucdponset` — Conflict onset (1 = a new civil conflict began that year, 0 = no onset)
+- `wbgdppc2011est` — Log GDP per capita (World Bank, 2011 USD)
+- `gw_name` — Country name (Gleditsch-Ward system)
+
+## Part 1: Set Up the Data (30 points)
+
+### Step 1: Build the conflict dataset (15 pts)
+
+Fill in the `???` to complete the pipeline. You want country-years from the Gleditsch-Ward state system, filtered to 1946–1999, with UCDP intrastate conflict data and the four add-on variables shown below.
+
+```{r}
+#| label: load-data
+#| eval: !expr run
+
+conflict_df <- create_stateyears(system = ???) |>
+  filter(year %in% c(???:???)) |>
+  add_ucdp_acd(type = c("intrastate"), only_wars = FALSE) |>
+  add_democracy() |>
+  add_creg_fractionalization() |>
+  add_sdp_gdp() |>
+  add_rugged_terrain()
+
+glimpse(conflict_df)
+```
+
+### Step 2: Understand the outcome variable (15 pts)
+
+**Question:** What does each row in `conflict_df` represent? What does a value of `1` in `ucdponset` mean, and why is conflict onset the "success" outcome in a Bernoulli trial framework even though conflict is obviously bad?
+
+YOUR ANSWER HERE
+
+## Part 2: Fit and Interpret a Logistic Regression (70 points)
+
+### Step 1: Fit a bivariate logistic regression (10 pts)
+
+Fill in the `???` to fit a logistic regression predicting `ucdponset` from `wbgdppc2011est`. Use `glm()` with `family = "binomial"`.
+
+```{r}
+#| label: bivariate-model
+#| eval: !expr run
+
+conflict_model <- glm(??? ~ ???,
+                      data = conflict_df,
+                      family = ???)
+
+summary(conflict_model)
+```
+
+### Step 2: Write out the model equation (15 pts)
+
+Using the `Estimate` column from the output, write out the estimated log-odds equation below (round coefficients to two decimal places):
+
+$$\log\left(\frac{p}{1-p}\right) = a + b \times \text{logGDPpc}$$
+
+YOUR EQUATION HERE
+
+### Step 3: Interpret the coefficient (15 pts)
+
+**Question:** What is the sign of the coefficient on `wbgdppc2011est`? What does this tell us about the relationship between national wealth and conflict onset? Is the effect statistically significant at the 0.05 level?
+
+YOUR ANSWER HERE
+
+### Step 4: Calculate and interpret the odds ratio (15 pts)
+
+Use `tidy()` with `exponentiate = TRUE` to convert the coefficient to an odds ratio.
+
+```{r}
+#| label: odds-ratio
+#| eval: !expr run
+
+tidy(conflict_model, exponentiate = TRUE) |>
+  select(term, estimate, p.value)
+```
+
+**Question:** Interpret the odds ratio for `wbgdppc2011est`. For a one-unit increase in log GDP per capita, by how much are the odds of conflict onset multiplied? Does wealthier mean more or less likely to experience conflict onset?
+
+YOUR ANSWER HERE
+
+### Step 5: Calculate predicted probabilities (10 pts)
+
+Use `predictions()` from the `marginaleffects` package to calculate the predicted probability of conflict onset for three countries in the year 1999.
+
+```{r}
+#| label: predicted-probs
+#| eval: !expr run
+
+selected_countries <- conflict_df |>
+  filter(
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
+    year == 1999
+  )
+
+marg_effects <- predictions(conflict_model, newdata = selected_countries)
+
+tidy(marg_effects) |>
+  select(estimate, conf.low, conf.high, gw_name)
+```
+
+**Question:** What is the predicted probability of conflict onset for each country? Do the differences across countries make intuitive sense given their wealth levels?
+
+YOUR ANSWER HERE
+
+## Render as PDF and Submit Your Work
+
+1. Replace "YOUR NAME HERE" at the top with your actual name
+2. Make sure all code chunks run without errors
+3. Click "Render" to create your PDF
+4. Submit the PDF to Blackboard
+
+---
+
+## Hints
+
+*Only look at these if you're stuck!*
+
+**Hint 1 — Building the conflict dataset:**
+
+```r
+conflict_df <- create_stateyears(system = 'gw') |>
+  filter(year %in% c(1946:1999)) |>
+  add_ucdp_acd(type = c("intrastate"), only_wars = FALSE) |>
+  add_democracy() |>
+  add_creg_fractionalization() |>
+  add_sdp_gdp() |>
+  add_rugged_terrain()
+```
+
+**Hint 2 — Fitting a logistic regression:**
+
+```r
+conflict_model <- glm(ucdponset ~ wbgdppc2011est,
+                      data = conflict_df,
+                      family = "binomial")
+summary(conflict_model)
+```
+
+**Hint 3 — Getting odds ratios:**
+
+```r
+tidy(conflict_model, exponentiate = TRUE) |>
+  select(term, estimate, p.value)
+```
+
+An odds ratio below 1 means the predictor is associated with *lower* odds of the outcome; above 1 means *higher* odds.
+
+**Hint 4 — Calculating predicted probabilities:**
+
+```r
+selected_countries <- conflict_df |>
+  filter(gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
+         year == 1999)
+
+tidy(predictions(conflict_model, newdata = selected_countries)) |>
+  select(estimate, conf.low, conf.high, gw_name)
+```

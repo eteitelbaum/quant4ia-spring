@@ -1,0 +1,192 @@
+---
+title: "Lab 5"
+subtitle: "Simple Linear Regression"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+In this lab, you will practice fitting and interpreting a simple linear regression model using V-Dem democracy data. You will:
+
+1. Wrangle V-Dem data and visualize a bivariate relationship with a regression line
+2. Fit a simple linear regression model and interpret the output
+3. Apply what you learned to a research question of your own choosing
+
+You are encouraged to have the lecture materials from Modules 9.2 and 10.1 open while completing this lab.
+
+## Getting Started
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(vdemdata)
+run <- isTRUE(params$completed)
+```
+
+::: {.callout-note}
+## Installing vdemdata locally
+
+If you are working on your own computer and don't have `vdemdata` installed, you can install it from GitHub. First install the `pak` package, then use it to install `vdemdata`:
+
+```r
+install.packages("pak")
+pak::pak("vdeminstitute/vdemdata")
+```
+:::
+
+## The Data
+
+You will work with cross-national data from the V-Dem project for the year 2019. The research question is: **Are more democratic countries less corrupt?**
+
+The key variables are:
+
+- `lib_dem` — Liberal Democracy Index (0–1, higher = more democratic)
+- `corruption` — Political Corruption Index (0–1, higher = more corrupt)
+
+## Part 1: Wrangle and Visualize (40 points)
+
+### Step 1: Wrangle the data (15 pts)
+
+Fill in the `???` to filter V-Dem to the year 2019 and select the relevant variables.
+
+```{r}
+#| label: wrangle
+#| eval: !expr run
+
+model_data <- vdem |>
+  filter(year == ???) |>
+  select(
+    country = country_name,
+    lib_dem = v2x_libdem,
+    corruption = v2x_corr
+  )
+
+glimpse(model_data)
+```
+
+**Question:** How many rows does `model_data` have? What does each row represent?
+
+YOUR ANSWER HERE
+
+### Step 2: Visualize the relationship (25 pts)
+
+Create a scatter plot with `lib_dem` on the x-axis and `corruption` on the y-axis. Add a linear regression line using `geom_smooth()`. Include a title and axis labels, and use `theme_bw()`.
+
+```{r}
+#| label: scatterplot
+
+# Write your plot code here
+
+```
+
+**Question:** Describe the relationship. Is it positive or negative? Does it look roughly linear?
+
+YOUR ANSWER HERE
+
+## Part 2: Fit and Interpret the Model (60 points)
+
+### Step 1: Fit the model (10 pts)
+
+Use `lm()` to fit a simple linear regression predicting `corruption` from `lib_dem`. Store the result in an object called `model1` and view the output with `summary()`.
+
+```{r}
+#| label: fit-model
+#| eval: !expr run
+
+model1 <- lm(??? ~ ???, data = model_data)
+
+summary(model1)
+```
+
+### Step 2: Write out the equation (10 pts)
+
+Using the `Estimate` column from the output, write out the estimated regression equation below (round coefficients to two decimal places):
+
+$$\widehat{Corruption}_i = a + b \times Democracy_i$$
+
+YOUR EQUATION HERE
+
+### Step 3: Interpret the intercept (15 pts)
+
+**Question:** What is the value of the intercept, and what does it represent in the context of this model?
+
+YOUR ANSWER HERE
+
+### Step 4: Interpret the slope (15 pts)
+
+**Question:** What is the value of the slope, and what does it tell us about the relationship between democracy and corruption? Be specific about direction and magnitude.
+
+YOUR ANSWER HERE
+
+### Step 5: Statistical significance (10 pts)
+
+**Question:** Is the slope statistically significant at the 0.05 level? How do you know from the `summary()` output?
+
+YOUR ANSWER HERE
+
+## Part 3: Build Your Own Model (20 points)
+
+Choose a different outcome variable and predictor from V-Dem that you find theoretically interesting. Wrangle the data, create a scatter plot with a regression line, fit the model, and interpret the slope and intercept.
+
+```{r}
+#| label: your-model
+
+# Write your code here
+
+```
+
+**Question:** What variables did you choose and why? Interpret the slope and intercept, and describe whether the results matched your expectations.
+
+YOUR ANSWER HERE
+
+## Render as PDF and Submit Your Work (20 points)
+
+1. Replace "YOUR NAME HERE" at the top with your actual name
+2. Make sure all code chunks run without errors
+3. Click "Render" to create your PDF
+4. Submit the PDF to Blackboard
+
+## Hints
+
+*Only look at these if you're stuck!*
+
+**Hint 1 — Filtering to one year:**
+
+```
+filter(year == 2019)
+```
+
+**Hint 2 — Scatter plot with regression line:**
+
+```
+ggplot(model_data, aes(x = lib_dem, y = corruption)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(
+    title = "Democracy and Corruption, 2019",
+    x = "Liberal Democracy Index",
+    y = "Corruption Index"
+  ) +
+  theme_bw()
+```
+
+**Hint 3 — Fitting a simple linear model:**
+
+```
+model1 <- lm(corruption ~ lib_dem, data = model_data)
+summary(model1)
+```
+
+**Hint 4 — Reading the summary output:**
+
+The `Estimate` column gives the intercept and slope. The `Pr(>|t|)` column gives the p-value — values below 0.05 are statistically significant at the 5% level.
