@@ -35,15 +35,15 @@ Course and module objectives are guides to gauge your skill and knowledge develo
 
 I care about your learning and also about this subject matter, and I am here to help you have a meaningful learning experience. I expect you to take ownership of your learning: you can get more out of the course by thoughtfully participating in discussions, actively taking notes on readings and lectures, and giving your best effort overall. I will hold you to the highest standards for academic honesty and integrity in your work. I will also encourage you to collaborate and learn from your peers through thoughtful and respectful discussion. I must highlight that communication is vital, so I hope you feel comfortable reaching out to me if you are struggling or have concerns or need [accommodations beyond accessibility](#_heading=h.41mghml). We can determine strategies to set you up for success. Finally, I look forward to collaborating with you in this course to create a meaningful experience for everyone.
 
-## Policy on AI Tools
+### Policy on AI Tools
 
-**Overview**
+### Overview
 
 AI tools (such as ChatGPT, Claude, Gemini, Copilot, and others) can be genuinely useful companions for learning to code and analyze data. This course takes a permissive approach: you may use AI tools to support your learning. Think of them as a tutor available around the clock, one you can ask to explain a concept, clarify an error message, walk through how a function works, or help you debug code that isn't running correctly.
 
 That said, there is an important distinction between using AI to learn and using AI instead of learning. The goal of this course is for you to develop real skills in R, data analysis, and statistical reasoning. If you simply paste an assignment into an AI and copy the output, you will pass the assignment but miss the course. More practically, you will struggle in future courses, in job interviews, and on the job itself, where these skills will be expected of you.
 
-**Guidelines**
+### Guidelines
 
 Try first, then consult. Whether you are working on a lab or a homework, your first move should be to consult the course materials, e.g. the modules, slides, and readings. For labs, which are guided fill-in-the-blank exercises, the hints at the bottom of each page are there for a reason. Use them before turning to AI. For homeworks, which are more open-ended and challenging, it is reasonable to ask AI for help when you are genuinely stuck, but again, consult the course materials first.
 
