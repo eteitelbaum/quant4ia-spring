@@ -16,11 +16,11 @@ format:
 | 
 | **Credit Hours**: 3.0.
 
-## Why Are You Here: What Our Course Is About
+## Course Description
 
 This course will focus on developing data analysis and data science skills that are relevant for international affairs practitioners. Students will develop coding, data visualization, data analysis, and data presentation skills that will allow them to use data to answer questions related to international affairs and to contribute to data driven policy and programmatic decision making.
 
-## Course Objectives: What You'll Be Able To Do
+## Course Objectives
 
 Course and module objectives are guides to gauge your skill and knowledge development. By the end of this course, you should be able to:
 
